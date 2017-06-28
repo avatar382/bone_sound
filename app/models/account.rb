@@ -20,4 +20,16 @@
 class Account < ApplicationRecord
   validates :email, presence: true
 
+  UF_AFFILIATION = 1
+  A2_AFFILIATION = 2
+
+
+  def display_name
+    if business_name.present?
+      business_name
+    else
+      first_name + " " + last_name
+    end
+
+  end
 end

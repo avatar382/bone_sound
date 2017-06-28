@@ -23,4 +23,8 @@ class AccountTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+
+  it "should return the correct display_name"
+
+
 end
