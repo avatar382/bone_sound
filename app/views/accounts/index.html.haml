@@ -1,0 +1,36 @@
+%p.notice
+  = notice
+
+
+%h2
+  Member Accounts
+
+%hr 
+
+.row
+  .col-sm-12
+    %a.btn.btn-primary(href="#{new_account_path}")
+      Create New Account
+
+    .pull-right
+      %input.form-control(type="text" placeholder="Search")
+
+.row
+  .col-sm-12
+    %table
+      %thead
+        %tr
+          %th(colspan="3")
+
+      %tbody
+        - @accounts.each do |account|
+          %tr
+            %td
+              = link_to 'Show', account
+            %td
+              = link_to 'Edit', edit_account_path(account) 
+            %td
+              = link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' }
+
+
+
