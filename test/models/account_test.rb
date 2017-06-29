@@ -11,7 +11,7 @@
 #  gatorlink_id  :string(255)
 #  chartfield    :string(255)
 #  affiliation   :integer
-#  type          :integer
+#  account_type  :integer
 #  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -24,7 +24,26 @@ class AccountTest < ActiveSupport::TestCase
   #   assert true
   # end
 
-  it "should return the correct display_name"
+  describe "validations" do
 
+    it "must have account_type"
+
+    it "must have email"
+
+    it "must have some kind of name"
+
+    it "must have affiliation if an laser account"
+
+    it "must have affiliation if an internal account"
+
+    it "must not have any affiliation if an external account"
+
+    it "must not have any gatorlink_id if an external account"
+
+    it "if it has an affiliation, it must have a gatorlink id"
+
+    it "gatorlink ids must be unique"
+
+  end
 
 end

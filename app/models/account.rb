@@ -11,18 +11,46 @@
 #  gatorlink_id  :string(255)
 #  chartfield    :string(255)
 #  affiliation   :integer
-#  type          :integer
+#  account_type  :integer
 #  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
 
 class Account < ApplicationRecord
-  validates :email, presence: true
 
   UF_AFFILIATION = 1
   A2_AFFILIATION = 2
 
+  LASER_MEMBER_TYPE = 1
+  INTERNAL_CLIENT_TYPE = 2
+  EXTERNAL_CLIENT_TYPE = 3
+  STAFF_TYPE = 4
+
+  # account rules:
+
+  # all accounts must have a type
+  # all accounts must have email
+  # all accounts must have either first and last name, or business name
+  # Laser members must have UF or A2 affiliation
+  # UF clients members must have UF or A2 affiliation
+  # External clients must have no affiliation
+  # External clients must have no gatorlink
+  # UF and A2 affiliates must have a Gatorlink ID
+  # Gatorlink IDs must be unique
+
+  # TODO: laser accounts must have expiration
+  # TODO: staff accounts must have expiration
+
+  validates :account_type, presence: true
+  validates :email, presence: true
+  validate :has_either_personal_or_business_name
+  validate :has_affiliation_if_laser
+  validate :has_affiliation_if_internal_client
+  validate :has_no_affiliation_if_external_client
+  validate :has_no_gatorlink_if_external_client
+  validate :has_gatorlink_id_with_affiliation
+  validates :gatorlink_id, uniqueness: true, allow_blank: true
 
   def display_name
     if business_name.present?
@@ -30,6 +58,77 @@ class Account < ApplicationRecord
     else
       first_name + " " + last_name
     end
+  end
 
+  def display_affiliation
+    if affiliation == UF_AFFILIATION
+      "University of Florida"
+    elsif affiliation == A2_AFFILIATION
+      "Arts & Architecture"
+    else
+      ""
+    end
+  end
+
+  def display_account_type
+    if account_type == LASER_MEMBER_TYPE
+      "Laser Member"
+    elsif account_type == INTERNAL_CLIENT_TYPE
+      "UF Client"
+    elsif account_type == EXTERNAL_CLIENT_TYPE
+      "External Client"
+    elsif account_type == STAFF_TYPE
+      "Staff"
+    else
+      ""
+    end
+  end
+
+  def display_expiration_date
+    if expires_at.present?
+      expires_at.strftime("%m/%d/%Y")
+    else
+      ""
+    end
+  end
+
+  protected
+
+  def has_either_personal_or_business_name
+    if (first_name.blank? || last_name.blank?) && business_name.blank?
+      errors.add(:first_name, ": Full name or Business name required.")
+      errors.add(:last_name, ": Full name or Business name required.")
+      errors.add(:business_name, ": Full name or Business name required.")
+    end
+  end
+
+  def has_affiliation_if_laser 
+    if account_type == LASER_MEMBER_TYPE && affiliation.blank?
+      errors.add(:affiliation, " required for laser accounts.")
+    end
+  end
+
+  def has_affiliation_if_internal_client
+    if account_type == INTERNAL_CLIENT_TYPE && affiliation.blank?
+      errors.add(:affiliation, " required for internal client accounts.")
+    end
+  end
+
+  def has_no_affiliation_if_external_client
+    if account_type == EXTERNAL_CLIENT_TYPE && affiliation.present?
+      errors.add(:affiliation, " must be blank for external clients.")
+    end
+  end
+
+  def has_no_gatorlink_if_external_client
+    if account_type == EXTERNAL_CLIENT_TYPE && gatorlink_id.present?
+      errors.add(:gatorlink_id, " must be blank for external clients.")
+    end
+  end
+
+  def has_gatorlink_id_with_affiliation
+    if (affiliation == UF_AFFILIATION || affiliation == A2_AFFILIATION) && gatorlink_id.blank? && account_type != EXTERNAL_CLIENT_TYPE
+      errors.add(:gatorlink_id, " required.")
+    end
   end
 end

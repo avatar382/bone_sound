@@ -11,7 +11,7 @@
 #  gatorlink_id  :string(255)
 #  chartfield    :string(255)
 #  affiliation   :integer
-#  type          :integer
+#  account_type  :integer
 #  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

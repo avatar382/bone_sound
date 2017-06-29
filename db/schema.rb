@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627223943) do
+ActiveRecord::Schema.define(version: 20170629014013) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20170627223943) do
     t.string "gatorlink_id"
     t.string "chartfield"
     t.integer "affiliation"
-    t.integer "type"
+    t.integer "account_type"
     t.datetime "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
