@@ -52,6 +52,13 @@ class Account < ApplicationRecord
   validate :has_gatorlink_id_with_affiliation
   validates :gatorlink_id, uniqueness: true, allow_blank: true
 
+  scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ?", 
+                        "%#{q}%", 
+                        "%#{q}%", 
+                        "%#{q}%", 
+                        "%#{q}%", 
+                        "%#{q}%") }
+
   def display_name
     if business_name.present?
       business_name

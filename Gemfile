@@ -36,6 +36,8 @@ gem 'mysql2'
 gem "annotate"
 gem "momentjs-rails"
 gem "bootstrap3-datetimepicker-rails"
+gem "kaminari"
+gem "active_link_to"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

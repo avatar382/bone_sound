@@ -11,21 +11,13 @@
     / Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li.active
-          %a{:href => "/accounts"}
-            Accounts
+        = active_link_to "Accounts", accounts_path, active: :inclusive, wrap_tag: :li
 
-        %li
-          %a{:href => "#"}
-            Billing
+        = active_link_to "Billing", "#", active: :inclusive, wrap_tag: :li
 
-        %li
-          %a{:href => "#"}
-            Inventory
+        = active_link_to "Inventory", "#", active: :inclusive, wrap_tag: :li
 
-        %li
-          %a{:href => "#"}
-            Lasers
+        = active_link_to "Lasers", "#", active: :inclusive, wrap_tag: :li
 
       %ul.nav.navbar-nav.navbar-right
 

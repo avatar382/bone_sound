@@ -13,11 +13,15 @@
       Create New Account
 
     .pull-right
-      %input.form-control(type="text" placeholder="Search")
+      %form(action = "#{accounts_path}")
+        %input.form-control#account_search{type: "text", placeholder: "Search", name: "q", value: params[:q]}
+
+  %br
+  %br
 
 .row
   .col-sm-12
-    %table.table
+    %table.table.table-striped
       %thead
         %tr
           %td
@@ -27,15 +31,15 @@
           %td
             Affiliation
           %td
+            Gatorlink
+          %td
             Expiration Date
           %td
             Email Address
-          %td
-            Phone Number
 
       %tbody
         - @accounts.each do |account|
-          %tr.table-striped
+          %tr
 
             %td
               = link_to account.display_name, account
@@ -47,13 +51,16 @@
               = account.display_affiliation
 
             %td
+              = account.gatorlink_id.truncate(15)
+
+            %td
               = account.display_expiration_date
 
             %td
               = account.email
 
-            %td
-              = account.phone
+
+    = paginate @accounts        
 
 
 

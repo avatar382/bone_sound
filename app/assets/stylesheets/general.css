@@ -1,3 +1,7 @@
 #error_explanation {
   color: #f00;
 }
+
+thead {
+  font-weight: 700;
+}

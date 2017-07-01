@@ -1,0 +1,12 @@
+%p#notice
+  = notice
+
+
+%ul.nav.nav-tabs
+  = active_link_to "Info", account_path(@account), active: :inclusive, wrap_tag: :li
+
+  = active_link_to "Edit", edit_account_path(@account), active: :inclusive, wrap_tag: :li
+
+  = active_link_to "Charge History", "/charge_history", active: :inclusive, wrap_tag: :li
+
+= link_to "Back to Accounts", accounts_path, class: "btn btn-danger" 
