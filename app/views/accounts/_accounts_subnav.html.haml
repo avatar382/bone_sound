@@ -1,0 +1,7 @@
+%ul.nav.nav-tabs
+  = active_link_to "Info", account_path(@account), active: :exact, wrap_tag: :li
+
+  = active_link_to "Edit", edit_account_path(@account), active: :exact, wrap_tag: :li
+
+  = active_link_to "Charge History", account_charges_path(@account), active: :inclusive, wrap_tag: :li
+

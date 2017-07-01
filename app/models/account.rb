@@ -15,9 +15,11 @@
 #  expires_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  deleted_at    :datetime
 #
 
 class Account < ApplicationRecord
+  acts_as_paranoid
 
   UF_AFFILIATION = 1
   A2_AFFILIATION = 2

@@ -1,0 +1,9 @@
+%p#notice
+  = notice
+
+= render "accounts_subnav"
+
+= render 'form', account: @account 
+
+%hr
+= link_to "Back to Accounts", accounts_path, class: "btn btn-primary" 
