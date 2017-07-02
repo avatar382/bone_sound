@@ -29,6 +29,8 @@ class Account < ApplicationRecord
   EXTERNAL_CLIENT_TYPE = 3
   STAFF_TYPE = 4
 
+  has_many :charges
+
   # account rules:
 
   # all accounts must have a type
@@ -46,13 +48,14 @@ class Account < ApplicationRecord
 
   validates :account_type, presence: true
   validates :email, presence: true
+  validates :gatorlink_id, uniqueness: true, allow_blank: true
+  
   validate :has_either_personal_or_business_name
   validate :has_affiliation_if_laser
   validate :has_affiliation_if_internal_client
   validate :has_no_affiliation_if_external_client
   validate :has_no_gatorlink_if_external_client
   validate :has_gatorlink_id_with_affiliation
-  validates :gatorlink_id, uniqueness: true, allow_blank: true
 
   scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ?", 
                         "%#{q}%", 

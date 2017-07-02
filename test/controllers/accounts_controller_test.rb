@@ -2,12 +2,62 @@ require 'test_helper'
 
 class AccountsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @account = accounts(:one)
+    @account = Fabricate(:account)
   end
 
   test "should get index" do
     get accounts_url
     assert_response :success
+  end
+
+  test "should search on first_name" do
+    search = rand(10000000000)
+    waldo = Fabricate(:account, first_name: search)
+
+    get accounts_url(q: "#{search}")
+
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
+  end
+
+  test "should search on last_name" do
+    search = rand(10000000000)
+    waldo = Fabricate(:account, last_name: search)
+
+    get accounts_url(q: "#{search}")
+    
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
+  end
+
+  test "should search on business_name" do
+    search = rand(10000000000)
+    waldo = Fabricate(:account, business_name: search)
+
+    get accounts_url(q: "#{search}")
+    
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
+  end
+
+  test "should search on email" do
+    search = rand(10000000000).to_s + "@gmail.com"
+    waldo = Fabricate(:account, email: search)
+
+    get accounts_url(q: "#{search}")
+    
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
+  end
+
+  test "should search on gatorlink_id" do
+    search = rand(10000000000)
+    waldo = Fabricate(:account, gatorlink_id: search)
+
+    get accounts_url(q: "#{search}")
+    
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
   end
 
   test "should get new" do
@@ -17,7 +67,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create account" do
     assert_difference('Account.count') do
-      post accounts_url, params: { account: {  } }
+      post accounts_url, params: { account: Fabricate.attributes_for(:account) }
     end
 
     assert_redirected_to account_url(Account.last)
@@ -34,8 +84,11 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update account" do
-    patch account_url(@account), params: { account: {  } }
+    attrs = Fabricate.attributes_for(:account)
+    patch account_url(@account), params: { account: attrs }
     assert_redirected_to account_url(@account)
+    @account.reload
+    assert @account.first_name == attrs["first_name"]
   end
 
   test "should destroy account" do

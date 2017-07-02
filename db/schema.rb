@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701203153) do
+ActiveRecord::Schema.define(version: 20170702215002) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20170701203153) do
 
   create_table "charges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
-    t.integer "type"
+    t.integer "charge_type"
     t.string "description"
     t.datetime "paid_at"
     t.decimal "amount", precision: 10
@@ -42,10 +42,12 @@ ActiveRecord::Schema.define(version: 20170701203153) do
     t.string "semester_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["account_id"], name: "index_charges_on_account_id"
+    t.index ["charge_type"], name: "index_charges_on_charge_type"
+    t.index ["deleted_at"], name: "index_charges_on_deleted_at"
     t.index ["payment_method"], name: "index_charges_on_payment_method"
     t.index ["semester_code"], name: "index_charges_on_semester_code"
-    t.index ["type"], name: "index_charges_on_type"
   end
 
 end
