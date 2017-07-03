@@ -1,7 +1,30 @@
-%p#notice
-  = notice
-
 = render "accounts_subnav"
+
+%br
+.row
+  .col-sm-6
+    .panel.panel-default#account_info_panel
+      .panel-body
+        %h4
+          = @account.display_name
+        %p
+          = @account.email
+        %p
+          = @account.phone
+        %p
+          = @account.display_account_type
+        %p
+          = @account.display_affiliation
+        %p
+          = @account.gatorlink_id
+
+  .col-sm-6
+    %h3
+      Add new service charge
+
+    = render "charges/service_charge_form", account: @account
+
+
 
 %hr
 = link_to "Back to Accounts", accounts_path, class: "btn btn-primary" 

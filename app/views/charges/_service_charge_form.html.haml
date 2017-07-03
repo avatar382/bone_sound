@@ -1,0 +1,49 @@
+= form_for(@service_charge, url: account_charges_path(@account)) do |f|
+  - if @service_charge.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@service_charge.errors.count, "error")} prohibited this charge from being saved:"
+      %ul
+        - @service_charge.errors.full_messages.each do |message|
+          %li= message
+
+  .well
+    .form_group
+      %label{:for => "charge_charge_type"} 
+        Charge Type*
+      = select(:charge, :charge_type, [["3D Print", Charge::PRINT_CHARGE], ["CNC Cut", Charge::CNC_CHARGE], ["Waterjet Cut", Charge::WATERJET_CHARGE], ["Laser Cut", Charge::LASER_CHARGE], ["Design Work", Charge::DESIGN_CHARGE] ], {}, class: "form-control")
+
+    %br
+
+    .form_group
+      %label{:for => "charge_payment_method_#{Charge::UFID_PAYMENT}"} 
+        Payment Method*
+      %br
+
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT)
+      UFID 
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT)
+      Check
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT)
+      Chartfield
+      &nbsp;
+
+    %br
+
+    .form-group
+      %label{:for => "charge_amount"} Amount*
+      .input-group
+        %span.input-group-addon
+          $
+        = f.text_field(:amount, {class: "form-control", placeholder: "Amount"})
+
+    .form-group
+      %label{:for => "charge_description"} Description
+      = f.text_field(:description, {class: "form-control", placeholder: "Description"})
+
+
+    = hidden_field_tag("account_id", @account.id)
+    = f.submit 'Add Charge', class: "btn btn-success"

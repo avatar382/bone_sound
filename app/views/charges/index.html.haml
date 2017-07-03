@@ -1,14 +1,67 @@
 
 = render "accounts/accounts_subnav", id: @account.id
 
-%table
-  %thead
-    %tr
-      %th
-      %th
-      %th
 
-  %tbody
+.row
+  .col-sm-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Charge Date
+
+          %td
+            Type
+
+          %td
+            Method
+
+          %td
+            Description
+
+          %td
+            Amount
+
+          %td
+            Paid On
+
+          %td
+            Actions
+
+
+      %tbody.charges
+        - @charges.each do |charge|
+          - row_class = charge.paid_at.blank? ? "unpaid" : ""
+
+          %tr{class: row_class }
+            %td
+              = charge.created_at.strftime("%m/%d/%Y")
+
+            %td
+              = charge.display_charge_type
+
+            %td
+              = charge.display_payment_method
+
+            %td
+              = charge.description
+
+            %td
+              = number_to_currency(charge.amount)
+
+            %td
+              - if charge.paid_at.present?
+                = charge.paid_at.strftime("%m/%d/%Y")
+              - else
+                = ""
+
+            %td
+              %button.btn.btn-primary
+                Mark as Paid
+
+              %button.btn.btn-danger
+                Delete
+
 
 %br
 

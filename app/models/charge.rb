@@ -25,6 +25,8 @@ class Charge < ApplicationRecord
   WATERJET_CHARGE   = 3
   MATERIALS_CHARGE  = 4
   MEMBERSHIP_CHARGE = 5
+  LASER_CHARGE      = 6
+  DESIGN_CHARGE     = 7
 
   # PAYMENT METHODS
   UFID_PAYMENT       = 1
@@ -41,12 +43,43 @@ class Charge < ApplicationRecord
   validates :amount, presence: true
   validates :amount, numericality: true
   validates :charge_type, presence: true
+  validates :payment_method, presence: true
+  validate  :charges_on_external_accounts_must_be_check
   # validates :semester_code, presence: true
 
   scope :unpaid, -> { where(paid_at: nil) } 
   scope :ufid, -> { where("charge_type = ?", UFID_PAYMENT) } 
 
+  def display_charge_type
+    if charge_type == PRINT_CHARGE
+      "3D Print"
+    elsif charge_type == CNC_CHARGE
+      "CNC Cut"
+    elsif charge_type == WATERJET_CHARGE
+      "Waterjet Cut"
+    elsif charge_type == MEMBERSHIP_CHARGE
+      "Membership"
+    elsif charge_type == LASER_CHARGE
+      "Laser Cut"
+    elsif charge_type == DESIGN_CHARGE
+      "Design/Fabrication"
+    else
+      ""
+    end
+  end
+
+  def display_payment_method
+    if payment_method == UFID_PAYMENT
+      "UFID"
+    elsif payment_method == CHARTFIELD_PAYMENT
+      "Chartfield"
+    elsif payment_method == CHECK_PAYMENT
+      "Check"
+    end
+  end
+
   def pay!
+    self.update_attribute(:paid_at, Time.now)
   end
 
   protected
@@ -78,4 +111,9 @@ class Charge < ApplicationRecord
     self.semester_code = "2" + year_arry[2].to_s + year_arry[3].to_s + month_code.to_s
   end
   
+  def charges_on_external_accounts_must_be_check
+    if(payment_method != CHECK_PAYMENT && self.account.account_type == Account::EXTERNAL_CLIENT_TYPE)
+      errors.add(:base, "Charges for external clients must be paid by check.")
+    end
+  end
 end

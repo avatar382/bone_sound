@@ -1,11 +1,11 @@
 class ChargesController < ApplicationController
   before_action :set_charge, only: [:show, :edit, :update, :destroy]
-  before_action :set_account, only: [:index]
+  before_action :set_account, only: [:index, :create]
 
   # GET /charges
   # GET /charges.json
   def index
-    @charges = Charge.all
+    @charges = @account.charges.all
   end
 
   # GET /charges/1
@@ -26,13 +26,16 @@ class ChargesController < ApplicationController
   # POST /charges.json
   def create
     @charge = Charge.new(charge_params)
+    @charge.account = @account
 
     respond_to do |format|
       if @charge.save
-        format.html { redirect_to @charge, notice: 'Charge was successfully created.' }
-        format.json { render :show, status: :created, location: @charge }
+        flash[:notice] = "Charge successfully created"
+        format.html { redirect_to account_path(@account) }
+        format.json { render :show, status: :created, location: @account }
       else
-        format.html { render :new }
+        flash[:error] = "Unable to save charge to account: #{@charge.errors.full_messages.to_sentence}"
+        format.html { redirect_to account_path(@account) }
         format.json { render json: @charge.errors, status: :unprocessable_entity }
       end
     end
@@ -74,6 +77,6 @@ class ChargesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def charge_params
-      params.fetch(:charge, {})
+      params.fetch(:charge, {}).permit(:account_id, :charge_type, :description, :amount, :payment_method)
     end
 end

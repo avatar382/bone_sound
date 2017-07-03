@@ -23,6 +23,46 @@ class ChargeTest < ActiveSupport::TestCase
     @charge = Fabricate(:charge)
   end
 
+   ### VALIDATIONS  ###
+
+   test "should not add UFID charge to an account that's external" do
+    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil)
+    internal_account = Fabricate(:account, account_type: Account::INTERNAL_CLIENT_TYPE, affiliation: Account::UF_AFFILIATION)
+
+    invalid = Charge.new(account: external_account, 
+                         amount: 45.34, 
+                         charge_type: 1, 
+                         payment_method: Charge::UFID_PAYMENT)
+
+    assert_not invalid.valid?
+
+    valid = Charge.new(account: internal_account, 
+                         amount: 45.34, 
+                         charge_type: 1, 
+                         payment_method: Charge::CHARTFIELD_PAYMENT)
+
+    assert valid.valid?
+   end 
+
+   test "should not add chartfield charge to an account that's external" do
+    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil)
+    internal_account = Fabricate(:account, account_type: Account::INTERNAL_CLIENT_TYPE, affiliation: Account::UF_AFFILIATION)
+
+    invalid = Charge.new(account: external_account, 
+                         amount: 45.34, 
+                         charge_type: 1, 
+                         payment_method: Charge::CHARTFIELD_PAYMENT)
+
+    assert_not invalid.valid?
+
+    valid = Charge.new(account: internal_account, 
+                         amount: 45.34, 
+                         charge_type: 1, 
+                         payment_method: Charge::CHARTFIELD_PAYMENT)
+
+    assert valid.valid?
+   end
+
    ### CALLBACKS  ###
 
   # TODO; implement after shibboleth
@@ -62,6 +102,14 @@ class ChargeTest < ActiveSupport::TestCase
     assert Charge.ufid.include?(@charge)
     assert_not Charge.ufid.include?(check)
     assert_not Charge.ufid.include?(chartfield)
+  end
+
+  ### INSTANCE METHODS ###
+
+  test "should mark itself as paid" do
+    @charge.pay!
+
+    assert @charge.paid_at.to_s == Time.now.utc.to_s
   end
 
 end
