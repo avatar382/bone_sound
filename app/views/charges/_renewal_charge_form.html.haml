@@ -1,0 +1,37 @@
+= form_for(@service_charge, url: account_charges_path(@account)) do |f|
+  - if @service_charge.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@service_charge.errors.count, "error")} prohibited this charge from being saved:"
+      %ul
+        - @service_charge.errors.full_messages.each do |message|
+          %li= message
+
+  .well
+    .form_group
+      %label{:for => "membership_id"} 
+        Membership Plan
+      =  select_tag 'membership_id', options_for_select(Membership.renewals.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
+
+    %br
+
+    .form_group
+      %label{:for => "charge_payment_method_#{Charge::UFID_PAYMENT}"} 
+        Payment Method*
+      %br
+
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT)
+      UFID 
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT)
+      Check
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT)
+      Chartfield
+      &nbsp;
+
+    %br
+
+    = hidden_field_tag("account_id", @account.id)
+    = f.submit 'Add Charge', class: "btn btn-success"

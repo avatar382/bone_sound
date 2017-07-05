@@ -7,7 +7,7 @@
 #  charge_type    :integer
 #  description    :string(255)
 #  paid_at        :datetime
-#  amount         :decimal(10, )
+#  amount         :decimal(8, 2)
 #  payment_method :integer
 #  added_by       :integer
 #  semester_code  :string(255)
@@ -85,6 +85,9 @@ class ChargeTest < ActiveSupport::TestCase
   test "should set added by on save" do
     account = Account.first
     assert @charge.added_by == account.id
+  end
+
+  test "should add time to account if a membership charge" do
   end
 
   ### SCOPES ###

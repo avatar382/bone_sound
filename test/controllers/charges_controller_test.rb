@@ -20,6 +20,10 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to account_url(account)
   end
 
+  test "should create charge from membership" do
+  end
+
+
   test "should update charge" do
     assert @charge.paid_at.blank?
     put account_charge_url(@charge.account, @charge)

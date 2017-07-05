@@ -7,7 +7,7 @@
 #  charge_type    :integer
 #  description    :string(255)
 #  paid_at        :datetime
-#  amount         :decimal(10, )
+#  amount         :decimal(8, 2)
 #  payment_method :integer
 #  added_by       :integer
 #  semester_code  :string(255)
@@ -35,6 +35,7 @@ class Charge < ApplicationRecord
 
   before_create :set_added_by
   before_create :set_semester_code
+  after_create  :add_time_to_account_if_membership_charge
 
   belongs_to :account
   # TODO: implement after shibboleth 
@@ -116,6 +117,20 @@ class Charge < ApplicationRecord
   def charges_on_external_accounts_must_be_check
     if(payment_method != CHECK_PAYMENT && self.account.account_type == Account::EXTERNAL_CLIENT_TYPE)
       errors.add(:base, "Charges for external clients must be paid by check.")
+    end
+  end
+
+  def add_time_to_account_if_membership_charge
+    # TODO: Fix this, it's a bit sketchy querying by the description string...
+    if self.charge_type == Charge::MEMBERSHIP_CHARGE 
+      m = Membership.find_by_name(self.description)
+
+      # add time to existing if 
+      if self.account.expires_at.blank? || self.account.expires_at < Time.now
+        self.account.update_attribute(:expires_at, Time.now + m.duration.days)
+      else
+        self.account.update_attribute(:expires_at, self.account.expires_at + m.duration.days)
+      end
     end
   end
 end

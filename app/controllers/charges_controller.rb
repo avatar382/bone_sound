@@ -5,13 +5,15 @@ class ChargesController < ApplicationController
   # GET /charges
   # GET /charges.json
   def index
-    @charges = @account.charges.all
+    @charges = @account.charges.all.page(params[:page])
   end
 
   # POST /charges
   # POST /charges.json
   def create
     @charge = Charge.new(charge_params)
+    fill_params_via_membership_id(@charge, params[:membership_id]) if params[:membership_id].present?
+
     @charge.account = @account
 
     respond_to do |format|
@@ -64,5 +66,13 @@ class ChargesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def charge_params
       params.fetch(:charge, {}).permit(:account_id, :charge_type, :description, :amount, :payment_method)
+    end
+
+    def fill_params_via_membership_id(charge, membership_id)
+      membership = Membership.find(membership_id)
+
+      charge.amount = membership.price 
+      charge.description = membership.name
+      charge.charge_type = Charge::MEMBERSHIP_CHARGE
     end
 end

@@ -25,6 +25,12 @@
     = render "charges/service_charge_form", account: @account
 
 
+.row
+  .col-sm-6
+    %h3
+      Add renewal charge
+
+    = render "charges/renewal_charge_form", account: @account
 
 %hr
 = link_to "Back to Accounts", accounts_path, class: "btn btn-primary" 
