@@ -25,7 +25,7 @@
           %td
             Paid On
 
-          %td
+          %td(colspan = 2)
             Actions
 
 
@@ -56,11 +56,12 @@
                 = ""
 
             %td
-              %button.btn.btn-primary
-                Mark as Paid
+              - if charge.payment_method != Charge::UFID_PAYMENT && charge.paid_at.blank?
+                = link_to "Mark as Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
 
-              %button.btn.btn-danger
-                Delete
+            %td
+              - if charge.paid_at.blank?
+                = link_to "Delete Charge", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
 
 
 %br

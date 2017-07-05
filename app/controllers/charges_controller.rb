@@ -1,25 +1,11 @@
 class ChargesController < ApplicationController
   before_action :set_charge, only: [:show, :edit, :update, :destroy]
-  before_action :set_account, only: [:index, :create]
+  before_action :set_account, only: [:index, :create, :update, :destroy]
 
   # GET /charges
   # GET /charges.json
   def index
     @charges = @account.charges.all
-  end
-
-  # GET /charges/1
-  # GET /charges/1.json
-  def show
-  end
-
-  # GET /charges/new
-  def new
-    @charge = Charge.new
-  end
-
-  # GET /charges/1/edit
-  def edit
   end
 
   # POST /charges
@@ -45,8 +31,8 @@ class ChargesController < ApplicationController
   # PATCH/PUT /charges/1.json
   def update
     respond_to do |format|
-      if @charge.update(charge_params)
-        format.html { redirect_to @charge, notice: 'Charge was successfully updated.' }
+      if @charge.pay!
+        format.html { redirect_to account_charges_url(@account), notice: 'Charge was successfully marked paid.' }
         format.json { render :show, status: :ok, location: @charge }
       else
         format.html { render :edit }
@@ -60,7 +46,7 @@ class ChargesController < ApplicationController
   def destroy
     @charge.destroy
     respond_to do |format|
-      format.html { redirect_to charges_url, notice: 'Charge was successfully destroyed.' }
+      format.html { redirect_to account_charges_url(@account), notice: 'Charge was successfully deleted.' }
       format.json { head :no_content }
     end
   end

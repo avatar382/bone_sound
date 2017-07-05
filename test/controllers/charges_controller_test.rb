@@ -2,47 +2,40 @@ require 'test_helper'
 
 class ChargesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @charge = charges(:one)
+    @charge = Fabricate(:charge)
   end
 
   test "should get index" do
-    get charges_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_charge_url
+    get account_charges_url(@charge.account)
     assert_response :success
   end
 
   test "should create charge" do
+    account = Fabricate(:account)
+
     assert_difference('Charge.count') do
-      post charges_url, params: { charge: {  } }
+      post account_charges_url(account), params: { charge: Fabricate.attributes_for(:charge, account: account) }
     end
 
-    assert_redirected_to charge_url(Charge.last)
-  end
-
-  test "should show charge" do
-    get charge_url(@charge)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_charge_url(@charge)
-    assert_response :success
+    assert_redirected_to account_url(account)
   end
 
   test "should update charge" do
-    patch charge_url(@charge), params: { charge: {  } }
-    assert_redirected_to charge_url(@charge)
+    assert @charge.paid_at.blank?
+    put account_charge_url(@charge.account, @charge)
+
+    # charge should be paid
+    @charge.reload
+    assert_not @charge.paid_at.blank?
+    assert_redirected_to account_charges_url(@charge.account)
   end
 
   test "should destroy charge" do
+    account = @charge.account
     assert_difference('Charge.count', -1) do
-      delete charge_url(@charge)
+      delete account_charge_url(account, @charge)
     end
 
-    assert_redirected_to charges_url
+    assert_redirected_to account_charges_url(account)
   end
 end

@@ -47,6 +47,8 @@ class Charge < ApplicationRecord
   validate  :charges_on_external_accounts_must_be_check
   # validates :semester_code, presence: true
 
+  default_scope { order(created_at: :desc) }
+
   scope :unpaid, -> { where(paid_at: nil) } 
   scope :ufid, -> { where("charge_type = ?", UFID_PAYMENT) } 
 
