@@ -1,0 +1,54 @@
+%h2 Charges to Bill
+
+.row
+  .col-sm-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Charge Date
+
+          %td
+            Gatorlink ID
+
+          %td
+            Type
+
+          %td
+            Description
+
+          %td
+            Amount
+
+
+      %tbody.charges
+        - @charges.each do |charge|
+
+          %tr
+            %td
+              = charge.created_at.strftime("%m/%d/%Y")
+
+            %td
+              = charge.account.gatorlink_id
+
+            %td
+              = charge.display_charge_type
+
+            %td
+              = charge.description
+
+            %td
+              = number_to_currency(charge.amount)
+
+        %tr
+          %td(colspan = 3)
+            &nbsp;
+          %td
+            %strong
+              Total
+          %td
+            %strong
+              = number_to_currency(@charges.inject(0) {|sum, charge| sum + charge.amount} )
+
+%br
+

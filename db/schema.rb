@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170702215002) do
+ActiveRecord::Schema.define(version: 20170705200127) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20170702215002) do
     t.integer "charge_type"
     t.string "description"
     t.datetime "paid_at"
-    t.decimal "amount", precision: 10
+    t.decimal "amount", precision: 8, scale: 2
     t.integer "payment_method"
     t.integer "added_by"
     t.string "semester_code"

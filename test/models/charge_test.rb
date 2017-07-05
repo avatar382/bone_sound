@@ -96,8 +96,8 @@ class ChargeTest < ActiveSupport::TestCase
   end
 
   test "should scope on UFID charges" do
-    check = Fabricate(:charge, charge_type: Charge::CHECK_PAYMENT)
-    chartfield = Fabricate(:charge, charge_type: Charge::CHARTFIELD_PAYMENT)
+    check = Fabricate(:charge, payment_method: Charge::CHECK_PAYMENT)
+    chartfield = Fabricate(:charge, payment_method: Charge::CHARTFIELD_PAYMENT)
 
     assert Charge.ufid.include?(@charge)
     assert_not Charge.ufid.include?(check)

@@ -50,7 +50,7 @@ class Charge < ApplicationRecord
   default_scope { order(created_at: :desc) }
 
   scope :unpaid, -> { where(paid_at: nil) } 
-  scope :ufid, -> { where("charge_type = ?", UFID_PAYMENT) } 
+  scope :ufid, -> { where("payment_method = ?", UFID_PAYMENT) } 
 
   def display_charge_type
     if charge_type == PRINT_CHARGE
