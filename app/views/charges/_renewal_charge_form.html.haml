@@ -8,9 +8,9 @@
 
   .well
     .form_group
-      %label{:for => "membership_id"} 
+      %label{:for => "charge[membership_id]"} 
         Membership Plan
-      =  select_tag 'membership_id', options_for_select(Membership.renewals.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
+      =  select_tag "charge[membership_id]", options_for_select(Membership.renewals.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
 
     %br
 
@@ -19,7 +19,7 @@
         Payment Method*
       %br
 
-      = f.radio_button(:payment_method, Charge::UFID_PAYMENT)
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true)
       UFID 
       &nbsp;
 

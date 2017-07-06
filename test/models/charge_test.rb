@@ -14,6 +14,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  deleted_at     :datetime
+#  membership_id  :integer
 #
 
 require 'test_helper'
@@ -21,6 +22,7 @@ require 'test_helper'
 class ChargeTest < ActiveSupport::TestCase
   def setup
     @charge = Fabricate(:charge)
+    @account = Fabricate(:account)
   end
 
    ### VALIDATIONS  ###
@@ -87,7 +89,56 @@ class ChargeTest < ActiveSupport::TestCase
     assert @charge.added_by == account.id
   end
 
-  test "should add time to account if a membership charge" do
+  test "should fill details out from membership" do
+    membership = Membership.create(name: "4 month Renewal A^2 Membership",
+                                   price: 120.00,
+                                   duration: 120,
+                                   affiliation: Account::A2_AFFILIATION,
+                                   is_renewal: true)
+
+    charge_via_membership = Charge.new(membership_id: membership.id, 
+                                       account: @account,
+                                       payment_method: Charge::UFID_PAYMENT)
+
+    assert charge_via_membership.save
+    assert charge_via_membership.amount == 120.00
+    assert charge_via_membership.description == membership.name
+    assert charge_via_membership.charge_type == Charge::MEMBERSHIP_CHARGE
+  end
+
+  test "should add time to account starting from today if a membership charge on an expired account" do
+    assert @account.expires_at.blank? 
+
+    membership = Membership.create(name: "4 month Renewal A^2 Membership",
+                                   price: 120.00,
+                                   duration: 120,
+                                   affiliation: Account::A2_AFFILIATION,
+                                   is_renewal: true)
+
+    charge_via_membership = Charge.new(membership_id: membership.id, 
+                                       account: @account,
+                                       payment_method: Charge::UFID_PAYMENT)
+
+    assert charge_via_membership.save
+    assert @account.expires_at.utc.to_s == (Time.now + 120.days).utc.to_s
+  end
+
+  test "should add time to account starting from last active day if a membership charge on an active account" do
+    @account.update_attribute(:expires_at, 4.days.from_now)
+    old_time = @account.expires_at
+
+    membership = Membership.create(name: "4 month Renewal A^2 Membership",
+                                   price: 120.00,
+                                   duration: 120,
+                                   affiliation: Account::A2_AFFILIATION,
+                                   is_renewal: true)
+
+    charge_via_membership = Charge.new(membership_id: membership.id, 
+                                       account: @account,
+                                       payment_method: Charge::UFID_PAYMENT)
+
+    assert charge_via_membership.save
+    assert @account.expires_at.utc.to_s == (old_time + 120.days).utc.to_s
   end
 
   ### SCOPES ###

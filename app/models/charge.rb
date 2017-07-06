@@ -14,6 +14,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  deleted_at     :datetime
+#  membership_id  :integer
 #
 
 class Charge < ApplicationRecord
@@ -35,9 +36,11 @@ class Charge < ApplicationRecord
 
   before_create :set_added_by
   before_create :set_semester_code
+  before_validation :fill_details_via_membership_id
   after_create  :add_time_to_account_if_membership_charge
 
   belongs_to :account
+  belongs_to :membership, optional: true
   # TODO: implement after shibboleth 
   # belongs_to :account, foreign_key: :added_by
 
@@ -121,9 +124,8 @@ class Charge < ApplicationRecord
   end
 
   def add_time_to_account_if_membership_charge
-    # TODO: Fix this, it's a bit sketchy querying by the description string...
-    if self.charge_type == Charge::MEMBERSHIP_CHARGE 
-      m = Membership.find_by_name(self.description)
+    if self.charge_type == Charge::MEMBERSHIP_CHARGE && self.membership_id.present?
+      m = self.membership
 
       # add time to existing if 
       if self.account.expires_at.blank? || self.account.expires_at < Time.now
@@ -131,6 +133,16 @@ class Charge < ApplicationRecord
       else
         self.account.update_attribute(:expires_at, self.account.expires_at + m.duration.days)
       end
+    end
+  end
+
+  def fill_details_via_membership_id
+    if self.membership_id.present?
+       membership = Membership.find(self.membership_id)
+
+      self.amount = membership.price 
+      self.description = membership.name
+      self.charge_type = Charge::MEMBERSHIP_CHARGE
     end
   end
 end
