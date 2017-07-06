@@ -124,31 +124,31 @@ class Account < ApplicationRecord
 
   def has_affiliation_if_laser 
     if account_type == LASER_MEMBER_TYPE && affiliation.blank?
-      errors.add(:affiliation, " required for laser accounts.")
+      errors.add(:affiliation, " required for laser accounts")
     end
   end
 
   def has_affiliation_if_internal_client
     if account_type == INTERNAL_CLIENT_TYPE && affiliation.blank?
-      errors.add(:affiliation, " required for internal client accounts.")
+      errors.add(:affiliation, " required for internal client accounts")
     end
   end
 
   def has_no_affiliation_if_external_client
     if account_type == EXTERNAL_CLIENT_TYPE && affiliation.present?
-      errors.add(:affiliation, " must be blank for external clients.")
+      errors.add(:affiliation, " must be blank for external clients")
     end
   end
 
   def has_no_gatorlink_if_external_client
     if account_type == EXTERNAL_CLIENT_TYPE && gatorlink_id.present?
-      errors.add(:gatorlink_id, " must be blank for external clients.")
+      errors.add(:gatorlink_id, " must be blank for external clients")
     end
   end
 
   def has_gatorlink_id_with_affiliation
     if (affiliation == UF_AFFILIATION || affiliation == A2_AFFILIATION) && gatorlink_id.blank? && account_type != EXTERNAL_CLIENT_TYPE
-      errors.add(:gatorlink_id, " required.")
+      errors.add(:gatorlink_id, " required")
     end
   end
 end

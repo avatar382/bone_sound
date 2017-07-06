@@ -1,16 +1,4 @@
 = form_for(@account) do |form|
-  - if account.errors.any?
-
-    #error_explanation
-      %h3
-        = pluralize(account.errors.count, "error")
-        prohibited this account from being saved:
-
-      %ul
-        - account.errors.full_messages.each do |message| 
-          %li
-            = message
-
 
   .row
     .col-sm-6          
