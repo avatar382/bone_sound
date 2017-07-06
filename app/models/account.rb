@@ -108,6 +108,10 @@ class Account < ApplicationRecord
     expires_at.present? ? Time.now < expires_at : false
   end
 
+  def uf_affiliated?
+    affiliation.present?
+  end
+
   protected
 
   def has_either_personal_or_business_name

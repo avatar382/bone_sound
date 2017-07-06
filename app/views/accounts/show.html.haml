@@ -30,7 +30,11 @@
     %h3
       Add membership charge
 
-    = render "charges/membership_charge_form", account: @account
+    - if @account.uf_affiliated?
+      = render "charges/membership_charge_form", account: @account
+    - else
+      %p
+        Memberships are only available to UF affiliates.
 
 %hr
 = link_to "Back to Accounts", accounts_path, class: "btn btn-primary" 
