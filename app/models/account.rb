@@ -104,6 +104,10 @@ class Account < ApplicationRecord
     end
   end
 
+  def active?
+    expires_at.present? ? Time.now < expires_at : false
+  end
+
   protected
 
   def has_either_personal_or_business_name

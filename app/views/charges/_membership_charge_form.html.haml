@@ -7,10 +7,20 @@
           %li= message
 
   .well
+    - if @account.expires_at.present?
+      .panel.panel-danger
+        .panel-body
+          %h5
+            Account Expires: 
+            = @account.display_expiration_date
+
     .form_group
       %label{:for => "charge[membership_id]"} 
         Membership Plan
-      =  select_tag "charge[membership_id]", options_for_select(Membership.renewals.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
+      - if @account.expires_at.present?
+        =  select_tag "charge[membership_id]", options_for_select(Membership.renewals.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
+      - else
+        =  select_tag "charge[membership_id]", options_for_select(Membership.new_memberships.affiliation(@account.affiliation).collect{ |m| ["#{m.name} - $#{m.price.to_i}", m.id] })
 
     %br
 
@@ -34,4 +44,9 @@
     %br
 
     = hidden_field_tag("account_id", @account.id)
-    = f.submit 'Add Charge', class: "btn btn-success"
+
+    - if @account.active?
+      = f.submit 'Add Charge', class: "btn btn-success", data: {confirm: "Are you sure? This will add time to an active account."}
+
+    - else
+      = f.submit 'Add Charge', class: "btn btn-success"
