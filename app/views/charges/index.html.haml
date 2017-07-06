@@ -57,11 +57,11 @@
 
             %td
               - if charge.payment_method != Charge::UFID_PAYMENT && charge.paid_at.blank?
-                = link_to "Mark as Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
+                = link_to "Mark Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
 
             %td
               - if charge.paid_at.blank?
-                = link_to "Delete Charge", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
+                = link_to "Delete", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
 
     = paginate @charges
 

@@ -11,6 +11,9 @@
             Charge Date
 
           %td
+            Name
+
+          %td
             Gatorlink ID
 
           %td
@@ -34,7 +37,10 @@
               = charge.created_at.strftime("%m/%d/%Y")
 
             %td
-              = link_to charge.account.gatorlink_id, account_charges_path(charge.account)
+              = link_to charge.account.display_name, account_charges_path(charge.account)
+
+            %td
+              = charge.account.gatorlink_id
 
             %td
               = charge.display_charge_type
@@ -49,7 +55,7 @@
               = number_to_currency(charge.amount)
 
         %tr
-          %td(colspan = 4)
+          %td(colspan=5)
             &nbsp;
           %td
             %strong
