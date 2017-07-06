@@ -1,0 +1,57 @@
+= form_for(@service_charge, url: account_charges_path(@account)) do |f|
+  .well
+    .form_group
+      %label{:for => "sku"} 
+        SKU*
+
+      = text_field_tag("sku", nil, {class: "form-control js-material-control", placeholder: "SKU", id: "js-material-sku"})
+
+      %p#item-not-found Item Not Found
+
+    %br
+
+      %label{:for => "qty"} 
+        Quantity*
+        
+      = text_field_tag("qty", 1, {class: "form-control js-material-control", placeholder: "Quantity", id: "js-material-qty"})
+
+    %br
+
+    .form_group
+      %label{:for => "charge_payment_method_#{Charge::UFID_PAYMENT}"} 
+        Payment Method*
+      %br
+
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true)
+      UFID 
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT)
+      Check
+      &nbsp;
+
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT)
+      Chartfield
+      &nbsp;
+
+    %br
+
+    = hidden_field_tag("account_id", @account.id)
+    = hidden_field_tag("charge[charge_type]", Charge::MATERIALS_CHARGE)
+    = hidden_field_tag("charge[amount]", "", id: "js-amount-hidden")
+    = hidden_field_tag("charge[description]", "", id: "js-description-hidden")
+
+
+    .form_group
+      %label Item
+      %p#js-description-label 
+
+    .form_group
+      %label Unit Price
+      %p#js-unit-label 
+
+    .form_group
+      %label Total
+      %p#js-total-label
+
+    = f.submit 'Add Charge', class: "btn btn-success"

@@ -1,5 +1,6 @@
 class MaterialsController < ApplicationController
   before_action :set_material, only: [:edit, :update, :destroy]
+  before_action :set_material_via_sku, only: [:show]
 
   # GET /materials
   # GET /materials.json
@@ -10,6 +11,10 @@ class MaterialsController < ApplicationController
   # GET /materials/new
   def new
     @material = Material.new
+  end
+
+  def show
+    render :json => { :error => 'not found' }, :status => 404 if @material.nil?
   end
 
   # GET /materials/1/edit
@@ -67,6 +72,11 @@ class MaterialsController < ApplicationController
     def set_material
       @material = Material.find(params[:id])
     end
+
+    def set_material_via_sku
+      @material = Material.find_by_sku(params[:id])
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def material_params

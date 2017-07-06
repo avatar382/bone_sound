@@ -1,5 +1,5 @@
 class ChargesController < ApplicationController
-  before_action :set_charge, only: [:show, :edit, :update, :destroy]
+  before_action :set_charge, only: [:edit, :update, :destroy]
   before_action :set_account, only: [:index, :create, :update, :destroy]
 
   # GET /charges
@@ -18,7 +18,6 @@ class ChargesController < ApplicationController
       if @charge.save
         flash[:notice] = "Charge successfully created"
         format.html { redirect_to account_path(@account) }
-        format.json { render :show, status: :created, location: @account }
       else
         flash[:error] = "Unable to save charge to account: #{@charge.errors.full_messages.to_sentence}"
         format.html { redirect_to account_path(@account) }

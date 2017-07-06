@@ -1,15 +1,8 @@
 = form_for(@service_charge, url: account_charges_path(@account)) do |f|
-  - if @service_charge.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@service_charge.errors.count, "error")} prohibited this charge from being saved:"
-      %ul
-        - @service_charge.errors.full_messages.each do |message|
-          %li= message
-
   .well
     .form_group
       %label{:for => "charge_charge_type"} 
-        Charge Type*
+        Service Type*
       = select(:charge, :charge_type, [["3D Print", Charge::PRINT_CHARGE], ["CNC Cut", Charge::CNC_CHARGE], ["Waterjet Cut", Charge::WATERJET_CHARGE], ["Laser Cut", Charge::LASER_CHARGE], ["Design Work", Charge::DESIGN_CHARGE] ], {}, class: "form-control")
 
     %br

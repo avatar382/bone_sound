@@ -2,7 +2,7 @@
 
 %br
 .row
-  .col-sm-6
+  .col-sm-4
     .panel.panel-default#account_info_panel
       .panel-body
         %h4
@@ -18,17 +18,23 @@
         %p
           = @account.gatorlink_id
 
-  .col-sm-6
+  .col-sm-4
     %h3
-      Add new service charge
+      Service charge
 
     = render "charges/service_charge_form", account: @account
 
+  .col-sm-4
+    %h3
+      Materials charge
+      
+    = render "charges/materials_charge_form", account: @account
+
 
 .row
-  .col-sm-6
+  .col-sm-8.col-sm-offset-4
     %h3
-      Add membership charge
+      Membership charge
 
     - if @account.uf_affiliated?
       = render "charges/membership_charge_form", account: @account

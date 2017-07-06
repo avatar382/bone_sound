@@ -1,11 +1,4 @@
 = form_for(@service_charge, url: account_charges_path(@account)) do |f|
-  - if @service_charge.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@service_charge.errors.count, "error")} prohibited this charge from being saved:"
-      %ul
-        - @service_charge.errors.full_messages.each do |message|
-          %li= message
-
   .well
     - if @account.expires_at.present?
       .panel.panel-danger

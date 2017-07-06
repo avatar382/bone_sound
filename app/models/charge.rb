@@ -69,6 +69,8 @@ class Charge < ApplicationRecord
       "Laser Cut"
     elsif charge_type == DESIGN_CHARGE
       "Design/Fabrication"
+    elsif charge_type == MATERIALS_CHARGE
+      "Materials"
     else
       ""
     end
