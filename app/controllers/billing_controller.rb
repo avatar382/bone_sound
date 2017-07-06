@@ -1,5 +1,10 @@
 class BillingController < ApplicationController
   def index
-    @charges = Charge.all.unpaid.ufid
+    if params[:type] == "ufid"
+      @charges = Charge.all.unpaid.ufid
+    else
+      @charges = Charge.all.unpaid - Charge.unpaid.ufid
+    end
+
   end
 end

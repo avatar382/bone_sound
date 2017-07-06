@@ -1,4 +1,6 @@
-%h2 Charges to Bill
+= render "billing_subnav"
+
+%h2 Unpaid Charges
 
 .row
   .col-sm-12
@@ -18,6 +20,9 @@
             Description
 
           %td
+            Payment Method
+
+          %td
             Amount
 
 
@@ -29,7 +34,7 @@
               = charge.created_at.strftime("%m/%d/%Y")
 
             %td
-              = charge.account.gatorlink_id
+              = link_to charge.account.gatorlink_id, account_charges_path(charge.account)
 
             %td
               = charge.display_charge_type
@@ -38,10 +43,13 @@
               = charge.description
 
             %td
+              = charge.display_payment_method
+
+            %td
               = number_to_currency(charge.amount)
 
         %tr
-          %td(colspan = 3)
+          %td(colspan = 4)
             &nbsp;
           %td
             %strong

@@ -9,7 +9,7 @@
   .well
     - if @account.expires_at.present?
       .panel.panel-danger
-        .panel-body
+        .panel-body.text-center
           %h5
             Account Expires: 
             = @account.display_expiration_date
