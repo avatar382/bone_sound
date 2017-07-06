@@ -1,0 +1,22 @@
+= form_for @material do |form|
+  .row
+    .col-sm-6          
+      .well
+        .form-group
+          %label{:for => "material_sku"} SKU
+          = form.text_field(:sku, {class: "form-control", placeholder: "SKU"})
+
+        .form-group
+          %label{:for => "material_description"} Description
+          = form.text_field(:description, {class: "form-control", placeholder: "Description"})
+
+        .form-group
+          %label{:for => "material_price"} Price
+
+          .input-group
+            %span.input-group-addon
+              $
+            = form.text_field(:price, {class: "form-control", placeholder: "Price"})
+
+
+        = form.submit 'Save New Item', class: "btn btn-success"

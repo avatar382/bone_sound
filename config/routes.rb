@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :materials, except: [:show]
   resources :accounts do
     resources :charges, only: [:index, :create, :update, :destroy]
   end

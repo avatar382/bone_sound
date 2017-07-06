@@ -1,0 +1,54 @@
+%h2 Materials Inventory
+
+%hr 
+
+.row
+  .col-sm-12
+    %a.btn.btn-primary(href="#{new_material_path}")
+      Add Item
+
+    .pull-right
+      %form(action = "#{materials_path}")
+        %input.form-control#material_search{type: "text", placeholder: "Search", name: "q", value: params[:q]}
+
+
+  %br
+  %br
+
+
+.row
+  .col-sm-12
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            SKU
+          %td
+            Description
+          %td
+            Price
+          %td
+            Actions
+
+      %tbody
+        - @materials.each do |material|
+
+          %tr
+            %td 
+              = material.sku
+
+            %td 
+              = material.description
+
+            %td 
+              = number_to_currency(material.price)
+
+
+            %td 
+              = link_to 'Edit', edit_material_path(material), class: "btn btn-primary"
+              = link_to 'Delete', material, method: :delete, data: { confirm: 'Are you sure? This will remove this item!' }, class: "btn btn-danger"
+
+    = paginate @materials
+
+%br
+

@@ -1,0 +1,8 @@
+%h2 
+  = "Updating: #{@material.description}"
+
+= render 'form', material: @material
+
+%hr
+
+= link_to "Back to Inventory List", materials_path, class: "btn btn-primary" 
