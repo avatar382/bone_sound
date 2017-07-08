@@ -11,6 +11,8 @@
 #
 
 class Material < ApplicationRecord
+  audited
+
   validates :sku, presence: true, uniqueness: true
   validates :price, presence: true
   validates :price, numericality: true

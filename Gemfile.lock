@@ -47,6 +47,8 @@ GEM
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
     arel (8.0.0)
+    audited (4.5.0)
+      activerecord (>= 4.0, < 5.2)
     bindex (0.5.0)
     bootstrap3-datetimepicker-rails (4.17.47)
       momentjs-rails (>= 2.8.1)
@@ -219,6 +221,7 @@ PLATFORMS
 DEPENDENCIES
   active_link_to
   annotate
+  audited (~> 4.5)
   bootstrap3-datetimepicker-rails
   byebug
   capybara (~> 2.13)

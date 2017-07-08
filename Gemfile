@@ -41,6 +41,7 @@ gem "paranoia", "~> 2.2"
 gem "fabrication"
 gem "faker"
 gem "rails-controller-testing"
+gem "audited", "~> 4.5"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -20,6 +20,7 @@
 
 class Account < ApplicationRecord
   acts_as_paranoid
+  audited
 
   UF_AFFILIATION = 1
   A2_AFFILIATION = 2

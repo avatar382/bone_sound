@@ -19,6 +19,7 @@
 
 class Charge < ApplicationRecord
   acts_as_paranoid
+  audited
 
   # TYPES
   PRINT_CHARGE      = 1
