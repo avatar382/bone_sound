@@ -20,6 +20,8 @@
         = active_link_to "Lasers", "/lasers", active: :inclusive, wrap_tag: :li
 
       %ul.nav.navbar-nav.navbar-right
+        %li
+          = link_to "Log Out", logout_path, method: :delete
 
     / /.navbar-collapse
   / /.container-fluid
