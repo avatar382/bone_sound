@@ -32,6 +32,8 @@ class Account < ApplicationRecord
 
   has_many :charges
 
+  attr_accessor :auto_charge
+
   # account rules:
 
   # all accounts must have a type
@@ -57,6 +59,10 @@ class Account < ApplicationRecord
   validate :has_no_affiliation_if_external_client
   validate :has_no_gatorlink_if_external_client
   validate :has_gatorlink_id_with_affiliation
+
+  before_create :add_membership_charge
+
+  default_scope { order(created_at: :desc) }
 
   scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ?", 
                         "%#{q}%", 
@@ -150,6 +156,19 @@ class Account < ApplicationRecord
   def has_gatorlink_id_with_affiliation
     if (affiliation == UF_AFFILIATION || affiliation == A2_AFFILIATION) && gatorlink_id.blank? && account_type != EXTERNAL_CLIENT_TYPE
       errors.add(:gatorlink_id, " required")
+    end
+  end
+
+  def add_membership_charge
+    if self.account_type == LASER_MEMBER_TYPE && self.auto_charge == true
+      membership = Membership.affiliation(self.affiliation).new_memberships.first
+
+      self.charges << Charge.new(charge_type: Charge::MEMBERSHIP_CHARGE,
+                                 payment_method: Charge::UFID_PAYMENT,
+                                 membership_id: membership.id,
+                                 amount: membership.price,
+                                 description: membership.name)
+
     end
   end
 end

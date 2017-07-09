@@ -65,6 +65,11 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get batch new" do
+    get batch_new_accounts_url
+    assert_response :success
+  end
+
   test "should create account" do
     assert_difference('Account.count') do
       post accounts_url, params: { account: Fabricate.attributes_for(:account) }
@@ -72,6 +77,27 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to account_url(Account.last)
   end
+
+  test "should batch create account, along with a membership charge" do
+    m = Fabricate(:membership)
+
+    assert_difference('Account.count') do
+      assert_difference('Charge.count') do
+        params = {first_name: "New",
+                  last_name: "Member",
+                  email: "email@thing.com",
+                  gatorlink_id: rand(1000000),
+                  affiliation: Account::A2_AFFILIATION,
+                  account_type: Account::LASER_MEMBER_TYPE}
+
+        post batch_create_accounts_url, params: { account:  params }
+      end
+    end
+
+    assert = assigns[:account].auto_charge == true
+    assert_redirected_to batch_new_accounts_url
+  end
+
 
   test "should show account" do
     get account_url(@account)

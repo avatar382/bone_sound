@@ -46,9 +46,10 @@ var charges_fill_form_with_material_data = function(obj) {
   $('#js-description-hidden').val(qty + "x:" + " " + obj["description"]);
   $('#js-amount-hidden').val(sum);
 
+  // hide not found
   $('#item-not-found').hide();
 
-
+  // animate fields
   $('#js-description-label').fadeOut(500);
   $('#js-description-label').fadeIn(500);
   $('#js-unit-label').fadeOut(500);

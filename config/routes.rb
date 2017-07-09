@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :materials
   resources :accounts do
+    collection do
+      get :batch_new
+      post :batch_create
+    end
     resources :charges, only: [:index, :create, :update, :destroy]
   end
 

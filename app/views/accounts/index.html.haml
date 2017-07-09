@@ -12,6 +12,9 @@
     %a.btn.btn-primary(href="#{new_account_path}")
       Create New Account
 
+    %a.btn.btn-primary(href="#{batch_new_accounts_path}")
+      Create Multiple Laser Accounts
+
     .pull-right
       %form(action = "#{accounts_path}")
         %input.form-control#account_search{type: "text", placeholder: "Search", name: "q", value: params[:q]}

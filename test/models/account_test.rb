@@ -110,4 +110,32 @@ class AccountTest < ActiveSupport::TestCase
     internal_account.gatorlink_id = nil
     assert_not internal_account.valid?
   end
+
+  ### CALLBACKS ###
+
+  test "should automatically add a laser membership charge if auto_charge is set" do
+    m = Fabricate(:membership)
+
+    params = {first_name: "New",
+              last_name: "Member",
+              email: "email@thing.com",
+              gatorlink_id: rand(1000000),
+              affiliation: Account::A2_AFFILIATION,
+              account_type: Account::LASER_MEMBER_TYPE}
+
+    account = Account.new(params)
+    account.auto_charge = true
+
+    assert_difference('Charge.count') do
+      account.save
+    end
+
+    charge = account.charges.first
+
+    assert charge.amount == m.price
+    assert charge.description == m.name
+    assert charge.payment_method == Charge::UFID_PAYMENT
+    assert charge.membership_id == m.id
+    assert charge.charge_type == Charge::MEMBERSHIP_CHARGE
+  end
 end

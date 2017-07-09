@@ -18,6 +18,10 @@ class AccountsController < ApplicationController
     @account = Account.new
   end
 
+  def batch_new
+    @account = Account.new
+  end
+
   # GET /accounts/1/edit
   def edit
   end
@@ -36,6 +40,21 @@ class AccountsController < ApplicationController
         flash[:error] = "Unable to save account: #{@account.errors.full_messages.to_sentence}"
         format.html { render :new }
         format.json { render json: @account.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def batch_create
+    @account = Account.new(account_params)
+    @account.auto_charge = true
+
+    respond_to do |format|
+      if @account.save
+        flash[:notice] = "Account was successfully created"
+        format.html { redirect_to batch_new_accounts_path }
+      else
+        flash[:error] = "Unable to save account: #{@account.errors.full_messages.to_sentence}"
+        format.html { redirect_to batch_new_accounts_path }
       end
     end
   end

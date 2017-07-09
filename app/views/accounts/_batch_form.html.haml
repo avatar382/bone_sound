@@ -1,0 +1,47 @@
+= form_for(@account, url: batch_create_accounts_path) do |form|
+
+  .row
+    .col-sm-6          
+
+      %h3 
+        Basic Info
+
+      .well
+        .form-group
+          %label{:for => "account_first_name"} First Name*
+          = form.text_field(:first_name, {class: "form-control", placeholder: "First Name"})
+
+        .form-group
+          %label{:for => "account_last_name"} Last Name*
+          = form.text_field(:last_name, {class: "form-control", placeholder: "Last Name"})
+
+        .form-group
+          %label{:for => "account_gatorlink_id"} Gatorlink ID*
+          = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID"})
+          
+        .form-group
+          %label{:for => "account_affiliation_#{Account::UF_AFFILIATION}"} Affiliation
+          %br
+          UF
+          = form.radio_button(:affiliation, Account::UF_AFFILIATION, {class: "form-control"})
+
+          Arts & Architecture 
+          = form.radio_button(:affiliation, Account::A2_AFFILIATION, {class: "form-control", checked: true})
+
+
+    .col-sm-6          
+      %h3 
+        Contact Info
+
+      .well
+        .form-group
+          %label{:for => "account_phone"} Phone Number
+          = form.text_field(:phone, {class: "form-control", placeholder: "Phone Number"})
+
+        .form-group
+          %label{:for => "account_email"} Email address*
+          = form.email_field(:email, {class: "form-control", placeholder: "Email"})
+
+  = form.hidden_field(:account_type, value: Account::LASER_MEMBER_TYPE)
+  = form.submit("Create New Laser Account", class: "btn btn-success")
+
