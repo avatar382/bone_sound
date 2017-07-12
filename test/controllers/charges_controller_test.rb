@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ChargesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as("admin")
     @charge = Fabricate(:charge)
   end
 
