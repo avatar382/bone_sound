@@ -1,3 +1,17 @@
-%h1 Fab Lab Control
+.row
+  .col-sm-4.col-sm-offset-4
+    %br
+    %br
 
-= link_to "Login", login_url, method: :post, class: "btn btn-large btn-primary"
+    = form_tag(login_url) do
+      .well 
+        %h3
+          Login to Fab Lab Control
+
+        .form-group
+          %label{:for => "gatorlink_id"} Gatorlink ID
+          = text_field_tag("gatorlink_id", nil, {class: "form-control", placeholder: "First Name"})
+
+
+        .form-group
+          = submit_tag "Login", class: "btn btn-large btn-primary"

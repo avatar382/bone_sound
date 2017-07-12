@@ -2,6 +2,7 @@ require 'test_helper'
 
 class AccountsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    sign_in_as("admin")
     @account = Fabricate(:account)
   end
 
@@ -75,7 +76,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
       post accounts_url, params: { account: Fabricate.attributes_for(:account) }
     end
 
-    assert_redirected_to account_url(Account.last)
+    assert_redirected_to account_url(assigns(:account))
   end
 
   test "should batch create account, along with a membership charge" do
