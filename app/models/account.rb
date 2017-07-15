@@ -16,6 +16,8 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  deleted_at    :datetime
+#  ufid          :string(255)
+#  uf_college    :string(255)
 #
 
 class Account < ApplicationRecord
