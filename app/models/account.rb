@@ -52,6 +52,7 @@ class Account < ApplicationRecord
   validates :account_type, presence: true
   validates :email, presence: true
   validates :gatorlink_id, uniqueness: true, allow_blank: true
+  validates :ufid, uniqueness: true, allow_blank: true
   
   validate :has_either_personal_or_business_name
   validate :has_affiliation_if_laser
@@ -59,6 +60,9 @@ class Account < ApplicationRecord
   validate :has_no_affiliation_if_external_client
   validate :has_no_gatorlink_if_external_client
   validate :has_gatorlink_id_with_affiliation
+  validate :has_no_ufid_if_external_client
+  validate :has_ufid_with_affiliation
+  validate :ufid_is_8_digits
 
   before_create :add_membership_charge
 
@@ -159,6 +163,19 @@ class Account < ApplicationRecord
     end
   end
 
+  def has_no_ufid_if_external_client
+    if account_type == EXTERNAL_CLIENT_TYPE && ufid.present?
+      errors.add(:ufid, " must be blank for external clients")
+    end
+  end
+
+  def has_ufid_with_affiliation
+    if (affiliation == UF_AFFILIATION || affiliation == A2_AFFILIATION) && ufid.blank? && account_type != EXTERNAL_CLIENT_TYPE
+      errors.add(:ufid, " required")
+    end
+  end
+
+
   def add_membership_charge
     if self.account_type == LASER_MEMBER_TYPE && self.auto_charge == true
       membership = Membership.affiliation(self.affiliation).new_memberships.first
@@ -169,6 +186,12 @@ class Account < ApplicationRecord
                                  amount: membership.price,
                                  description: membership.name)
 
+    end
+  end
+
+  def ufid_is_8_digits
+    if self.ufid.present?
+      errors.add(:ufid, " must be 8 digits") unless self.ufid =~ /\d{8}/ && self.ufid.length == 8
     end
   end
 end

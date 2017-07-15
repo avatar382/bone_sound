@@ -16,6 +16,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  deleted_at    :datetime
+#  ufid          :string(255)
 #
 
 Fabricator(:account) do
@@ -25,4 +26,5 @@ Fabricator(:account) do
   account_type { Account::LASER_MEMBER_TYPE }
   affiliation { Account::UF_AFFILIATION }
   gatorlink_id { rand(100000000) }
+  ufid { rand(899999)+10000000 }
 end

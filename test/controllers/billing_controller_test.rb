@@ -2,7 +2,6 @@ require 'test_helper'
 
 class BillingControllerTest < ActionDispatch::IntegrationTest
   setup do
-    sign_in_as("admin")
     @unpaid_chartfield_charge = Fabricate(:charge, payment_method: Charge::CHARTFIELD_PAYMENT, paid_at: nil)
     @unpaid_check_charge = Fabricate(:charge, payment_method: Charge::CHECK_PAYMENT, paid_at: nil)
     @ufid_charge_paid = Fabricate(:charge, payment_method: Charge::UFID_PAYMENT, paid_at: 2.days.ago)

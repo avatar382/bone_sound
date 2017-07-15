@@ -2,7 +2,6 @@ require 'test_helper'
 
 class MaterialsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    sign_in_as("admin")
     @material = Fabricate(:material)
   end
 

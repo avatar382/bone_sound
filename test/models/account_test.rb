@@ -16,6 +16,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  deleted_at    :datetime
+#  ufid          :string(255)
 #
 
 require 'test_helper'
@@ -80,6 +81,7 @@ class AccountTest < ActiveSupport::TestCase
     external_account = Fabricate(:account, 
                                  account_type: Account::EXTERNAL_CLIENT_TYPE,
                                  affiliation: nil,
+                                 ufid: nil,
                                  gatorlink_id: nil)
 
     assert external_account.valid?
@@ -92,6 +94,7 @@ class AccountTest < ActiveSupport::TestCase
     external_account = Fabricate(:account, 
                                  account_type: Account::EXTERNAL_CLIENT_TYPE,
                                  affiliation: nil,
+                                 ufid: nil,
                                  gatorlink_id: nil)
 
     assert external_account.valid?
@@ -111,6 +114,54 @@ class AccountTest < ActiveSupport::TestCase
     assert_not internal_account.valid?
   end
 
+  test "must not have any ufid if an external account" do
+    external_account = Fabricate(:account, 
+                                 account_type: Account::EXTERNAL_CLIENT_TYPE,
+                                 affiliation: nil,
+                                 gatorlink_id: nil,
+                                 ufid: nil)
+
+    assert external_account.valid?
+
+    external_account.ufid = rand(89999999)+10000000
+    assert_not external_account.valid?
+  end
+
+  test "if it has an affiliation, it must have a ufid" do
+    internal_account = Fabricate(:account, 
+                                 account_type: Account::INTERNAL_CLIENT_TYPE,
+                                 affiliation: Account::UF_AFFILIATION)
+
+    assert internal_account.valid?
+
+    internal_account.ufid = nil
+    assert_not internal_account.valid?
+  end
+
+  test "ufid must be 8 digits"  do
+    internal_account = Fabricate(:account, 
+                                 account_type: Account::INTERNAL_CLIENT_TYPE,
+                                 affiliation: Account::UF_AFFILIATION)
+
+    assert internal_account.valid?
+
+    internal_account.ufid = "1234567"
+    assert_not internal_account.valid?
+
+    internal_account.ufid = "123456789"
+    assert_not internal_account.valid?
+
+    internal_account.ufid = "ab1234567"
+    assert_not internal_account.valid?
+
+    internal_account.ufid = "12345678a"
+    assert_not internal_account.valid?
+
+    internal_account.ufid = "1245678a"
+    assert_not internal_account.valid?
+  end
+
+
   ### CALLBACKS ###
 
   test "should automatically add a laser membership charge if auto_charge is set" do
@@ -120,6 +171,7 @@ class AccountTest < ActiveSupport::TestCase
               last_name: "Member",
               email: "email@thing.com",
               gatorlink_id: rand(1000000),
+              ufid: rand(89999999)+10000000,
               affiliation: Account::A2_AFFILIATION,
               account_type: Account::LASER_MEMBER_TYPE}
 

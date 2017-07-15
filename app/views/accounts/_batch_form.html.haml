@@ -9,15 +9,19 @@
       .well
         .form-group
           %label{:for => "account_first_name"} First Name*
-          = form.text_field(:first_name, {class: "form-control", placeholder: "First Name"})
+          = form.text_field(:first_name, {class: "form-control", placeholder: "First Name", required: true})
 
         .form-group
           %label{:for => "account_last_name"} Last Name*
-          = form.text_field(:last_name, {class: "form-control", placeholder: "Last Name"})
+          = form.text_field(:last_name, {class: "form-control", placeholder: "Last Name", required: true})
 
         .form-group
           %label{:for => "account_gatorlink_id"} Gatorlink ID*
-          = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID"})
+          = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID", required: true})
+
+        .form-group
+          %label{:for => "account_ufid"} UFID*
+          = form.text_field(:ufid, {class: "form-control", placeholder: "UFID", pattern: "[0-9]{8}", required: true})
           
         .form-group
           %label{:for => "account_affiliation_#{Account::UF_AFFILIATION}"} Affiliation
@@ -40,8 +44,8 @@
 
         .form-group
           %label{:for => "account_email"} Email address*
-          = form.email_field(:email, {class: "form-control", placeholder: "Email"})
+          = form.email_field(:email, {class: "form-control", placeholder: "Email", required: true})
 
   = form.hidden_field(:account_type, value: Account::LASER_MEMBER_TYPE)
-  = form.submit("Create New Laser Account", class: "btn btn-success")
+  = form.submit("Create New Laser Account & Agree to Charge", class: "btn btn-success")
 

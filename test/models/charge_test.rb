@@ -28,7 +28,7 @@ class ChargeTest < ActiveSupport::TestCase
    ### VALIDATIONS  ###
 
    test "should not add UFID charge to an account that's external" do
-    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil)
+    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil, ufid: nil)
     internal_account = Fabricate(:account, account_type: Account::INTERNAL_CLIENT_TYPE, affiliation: Account::UF_AFFILIATION)
 
     invalid = Charge.new(account: external_account, 
@@ -47,7 +47,7 @@ class ChargeTest < ActiveSupport::TestCase
    end 
 
    test "should not add chartfield charge to an account that's external" do
-    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil)
+    external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, affiliation: nil, gatorlink_id: nil, ufid: nil)
     internal_account = Fabricate(:account, account_type: Account::INTERNAL_CLIENT_TYPE, affiliation: Account::UF_AFFILIATION)
 
     invalid = Charge.new(account: external_account, 

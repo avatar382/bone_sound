@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170708223030) do
+ActiveRecord::Schema.define(version: 20170715210914) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20170708223030) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.string "ufid"
     t.index ["account_type"], name: "index_accounts_on_account_type"
     t.index ["affiliation"], name: "index_accounts_on_affiliation"
     t.index ["deleted_at"], name: "index_accounts_on_deleted_at"
