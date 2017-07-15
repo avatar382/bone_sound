@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!, except: [:destroy]
+  # skip_before_action :authenticate_user!, except: [:destroy]
   layout "login"
 
   def new
