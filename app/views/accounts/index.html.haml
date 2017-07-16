@@ -47,7 +47,7 @@
               = account.display_affiliation
 
             %td
-              = account.gatorlink_id.truncate(15)
+              = account.gatorlink_id.truncate(15) if account.gatorlink_id.present?
 
             %td
               = account.display_expiration_date

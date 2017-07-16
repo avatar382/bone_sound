@@ -43,14 +43,17 @@
         .form-group
           %label{:for => "account_affiliation_#{Account::UF_AFFILIATION}"} Affiliation
           %br
-          UF
-          = form.radio_button(:affiliation, Account::UF_AFFILIATION, {class: "form-control"})
+          Architecture 
+          = form.radio_button(:affiliation, Account::A2_AFFILIATION, {id: "js-arch-button", class: "form-control", checked: true})
 
-          Arts & Architecture 
-          = form.radio_button(:affiliation, Account::A2_AFFILIATION, {class: "form-control", checked: true})
+          Arts
+          = form.radio_button(:affiliation, Account::A2_AFFILIATION, {id: "js-arts-button", class: "form-control"})
+
+          Other UF
+          = form.radio_button(:affiliation, Account::UF_AFFILIATION, {id: "js-other-button",  class: "form-control"})
 
         .form-group
-          %label{:for => "account_uf_college"} College Affiliation
+          %label{:for => "account_uf_college"} Other College Affiliation
           = select("account", "uf_college", options_for_select(college_list))
 
   = form.hidden_field(:account_type, value: Account::LASER_MEMBER_TYPE)

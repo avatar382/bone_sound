@@ -17,11 +17,13 @@
 //= require bootstrap-datetimepicker
 //= require_tree .
 
+// DATEPICKER
+
 var ui_activate_datepicker = function () {
   $('#datetimepicker').datetimepicker({format: "MM/DD/YYYY"});
 };
 
-// CHARGE HANDLER
+// MATERIALS CHARGE HANDLER
 
 var charges_clear_materials_form = function() {
   $('#js-description-label').html("");
@@ -30,7 +32,7 @@ var charges_clear_materials_form = function() {
   $('#js-description-hidden').val("");
   $('#js-amount-hidden').val("");
   $('#item-not-found').show();
-}
+};
 
 var charges_fill_form_with_material_data = function(obj) {
   var qty   = $('#js-material-qty').val();
@@ -56,7 +58,6 @@ var charges_fill_form_with_material_data = function(obj) {
   $('#js-unit-label').fadeIn(500);
   $('#js-total-label').fadeOut(500);
   $('#js-total-label').fadeIn(500);
-
 };
 
 var charges_get_material_via_sku = function(sku) {
@@ -73,7 +74,7 @@ var charges_get_material_via_sku = function(sku) {
   .fail(function() {
     charges_clear_materials_form();
   });
-}
+};
 
 var charges_bind_to_controls = function() {
   $('.js-material-control').keypress(function(event) {
@@ -87,10 +88,141 @@ var charges_bind_to_controls = function() {
   });
 };
 
+// BATCH ACCOUNT FORM
+
+var batch_accounts_bind_to_controls = function() {
+  $('#js-arch-button').click(function() {
+    accounts_select_dcp_college();
+  });
+
+  $('#js-arts-button').click(function() {
+    accounts_select_arts_college();
+  });
+
+  $('#js-other-button').click(function() {
+    accounts_select_other_college();
+  });
+};
+
+var accounts_select_dcp_college = function() {
+  $('#account_uf_college option:nth-child(1)').attr("selected", "selected"); 
+  $('#account_uf_college option:nth-child(2)').removeAttr("selected"); 
+  $('#account_uf_college option:nth-child(3)').removeAttr("selected"); 
+
+};
+
+var accounts_select_arts_college = function() {
+  $('#account_uf_college option:nth-child(1)').removeAttr("selected"); 
+  $('#account_uf_college option:nth-child(2)').attr("selected", "selected"); 
+  $('#account_uf_college option:nth-child(3)').removeAttr("selected"); 
+};
+
+var accounts_select_other_college = function() {
+  $('#account_uf_college option:nth-child(1)').removeAttr("selected"); 
+  $('#account_uf_college option:nth-child(2)').removeAttr("selected"); 
+  $('#account_uf_college option:nth-child(3)').attr("selected", "selected"); 
+};
+
+// ACCOUNT FORM
+
+var uf_section       
+var staff_section   
+var external_section 
+
+var uf_showing      
+var staff_showing    
+var external_showing 
+
+var accounts_show_uf_section = function() {
+  if(!uf_showing) {
+    $("#js-subform").append(uf_section); 
+    uf_showing = true;
+  }
+
+  if(staff_showing) {
+    staff_section = $("#js-staff-section").detach();
+    staff_showing = false;
+  }
+
+  if(external_showing) {
+    external_section = $("#js-external-section").detach();
+    external_showing = false;
+  }
+};
+
+var accounts_show_staff_section = function() {
+  if(uf_showing) {
+    uf_section = $("#js-uf-section").detach();
+    uf_showing = false;
+  }
+
+  if(!staff_showing) {
+    $("#js-subform").append(staff_section); 
+    staff_showing = true;
+  }
+
+  if(external_showing) {
+    external_section = $("#js-external-section").detach();
+    external_showing = false;
+  }
+};
+
+var accounts_show_external_section = function() {
+  if(uf_showing) {
+    uf_section = $("#js-uf-section").detach();
+    uf_showing = false;
+  }
+
+  if(staff_showing) {
+    staff_section = $("#js-staff-section").detach();
+    staff_showing = false;
+  }
+
+  if(!external_showing) {
+    $("#js-subform").append(external_section); 
+    external_showing = true;
+  }
+};
+
+var accounts_bind_to_controls = function() {
+  $('#js-laser-button').click(function() {
+    accounts_show_uf_section();
+  });
+
+  $('#js-internal-button').click(function() {
+    accounts_show_uf_section();
+  });
+
+  $('#js-external-button').click(function() {
+    accounts_show_external_section();
+  });
+
+  $('#js-staff-button').click(function() {
+    accounts_show_staff_section();
+  });
+};
+
+
 $(document).ready(function() {
   // activate datepicker elements
   ui_activate_datepicker();
 
   // script to query for material details when an SKU is entered on the materials field
   charges_bind_to_controls();
+
+  // script to switch college affiliation when lab affiliation selected
+  batch_accounts_bind_to_controls();
+
+  // script to display different areas of account form when account type selected
+  accounts_bind_to_controls();
+
+  uf_section       = $("#js-uf-section").detach();
+  staff_section    = $("#js-staff-section").detach()
+  external_section = $("#js-external-section").detach();
+  
+  uf_showing       = false
+  staff_showing    = false
+  external_showing = false
+
+  accounts_show_uf_section();
 })
