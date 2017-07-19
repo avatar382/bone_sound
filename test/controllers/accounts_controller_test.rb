@@ -60,6 +60,16 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert assigns[:accounts].include?(waldo)
   end
 
+  test "should search on ufid" do
+    search = rand(899999)+10000000 
+    waldo = Fabricate(:account, ufid: search)
+
+    get accounts_url(q: "#{search}")
+    
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include?(waldo)
+  end
+
   test "should get new" do
     get new_account_url
     assert_response :success

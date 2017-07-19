@@ -70,7 +70,8 @@ class Account < ApplicationRecord
 
   default_scope { order(created_at: :desc) }
 
-  scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ?", 
+  scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ? OR ufid LIKE ?", 
+                        "%#{q}%", 
                         "%#{q}%", 
                         "%#{q}%", 
                         "%#{q}%", 
