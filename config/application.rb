@@ -19,5 +19,14 @@ module BoneSound
     config.generators do |g|
       g.template_engine :haml
     end
+
+    if Rails.env.development?
+      # Update version file from latest git tag
+      File.open('config/version', 'w') do |file|
+        file.write `git describe --tags --always` # or equivalent
+      end
+    end
+
+    config.version = File.read('config/version')
   end
 end
