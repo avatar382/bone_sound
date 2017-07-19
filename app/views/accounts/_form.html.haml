@@ -115,3 +115,18 @@
               %span.input-group-addon
                 %span.glyphicon.glyphicon-calendar
 
+:javascript
+  $(document).ready(function() {
+    if(#{@account.account_type == Account::EXTERNAL_CLIENT_TYPE}) {
+      accounts_show_external_section();
+    }
+    else if(#{@account.account_type == Account::STAFF_TYPE}) {
+      accounts_show_staff_section();
+    }
+    else {
+      accounts_show_uf_section();
+    }
+  });    
+
+
+

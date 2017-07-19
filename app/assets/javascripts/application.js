@@ -20,7 +20,7 @@
 // DATEPICKER
 
 var ui_activate_datepicker = function () {
-  $('#datetimepicker').datetimepicker({format: "MM/DD/YYYY"});
+  $('#datetimepicker').datetimepicker({format: "YYYY-MM-DD"});
 };
 
 // MATERIALS CHARGE HANDLER
@@ -223,6 +223,4 @@ $(document).ready(function() {
   uf_showing       = false
   staff_showing    = false
   external_showing = false
-
-  accounts_show_uf_section();
 })
