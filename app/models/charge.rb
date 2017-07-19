@@ -34,9 +34,11 @@ class Charge < ApplicationRecord
   UFID_PAYMENT       = 1
   CHECK_PAYMENT      = 2
   CHARTFIELD_PAYMENT = 3
+  COMPED_PAYMENT     = 4
 
   before_create :set_added_by
   before_create :set_semester_code
+  before_create :set_comped_charges_to_paid
   before_validation :fill_details_via_membership_id
   after_create  :add_time_to_account_if_membership_charge
 
@@ -84,6 +86,8 @@ class Charge < ApplicationRecord
       "Chartfield"
     elsif payment_method == CHECK_PAYMENT
       "Check"
+    elsif payment_method == COMPED_PAYMENT
+      "Not Charged/Comped"
     end
   end
 
@@ -146,6 +150,12 @@ class Charge < ApplicationRecord
       self.amount = membership.price 
       self.description = membership.name
       self.charge_type = Charge::MEMBERSHIP_CHARGE
+    end
+  end
+
+  def set_comped_charges_to_paid
+    if self.payment_method == Charge::COMPED_PAYMENT
+      self.paid_at = Time.now
     end
   end
 end

@@ -34,6 +34,10 @@
       Chartfield
       &nbsp;
 
+      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT)
+      Not Charged
+      &nbsp;
+
     %br
 
     = hidden_field_tag("account_id", @account.id)

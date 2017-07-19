@@ -158,6 +158,12 @@ class ChargeTest < ActiveSupport::TestCase
     assert_not Charge.ufid.include?(chartfield)
   end
 
+  test "should set comped payments to paid immediately" do
+    comped = Fabricate(:charge, payment_method: Charge::COMPED_PAYMENT)
+
+    assert comped.paid_at.present?
+  end
+
   ### INSTANCE METHODS ###
 
   test "should mark itself as paid" do
