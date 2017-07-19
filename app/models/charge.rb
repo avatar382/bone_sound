@@ -52,12 +52,16 @@ class Charge < ApplicationRecord
   validates :charge_type, presence: true
   validates :payment_method, presence: true
   validate  :charges_on_external_accounts_must_be_check
+  validate  :chartfield_payments_require_chartfield_on_account
   # validates :semester_code, presence: true
 
   default_scope { order(created_at: :desc) }
 
-  scope :unpaid, -> { where(paid_at: nil) } 
-  scope :ufid, -> { where("payment_method = ?", UFID_PAYMENT) } 
+  scope :unpaid,     -> { where(paid_at: nil) } 
+  scope :ufid,       -> { where("payment_method = ?", UFID_PAYMENT) } 
+  scope :check,      -> { where("payment_method = ?", CHECK_PAYMENT) } 
+  scope :chartfield, -> { where("payment_method = ?", CHARTFIELD_PAYMENT) } 
+  scope :comped,     -> { where("payment_method = ?", COMPED_PAYMENT) } 
 
   def display_charge_type
     if charge_type == PRINT_CHARGE
@@ -127,6 +131,12 @@ class Charge < ApplicationRecord
   def charges_on_external_accounts_must_be_check
     if(payment_method != CHECK_PAYMENT && self.account.account_type == Account::EXTERNAL_CLIENT_TYPE)
       errors.add(:base, "Charges for external clients must be paid by check.")
+    end
+  end
+
+  def chartfield_payments_require_chartfield_on_account
+    if payment_method == CHARTFIELD_PAYMENT
+      errors.add(:base, "Must add Chartfield account number to this account before payment can be added.") unless self.account.chartfield.present?
     end
   end
 

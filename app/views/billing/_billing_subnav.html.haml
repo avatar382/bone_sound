@@ -1,5 +1,9 @@
 %ul.nav.nav-tabs
   = active_link_to "UFID", billing_path(type: "ufid"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Check & Chartfield", billing_path(type: "unpaid"), active: :exact, wrap_tag: :li
+  = active_link_to "Chartfield", billing_path(type: "chartfield"), active: :exact, wrap_tag: :li
+
+  = active_link_to "Check", billing_path(type: "check"), active: :exact, wrap_tag: :li
+
+  = active_link_to "Comped", billing_path(type: "comped"), active: :exact, wrap_tag: :li
 

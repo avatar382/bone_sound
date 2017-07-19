@@ -1,0 +1,66 @@
+%br
+
+%button.btn-primary.btn
+  Download Charge File
+
+%hr
+
+%table.table.table-striped
+  %thead
+    %tr
+      %td
+        Date
+
+      %td
+        Name
+
+      %td
+        Gatorlink ID
+
+      %td
+        UFID
+
+      %td
+        Type
+
+      %td
+        Description
+
+      %td
+        Amount
+
+
+  %tbody.charges
+    - @charges.each do |charge|
+
+      %tr
+        %td
+          = charge.created_at.strftime("%m/%d/%Y")
+
+        %td
+          = link_to charge.account.display_name, account_charges_path(charge.account)
+
+        %td
+          = charge.account.gatorlink_id
+
+        %td
+          = charge.account.ufid
+
+        %td
+          = charge.display_charge_type
+
+        %td
+          = charge.description
+
+        %td
+          = number_to_currency(charge.amount)
+
+    %tr
+      %td(colspan=5)
+        &nbsp;
+      %td
+        %strong
+          Total
+      %td
+        %strong
+          = number_to_currency(@charges.inject(0) {|sum, charge| sum + charge.amount} )

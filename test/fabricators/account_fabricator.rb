@@ -27,5 +27,6 @@ Fabricator(:account) do
   account_type { Account::LASER_MEMBER_TYPE }
   affiliation { Account::UF_AFFILIATION }
   gatorlink_id { rand(100000000) }
+  chartfield { "this_is_a_chartfield_account_number" }
   ufid { rand(899999)+10000000 }
 end

@@ -1,68 +1,19 @@
 = render "billing_subnav"
 
-%h2 Unpaid Charges
-
 .row
   .col-sm-12
-    %table.table.table-striped
-      %thead
-        %tr
-          %td
-            Charge Date
+    - if params[:type] == "ufid"
+      = render "ufid_charge_table", charges: @charges
 
-          %td
-            Name
+    - elsif params[:type] == "check"
+      = render "check_charge_table", charges: @charges
 
-          %td
-            Gatorlink ID
+    - elsif params[:type] == "chartfield"
+      = render "chartfield_charge_table", charges: @charges
 
-          %td
-            Type
+    - elsif params[:type] == "comped"
+      = render "comped_charge_table", charges: @charges
 
-          %td
-            Description
-
-          %td
-            Payment Method
-
-          %td
-            Amount
-
-
-      %tbody.charges
-        - @charges.each do |charge|
-
-          %tr
-            %td
-              = charge.created_at.strftime("%m/%d/%Y")
-
-            %td
-              = link_to charge.account.display_name, account_charges_path(charge.account)
-
-            %td
-              = charge.account.gatorlink_id
-
-            %td
-              = charge.display_charge_type
-
-            %td
-              = charge.description
-
-            %td
-              = charge.display_payment_method
-
-            %td
-              = number_to_currency(charge.amount)
-
-        %tr
-          %td(colspan=5)
-            &nbsp;
-          %td
-            %strong
-              Total
-          %td
-            %strong
-              = number_to_currency(@charges.inject(0) {|sum, charge| sum + charge.amount} )
 
 %br
 

@@ -65,6 +65,17 @@ class ChargeTest < ActiveSupport::TestCase
     assert valid.valid?
    end
 
+   test "should not add chartfield charge to an account that doesn't have a chartfield account number" do
+    chartfield_account = Fabricate(:account)
+    no_chartfield_account = Fabricate(:account, chartfield: nil)
+
+    charge = Fabricate(:charge, account: chartfield_account, payment_method: Charge::CHARTFIELD_PAYMENT);
+    assert charge.valid?
+
+    charge.account = no_chartfield_account
+    assert_not charge.valid?
+   end
+
    ### CALLBACKS  ###
 
   # TODO; implement after shibboleth
