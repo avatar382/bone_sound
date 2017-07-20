@@ -11,7 +11,7 @@
     / Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        = active_link_to "Accounts", accounts_path, active: :inclusive, wrap_tag: :li
+        = active_link_to "Accounts", accounts_path(filter: "all"), active: :inclusive, wrap_tag: :li
 
         = active_link_to "Billing", billing_path(type: "ufid"), active: :inclusive, wrap_tag: :li
 

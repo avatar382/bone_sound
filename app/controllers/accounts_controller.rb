@@ -4,7 +4,19 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = Account.all.filter(params[:q]).page(params[:page])
+    if params[:filter] == "recent_laser"
+      @accounts = Account.recent_laser.active_laser
+    elsif params[:filter] == "uncharged_laser"
+      @accounts = Account.uncharged_laser
+    elsif params[:filter] == "active_laser"
+      @accounts = Account.active_laser
+    elsif params[:filter] == "expired_laser"
+      @accounts = Account.expired_laser
+    else
+      @accounts = Account.all
+    end
+
+    @accounts = @accounts.filter(params[:q]).page(params[:page])
   end
 
   # GET /accounts/1
@@ -81,7 +93,7 @@ class AccountsController < ApplicationController
     @account.destroy
     respond_to do |format|
       flash[:notice] = "Account was successfully removed."
-      format.html { redirect_to accounts_url }
+      format.html { redirect_to accounts_url(filter: "all") }
       format.json { head :no_content }
     end
   end

@@ -1,7 +1,6 @@
-%h2
-  Member Accounts
+= render "show_accounts_subnav" 
 
-%hr 
+%br 
 
 .row
   .col-sm-12
@@ -10,6 +9,7 @@
 
     .pull-right
       %form(action = "#{accounts_path}")
+        %input{type: "hidden", name: "filter", value: "#{params[:filter]}"}
         %input.form-control#account_search{type: "text", placeholder: "Search", name: "q", value: params[:q]}
 
   %br

@@ -1,0 +1,11 @@
+%ul.nav.nav-tabs
+  = active_link_to "All Accounts", accounts_path(filter: "all"), active: /all/, wrap_tag: :li
+
+  = active_link_to "Recent Laser Accounts", accounts_path(filter: "recent_laser"), active: /recent_laser/, wrap_tag: :li
+
+  = active_link_to "Uncharged Laser Accounts", accounts_path(filter: "uncharged_laser"), active: /uncharged_laser/, wrap_tag: :li
+
+  = active_link_to "Active Laser Accounts", accounts_path(filter: "active_laser"), active: /active_laser/, wrap_tag: :li
+
+  = active_link_to "Expired Laser Accounts", accounts_path(filter: "expired_laser"), active: /expired_laser/, wrap_tag: :li
+

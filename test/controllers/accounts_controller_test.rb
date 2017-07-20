@@ -70,6 +70,23 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert assigns[:accounts].include?(waldo)
   end
 
+  test "returns all accounts" do
+    skip("implement")
+  end
+
+  test "returns uncharged laser accounts" do
+    skip("implement")
+  end
+
+  test "returns active laser accounts" do
+    skip("implement")
+  end
+
+  test "returns expired laser accounts" do
+    skip("implement")
+  end
+
+
   test "should get new" do
     get new_account_url
     assert_response :success
@@ -133,6 +150,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
       delete account_url(@account)
     end
 
-    assert_redirected_to accounts_url
+    assert_redirected_to accounts_url(filter: "all")
   end
 end
