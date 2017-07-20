@@ -223,4 +223,7 @@ $(document).ready(function() {
   uf_showing       = false
   staff_showing    = false
   external_showing = false
+
+  // auto focus on SKU field on charge page
+  $("#js-material-sku").focus();
 })

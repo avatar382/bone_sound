@@ -86,7 +86,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     skip("implement")
   end
 
-
   test "should get new" do
     get new_account_url
     assert_response :success
