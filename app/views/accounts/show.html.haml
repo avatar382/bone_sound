@@ -18,6 +18,16 @@
         %p
           = @account.gatorlink_id
 
+        - if @account.ufid.present?
+          %p
+            %strong UFID:
+            = @account.ufid
+
+        - if @account.chartfield.present?
+          %p
+            %strong Chartfield:
+            = @account.chartfield
+
   .col-sm-4
     %h3
       Service charge

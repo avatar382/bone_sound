@@ -76,6 +76,17 @@ class ChargeTest < ActiveSupport::TestCase
     assert_not charge.valid?
    end
 
+   test "should not add ufid charge to an account that doesn't have a UFID" do
+    ufid_account = Fabricate(:account)
+    no_ufid_account = Fabricate(:account, ufid: nil)
+
+    charge = Fabricate(:charge, account: ufid_account, payment_method: Charge::UFID_PAYMENT);
+    assert charge.valid?
+
+    charge.account = no_ufid_account
+    assert_not charge.valid?
+   end
+
    ### CALLBACKS  ###
 
   # TODO; implement after shibboleth

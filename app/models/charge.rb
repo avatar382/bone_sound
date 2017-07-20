@@ -53,6 +53,7 @@ class Charge < ApplicationRecord
   validates :payment_method, presence: true
   validate  :charges_on_external_accounts_must_be_check
   validate  :chartfield_payments_require_chartfield_on_account
+  validate  :ufid_payments_require_ufid_on_account
   # validates :semester_code, presence: true
 
   default_scope { order(created_at: :desc) }
@@ -136,7 +137,13 @@ class Charge < ApplicationRecord
 
   def chartfield_payments_require_chartfield_on_account
     if payment_method == CHARTFIELD_PAYMENT
-      errors.add(:base, "Must add Chartfield account number to this account before payment can be added.") unless self.account.chartfield.present?
+      errors.add(:base, "Must add chartfield account number to this account before charge can be added.") unless self.account.chartfield.present?
+    end
+  end
+
+  def ufid_payments_require_ufid_on_account
+    if payment_method == UFID_PAYMENT
+      errors.add(:base, "Must add UFID to this account before charge can be added.") unless self.account.ufid.present?
     end
   end
 

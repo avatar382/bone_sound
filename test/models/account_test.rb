@@ -128,17 +128,6 @@ class AccountTest < ActiveSupport::TestCase
     assert_not external_account.valid?
   end
 
-  test "if it has an affiliation, it must have a ufid" do
-    internal_account = Fabricate(:account, 
-                                 account_type: Account::INTERNAL_CLIENT_TYPE,
-                                 affiliation: Account::UF_AFFILIATION)
-
-    assert internal_account.valid?
-
-    internal_account.ufid = nil
-    assert_not internal_account.valid?
-  end
-
   test "ufid must be 8 digits"  do
     internal_account = Fabricate(:account, 
                                  account_type: Account::INTERNAL_CLIENT_TYPE,

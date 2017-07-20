@@ -20,7 +20,7 @@
           = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID", required: true})
 
         .form-group
-          %label{:for => "account_ufid"} UFID*
+          %label{:for => "account_ufid"} UFID* (numbers only)
           = form.text_field(:ufid, {class: "form-control", placeholder: "UFID", pattern: "[0-9]{8}", required: true})
           
     .col-sm-6          
