@@ -29,6 +29,13 @@
 
   %tbody.charges
     - @charges.each do |charge|
+      - if charge.account.nil?
+        %tr
+          %td(colspan=7)
+            = charge.id
+            is not associated with an account!
+            
+        - next
 
       %tr
         %td
