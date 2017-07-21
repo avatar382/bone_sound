@@ -9,5 +9,13 @@ class BillingController < ApplicationController
     elsif params[:type] == "comped"
       @charges = Charge.all.comped
     end
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"billing.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
   end
 end
