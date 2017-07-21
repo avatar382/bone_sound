@@ -3,6 +3,18 @@ require 'test_helper'
 class AccountsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @account = Fabricate(:account)
+
+    @external_account = Fabricate(:account, account_type: Account::EXTERNAL_CLIENT_TYPE, ufid: nil, chartfield: nil, affiliation: nil, gatorlink_id: nil)
+
+    @active_laser_account = Fabricate(:account, account_type: Account::LASER_MEMBER_TYPE, expires_at: 3.days.from_now)
+
+    @never_charged_laser_account = Fabricate(:account, account_type: Account::LASER_MEMBER_TYPE, expires_at: nil)
+
+    @expired_laser_account = Fabricate(:account, account_type: Account::LASER_MEMBER_TYPE, expires_at: 3.days.ago)
+
+    @old_laser_account = Fabricate(:account, account_type: Account::LASER_MEMBER_TYPE, expires_at: 3.days.from_now, created_at: 1.month.ago)
+
+    @new_laser_account = Fabricate(:account, account_type: Account::LASER_MEMBER_TYPE, expires_at: 3.days.from_now, created_at: 1.day.ago)
   end
 
   test "should get index" do
@@ -71,19 +83,33 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "returns all accounts" do
-    skip("implement")
+    get accounts_url(filter: "all")
+
+    assert assigns[:accounts].length == 7
   end
 
   test "returns uncharged laser accounts" do
-    skip("implement")
+    get accounts_url(filter: "uncharged_laser")
+
+    assert assigns[:accounts].length == 2
+    assert assigns[:accounts].include? @account
+    assert assigns[:accounts].include? @never_charged_laser_account
   end
 
   test "returns active laser accounts" do
-    skip("implement")
+    get accounts_url(filter: "active_laser")
+
+    assert assigns[:accounts].length == 3
+    assert assigns[:accounts].include? @active_laser_account
+    assert assigns[:accounts].include? @old_laser_account
+    assert assigns[:accounts].include? @new_laser_account
   end
 
   test "returns expired laser accounts" do
-    skip("implement")
+    get accounts_url(filter: "expired_laser")
+
+    assert assigns[:accounts].length == 1
+    assert assigns[:accounts].include? @expired_laser_account
   end
 
   test "should get new" do
