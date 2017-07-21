@@ -184,6 +184,18 @@ var accounts_show_external_section = function() {
   }
 };
 
+var accounts_update_radio_from_select = function() {
+  if($('#account_uf_college').val() == "College of Design, Construction, and Planning") {
+    $('#js-arch-button').prop("checked", true)
+  }
+  else if($('#account_uf_college').val() == "College of the Arts") {
+    $('#js-arts-button').prop("checked", true)
+  }
+  else {
+    $('#js-other-button').prop("checked", true)
+  }
+}
+
 var accounts_bind_to_controls = function() {
   $('#js-laser-button').click(function() {
     accounts_show_uf_section();
@@ -199,6 +211,11 @@ var accounts_bind_to_controls = function() {
 
   $('#js-staff-button').click(function() {
     accounts_show_staff_section();
+  });
+
+  $('#account_uf_college').change(function() {
+    accounts_update_radio_from_select();
+
   });
 };
 
