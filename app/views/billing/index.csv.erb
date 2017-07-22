@@ -1,16 +1,14 @@
 <%- headers = ['Date', 'Name', 'Chartfield Account', 'Type', 'Description', 'College', 'Amount'] -%>
-<%= CSV.generate_line headers %>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
 <%- @charges.each do |charge| -%>
 <%- next if charge.account.nil? -%>
 <%- next if charge.account.chartfield.nil? -%>
-<%- charge.description  = "" if charge.description.nil? -%>
-<%- charge.account.uf_college = "" if charge.account.uf_college.nil? -%>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
-                       charge.account.chartfield.gsub(",", ""),
+                       charge.account.chartfield,
                        charge.display_charge_type,
-                       charge.description.gsub(",", ""),
-                       charge.account.uf_college.gsub(",", ""),
-                       number_to_currency(charge.amount)]) -%>
+                       charge.description,
+                       charge.account.uf_college,
+                       number_to_currency(charge.amount)], force_quotes: true).html_safe -%>
 <%- end -%>

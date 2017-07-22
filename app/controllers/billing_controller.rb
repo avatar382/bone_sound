@@ -13,7 +13,7 @@ class BillingController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"billing.csv\""
+        headers['Content-Disposition'] = "attachment; filename=\"fab_lab_chartfield_charges_#{Time.now.strftime("%m%d%Y")}.csv\""
         headers['Content-Type'] ||= 'text/csv'
       end
     end
