@@ -1,0 +1,35 @@
+= render "billing/billing_subnav"
+
+.row
+  .col-sm-12
+
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Chargefile ID
+
+          %td
+            Date Created
+
+          %td
+            Number of Charges
+
+          %td
+            Total
+
+      %tbody.charges
+        - @chargefiles.each do |chargefile|
+          %tr
+            %td
+              = link_to chargefile.id, chargefile_path(chargefile)
+
+            %td
+              = link_to chargefile.created_at.strftime("%m/%d/%Y"), chargefile_path(chargefile)
+
+            %td
+              = chargefile.charges.length
+
+            %td
+              - total = chargefile.charges.inject(0){|sum, charge| sum += charge.amount}
+              = number_to_currency(total)

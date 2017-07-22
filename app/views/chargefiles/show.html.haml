@@ -1,0 +1,14 @@
+= render "billing/billing_subnav"
+
+
+%br
+
+= link_to "Back to Charge File list", chargefiles_path, class: "btn btn-primary"
+= link_to "Download This Charge File Again", download_chargefile_path(@chargefile), class: "btn btn-primary pull-right"
+
+%hr
+
+.row
+  .col-sm-12
+    - @charges = @chargefile.charges
+    = render "billing/ufid_charge_table"

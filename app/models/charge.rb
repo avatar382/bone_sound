@@ -15,6 +15,8 @@
 #  updated_at     :datetime         not null
 #  deleted_at     :datetime
 #  membership_id  :integer
+#  chargefile_id  :integer
+#  refunded_at    :datetime
 #
 
 class Charge < ApplicationRecord
@@ -43,6 +45,7 @@ class Charge < ApplicationRecord
   after_create  :add_time_to_account_if_membership_charge
 
   belongs_to :account
+  belongs_to :chargefile, optional: true
   belongs_to :membership, optional: true
   # TODO: implement after shibboleth 
   # belongs_to :account, foreign_key: :added_by

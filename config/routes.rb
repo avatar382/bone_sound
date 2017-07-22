@@ -10,12 +10,11 @@ Rails.application.routes.draw do
   end
 
   get '/billing', to: 'billing#index'
-
-  # Don't need this for local version
-  #  get 'sessions/new'
-  #  get '/login', to: 'sessions#new'
-  #  post '/login', to: 'sessions#create'
-  #  delete '/logout', to: 'sessions#destroy'
+  resources :chargefiles, only: [:index, :show, :create] do
+    member do
+      get :download
+    end
+  end
 
   root "accounts#index"
 end

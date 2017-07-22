@@ -3,6 +3,14 @@
 .row
   .col-sm-12
     - if params[:type] == "ufid"
+
+      - if @charges.length > 0
+        %br
+
+        = link_to "Download Charge File for Unpaid Charges", chargefiles_url, class: "btn btn-primary", method: :post
+
+        %hr
+
       = render "ufid_charge_table", charges: @charges
 
     - elsif params[:type] == "check"

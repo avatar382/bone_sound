@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170715223316) do
+ActiveRecord::Schema.define(version: 20170722212949) do
 
-  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "email"
     t.string "first_name"
     t.string "last_name"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20170715223316) do
     t.index ["deleted_at"], name: "index_accounts_on_deleted_at"
   end
 
-  create_table "audits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "audits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
     t.integer "associated_id"
@@ -55,7 +55,12 @@ ActiveRecord::Schema.define(version: 20170715223316) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "charges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "chargefiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "charges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "account_id"
     t.integer "charge_type"
     t.string "description"
@@ -68,14 +73,17 @@ ActiveRecord::Schema.define(version: 20170715223316) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.integer "membership_id"
+    t.integer "chargefile_id"
+    t.datetime "refunded_at"
     t.index ["account_id"], name: "index_charges_on_account_id"
     t.index ["charge_type"], name: "index_charges_on_charge_type"
+    t.index ["chargefile_id"], name: "index_charges_on_chargefile_id"
     t.index ["deleted_at"], name: "index_charges_on_deleted_at"
     t.index ["payment_method"], name: "index_charges_on_payment_method"
     t.index ["semester_code"], name: "index_charges_on_semester_code"
   end
 
-  create_table "materials", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "materials", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "sku"
     t.decimal "price", precision: 8, scale: 2
     t.string "description"
@@ -83,7 +91,7 @@ ActiveRecord::Schema.define(version: 20170715223316) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
     t.integer "duration"

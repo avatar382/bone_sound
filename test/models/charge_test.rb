@@ -15,6 +15,8 @@
 #  updated_at     :datetime         not null
 #  deleted_at     :datetime
 #  membership_id  :integer
+#  chargefile_id  :integer
+#  refunded_at    :datetime
 #
 
 require 'test_helper'
