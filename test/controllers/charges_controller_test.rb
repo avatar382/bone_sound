@@ -38,4 +38,8 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to account_charges_url(account)
   end
+
+  test "should display invoice for charge" do
+    skip("pending")
+  end
 end

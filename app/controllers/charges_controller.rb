@@ -1,6 +1,8 @@
 class ChargesController < ApplicationController
   before_action :set_charge, only: [:edit, :update, :destroy]
-  before_action :set_account, only: [:index, :create, :update, :destroy]
+  before_action :set_account, only: [:index, :create, :update, :destroy, :invoice]
+
+  layout "invoice", only: [:invoice]
 
   # GET /charges
   # GET /charges.json
@@ -48,6 +50,10 @@ class ChargesController < ApplicationController
       format.html { redirect_to account_charges_url(@account), notice: 'Charge was successfully deleted.' }
       format.json { head :no_content }
     end
+  end
+
+  def invoice
+    @charges = Charge.find(params[:charge_ids])
   end
 
   private

@@ -219,6 +219,22 @@ var accounts_bind_to_controls = function() {
   });
 };
 
+var charges_reset_invoice_form = function() {
+  $(".js-checkbox-invoice").prop("checked", false);
+  $("#js-invoice-submit").prop("disabled", true);
+};
+
+var charges_enable_invoice_form = function() {
+  var atLeastOneIsChecked = $('.js-checkbox-invoice:checkbox:checked').length > 0;
+
+  if(atLeastOneIsChecked) {
+    $("#js-invoice-submit").prop("disabled", false);
+  }
+  else {
+    $("#js-invoice-submit").prop("disabled", true);
+  }
+
+}
 
 $(document).ready(function() {
   // activate datepicker elements
@@ -237,10 +253,22 @@ $(document).ready(function() {
   staff_section    = $("#js-staff-section").detach()
   external_section = $("#js-external-section").detach();
   
-  uf_showing       = false
-  staff_showing    = false
-  external_showing = false
+  uf_showing       = false;
+  staff_showing    = false;
+  external_showing = false;
 
   // auto focus on SKU field on charge page
   $("#js-material-sku").focus();
+
+  // reset invoice form on submit
+  $("#js-invoice-submit").click(function(e) {
+    e.preventDefault();
+    $("#js-invoice-form").submit();
+    charges_reset_invoice_form();
+  });
+
+  $(".js-checkbox-invoice").click(function(e) {
+    charges_enable_invoice_form();
+  });
+
 })

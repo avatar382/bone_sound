@@ -1,69 +1,81 @@
 
 = render "accounts/accounts_subnav", id: @account.id
 
+= form_tag invoice_account_charges_path(@account), method: :get, target: "_blank", id: "js-invoice-form" do
+  .row
+    .col-sm-12
+      %br
+      %button{class: "btn btn-primary", id: "js-invoice-submit", disabled: true}
+        View Invoice for Checked Charges
+      %br
+      %br
 
-.row
-  .col-sm-12
-    %table.table.table-striped
-      %thead
-        %tr
-          %td
-            Charge Date
-
-          %td
-            Type
-
-          %td
-            Method
-
-          %td
-            Description
-
-          %td
-            Amount
-
-          %td
-            Paid On
-
-          %td(colspan = 2)
-            Actions
-
-
-      %tbody.charges
-        - @charges.each do |charge|
-          - row_class = charge.paid_at.blank? ? "unpaid" : ""
-
-          %tr{class: row_class }
+      %table.table.table-striped
+        %thead
+          %tr
             %td
-              = charge.created_at.strftime("%m/%d/%Y")
+              &nbsp;
 
             %td
-              = charge.display_charge_type
+              Charge Date
 
             %td
-              = charge.display_payment_method
+              Type
 
             %td
-              = charge.description
+              Method
 
             %td
-              = number_to_currency(charge.amount)
+              Description
 
             %td
-              - if charge.paid_at.present?
-                = charge.paid_at.strftime("%m/%d/%Y")
-              - else
-                = ""
+              Amount
 
             %td
-              - if charge.payment_method != Charge::UFID_PAYMENT && charge.paid_at.blank?
-                = link_to "Mark Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
+              Paid On
 
-            %td
-              - if charge.paid_at.blank?
-                = link_to "Delete", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
+            %td(colspan = 2)
+              Actions
 
-    = paginate @charges
+
+        %tbody.charges
+          - @charges.each do |charge|
+            - row_class = charge.paid_at.blank? ? "unpaid" : ""
+
+            %tr{class: row_class }
+              %td
+                = check_box_tag("charge_ids[]", charge.id, false, id: "charge_#{charge.id}_selector", class: "js-checkbox-invoice")
+
+              %td
+                = charge.created_at.strftime("%m/%d/%Y")
+
+              %td
+                = charge.display_charge_type
+
+              %td
+                = charge.display_payment_method
+
+              %td
+                = charge.description
+
+              %td
+                = number_to_currency(charge.amount)
+
+              %td
+                - if charge.paid_at.present?
+                  = charge.paid_at.strftime("%m/%d/%Y")
+                - else
+                  = ""
+
+              %td
+                - if charge.payment_method != Charge::UFID_PAYMENT && charge.paid_at.blank?
+                  = link_to "Mark Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
+
+              %td
+                - if charge.paid_at.blank?
+                  = link_to "Delete", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
+
+      = paginate @charges
 
 
 %br

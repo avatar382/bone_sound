@@ -62,6 +62,7 @@ class Charge < ApplicationRecord
   default_scope { order(created_at: :desc) }
 
   scope :unpaid,     -> { where(paid_at: nil) } 
+  scope :paid,       -> { where("paid_at IS NOT NULL") } 
   scope :ufid,       -> { where("payment_method = ?", UFID_PAYMENT) } 
   scope :check,      -> { where("payment_method = ?", CHECK_PAYMENT) } 
   scope :chartfield, -> { where("payment_method = ?", CHARTFIELD_PAYMENT) } 
@@ -101,6 +102,10 @@ class Charge < ApplicationRecord
 
   def pay!
     self.update_attribute(:paid_at, Time.now)
+  end
+
+  def paid?
+    self.paid_at.present?
   end
 
   protected

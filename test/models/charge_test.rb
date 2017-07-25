@@ -173,6 +173,14 @@ class ChargeTest < ActiveSupport::TestCase
     assert_not Charge.unpaid.include?(paid)
   end
 
+  test "should scope on paid charges" do
+    paid = Fabricate(:charge, paid_at: 3.days.ago)
+
+    assert_not Charge.paid.include?(@charge)
+    assert Charge.paid.include?(paid)
+  end
+
+
   test "should scope on UFID charges" do
     check = Fabricate(:charge, payment_method: Charge::CHECK_PAYMENT)
     chartfield = Fabricate(:charge, payment_method: Charge::CHARTFIELD_PAYMENT)

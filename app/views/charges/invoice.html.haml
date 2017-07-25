@@ -1,0 +1,123 @@
+- paid_charges = @charges.select {|charge| charge.paid? }
+- total      = @charges.inject(0) {|sum, charge| sum + charge.amount}
+- total_paid = paid_charges.inject(0) {|sum, charge| sum + charge.amount} 
+.row
+  .col-sm-12
+    %h2
+      Infinity Fab Lab -- Invoice
+
+%hr
+
+.row
+  .col-sm-3
+    %p
+      %strong
+        Attention:
+
+      %br
+      = @account.display_name
+
+    %p
+      %strong
+        From:
+
+      %br
+      Infinity Fab Lab
+      %br
+      978 SW 2nd St
+      %br
+      Gainesville, FL
+      %br
+      32601
+
+  .col-sm-9
+    %p
+      %strong
+        Invoice Date:
+
+      = Time.now.strftime("%m/%d/%Y")
+
+      %br
+      %br
+
+
+      .panel.panel-default
+        .panel-body  
+          %table.table.table-striped
+            %thead
+              %tr
+                %td
+                  Charge Date
+
+                %td
+                  Charge Type
+
+                %td
+                  Description
+
+                %td
+                  Total Due
+
+                %td
+                  Total Paid
+
+            %tbody.charges
+              - @charges.each do |charge|
+                %tr
+                  %td
+                    = charge.created_at.strftime("%m/%d/%Y")
+
+                  %td
+                    = charge.display_charge_type
+
+                  %td
+                    = charge.description
+
+                  %td
+                    = number_to_currency(charge.amount)
+
+                  %td
+                    - if(charge.paid?)
+                      = number_to_currency(charge.amount)
+                    - else
+                      = number_to_currency(0)
+
+              %tr
+                %td(colspan=2)
+                  &nbsp;
+                %td
+                  %strong
+                    Subtotal
+
+                %td
+                  %strong
+                    = number_to_currency(total)                 
+                %td
+                  %strong
+                    = number_to_currency(total_paid)                 
+
+
+              %tr
+                %td(colspan=2)
+                  &nbsp;
+                %td
+                  %strong
+                    Total Due
+
+
+                %td
+                  %strong
+                    = number_to_currency(total - total_paid)                 
+
+                %td
+                  &nbsp;
+
+      %p
+        Sincerely Yours,
+        %br
+        Manny Rodriguez
+        %br
+        %br
+
+        %strong
+          Please make all checks payable to the University of Florida. Thank you!

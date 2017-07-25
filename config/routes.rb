@@ -6,7 +6,11 @@ Rails.application.routes.draw do
       get :batch_new
       post :batch_create
     end
-    resources :charges, only: [:index, :create, :update, :destroy]
+    resources :charges, only: [:index, :create, :update, :destroy] do
+      collection do
+        get :invoice
+      end
+    end
   end
 
   get '/billing', to: 'billing#index'
