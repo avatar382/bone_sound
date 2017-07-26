@@ -16,7 +16,7 @@
           = form.text_field(:last_name, {class: "form-control", placeholder: "Last Name", required: true})
 
         .form-group
-          %label{:for => "account_gatorlink_id"} Gatorlink ID*
+          %label{:for => "account_gatorlink_id"} Gatorlink Username*
           = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID", required: true})
 
         .form-group
@@ -57,5 +57,12 @@
           = select("account", "uf_college", options_for_select(college_list))
 
   = form.hidden_field(:account_type, value: Account::LASER_MEMBER_TYPE)
-  = form.submit("Create New Laser Account & Agree to Charge", class: "btn btn-success")
+  = form.submit("Create New Laser Account & Agree to Charge", class: "btn btn-success", data: {confirm: "Do you agree to being charged for a new laser account?"})
+
+:javascript
+  $(document).ready(function() {
+    $("#account_gatorlink_id").focusout(function() {
+     accounts_fill_email_from_gatorlink_id();
+    });
+  });
 
