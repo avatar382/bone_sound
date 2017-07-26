@@ -137,6 +137,11 @@ var accounts_show_uf_section = function() {
   if(!uf_showing) {
     $("#js-subform").append(uf_section); 
     uf_showing = true;
+
+    // make email address automatically fill from gatorlink
+    $("#account_gatorlink_id").focusout(function() {
+     accounts_fill_email_from_gatorlink_id();
+    });
   }
 
   if(staff_showing) {
@@ -219,6 +224,13 @@ var accounts_bind_to_controls = function() {
   });
 };
 
+var accounts_fill_email_from_gatorlink_id = function() {
+  if($("#account_email").val() == "") {
+    var gl_username = $("#account_gatorlink_id").val();
+    $("#account_email").val(gl_username + "@ufl.edu");  
+  }
+};
+
 var charges_reset_invoice_form = function() {
   $(".js-checkbox-invoice").prop("checked", false);
   $("#js-invoice-submit").prop("disabled", true);
@@ -267,8 +279,11 @@ $(document).ready(function() {
     charges_reset_invoice_form();
   });
 
+  // submit invoice form
   $(".js-checkbox-invoice").click(function(e) {
     charges_enable_invoice_form();
   });
+
+
 
 })

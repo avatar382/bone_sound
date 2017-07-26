@@ -19,11 +19,11 @@
           %label{:for => "account_account_type_#{Account::LASER_MEMBER_TYPE}"} 
             Account Type*
           %br
-          Laser Member 
-          = form.radio_button(:account_type, Account::LASER_MEMBER_TYPE, {class: "form-control", checked: true, id: "js-laser-button"})
+          UF
+          = form.radio_button(:account_type, Account::INTERNAL_CLIENT_TYPE, {class: "form-control", id: "js-internal-button", checked: true})
 
-          UF Client
-          = form.radio_button(:account_type, Account::INTERNAL_CLIENT_TYPE, {class: "form-control", id: "js-internal-button"})
+          Laser Member 
+          = form.radio_button(:account_type, Account::LASER_MEMBER_TYPE, {class: "form-control", id: "js-laser-button"})
 
           External Client
           = form.radio_button(:account_type, Account::EXTERNAL_CLIENT_TYPE, {class: "form-control", id: "js-external-button"})
@@ -53,7 +53,7 @@
 
         .well
           .form-group
-            %label{:for => "account_gatorlink_id"} Gatorlink ID*
+            %label{:for => "account_gatorlink_id"} Gatorlink Username*
             = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID", required: true})
 
           .form-group
@@ -61,7 +61,7 @@
             = form.text_field(:ufid, {class: "form-control", placeholder: "UFID", pattern: "[0-9]{8}"})
             
           .form-group
-            %label{:for => "account_chartfield"} Chartfield
+            %label{:for => "account_chartfield"} Chartfield Account (optional)
             = form.text_field(:chartfield, {class: "form-control", placeholder: "Chartfield"})
 
         %h3 
@@ -101,7 +101,7 @@
         .well
 
           .form-group
-            %label{:for => "account_gatorlink_id"} Gatorlink ID*
+            %label{:for => "account_gatorlink_id"} Gatorlink Username*
             = form.text_field(:gatorlink_id, {class: "form-control", placeholder: "Gatorlink ID", required: true})
 
           .form-group
