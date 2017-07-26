@@ -41,7 +41,7 @@ var charges_fill_form_with_material_data = function(obj) {
 
   // set label values
   $('#js-description-label').html(obj["description"]);
-  $('#js-unit-label').html(price);
+  $('#js-unit-label').html("$" + price);
   $('#js-total-label').html("$" + sum);
 
   // set hidden field values
@@ -85,6 +85,11 @@ var charges_bind_to_controls = function() {
       event.stopPropagation();
       event.preventDefault();
     }
+  });
+
+  $('.js-material-control').focusout(function() {
+    var sku = $("#js-material-sku").val();
+    charges_get_material_via_sku(sku);
   });
 };
 
