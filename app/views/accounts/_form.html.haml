@@ -84,6 +84,19 @@
             %label{:for => "account_uf_college"} Select Other College Affiliation
             = select("account", "uf_college", options_for_select(college_list))       
 
+        - if @account.persisted? && @account.account_type == Account::LASER_MEMBER_TYPE
+          %h3 
+            Laser Membership
+
+          .well           
+            .form-group
+              %label{:for => "account_expires_at"} Expiration Date
+              .input-group.date#datetimepicker
+                = form.text_field(:expires_at, {class: "form-control", placeholder: "Expiration Date"})
+                %span.input-group-addon
+                  %span.glyphicon.glyphicon-calendar
+
+
       #js-external-section
         %h3 
           External Client Options
