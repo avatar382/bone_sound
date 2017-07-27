@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update, :destroy, :access_form]
 
-  layout "invoice", only: [:access_form]
+  layout "access_form", only: [:access_form]
 
   # GET /accounts
   # GET /accounts.json
