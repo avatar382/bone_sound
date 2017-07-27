@@ -3,6 +3,7 @@ module AccountsHelper
     [
     "College of Design, Construction, and Planning",
     "College of the Arts",
+    "Innovation Academy",
     "College of Agricultural and Life Sciences",
     "Warrington College of Business",
     "College of Dentistry",
@@ -16,7 +17,8 @@ module AccountsHelper
     "College of Nursing",
     "College of Pharmacy",
     "College of Public Health and Health Professions",
-    "College of Veterinary Medicine"
+    "College of Veterinary Medicine",
+    "Unknown"
     ]
   end
 end
