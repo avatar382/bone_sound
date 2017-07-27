@@ -1,0 +1,177 @@
+.access_form
+  %h3 Electronic Access Control Request Form for Infinity Hall
+  %p Please use this form to request access to Infinity Hall spaces controlled by electronic card/fob access.
+
+  %p
+    %strong.heading
+      Request Type
+    %em
+      Please place a check or circle type of request
+
+  %p
+    &nbsp;
+    &nbsp;
+    %input(type="checkbox" class="access_checkbox" checked="true")
+    &nbsp;
+    New
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    %input(type="checkbox" class="access_checkbox")
+    &nbsp;
+    Change
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    %input(type="checkbox" class="access_checkbox")
+    &nbsp;
+    Cancel
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    %input(type="checkbox" class="access_checkbox")
+    &nbsp;
+    Re-issue Card/Fob
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    
+  %br
+  %p
+    %strong.heading
+      Card Holder Information
+
+    %em
+      All information listed is required and must be filled out
+
+  %p
+    %strong
+      Name:
+    = @account.display_name
+
+  %p
+    %strong
+      Company:
+    Fab Lab
+
+  %p
+    %strong
+      Email:
+    = @account.email
+
+  %p
+    %strong
+      Cell Phone:
+    = @account.phone
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    %strong
+      UFID:
+    = @account.ufid
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    %strong
+      Gatorlink ID:
+    = @account.gatorlink_id
+
+  %br
+
+  %p
+    %strong.heading
+      Access Rights
+
+    %em
+      Please circle the access rights needed for the card holder using the list below.
+
+  %p
+    Access Start Date:
+    %strong
+      = Time.now.strftime("%m/%d/%Y")
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+    Access End Date:
+    %strong
+      = @account.expires_at.strftime("%m/%d/%Y")
+
+  .row
+    .col-sm-3
+      %ul
+        - if @account.account_type == Account::LASER_MEMBER_TYPE
+          %li.circled Fab Lab - Member 24/7
+        - else
+          %li Fab Lab - Member 24/7
+
+        - if @account.account_type == Account::STAFF_TYPE
+          %li.circled Fab Lab - Staff 24/7
+        - else
+          %li Fab Lab - Staff 24/7
+
+        %li Infinity Hall Area Office 24/7 (All Spaces 1st Floor)
+        %li Infinity Hall Communal Spaces Room 108B 24/7
+
+    .col-sm-3
+      %ul
+        %li Launchpad 24/7
+        %li MADE@UF 24/7
+        %li MINT Lab 24/7
+        %li Signet Janitorial Staff
+
+  %br
+  %br
+  %p
+    Other Access
+    %em
+      (if other access is needed, please be very descriptive and include room numbers):
+
+  %br
+  %br
+  %br
+  %br
+
+  %p
+    %strong.heading
+      Approval Signatures
+    %em
+      Please print name and sign/date below.
+
+  %p Infinity Hall Partner Approved Requestor: (PRINT NAME)    Manny Rodriguez
+  %p.tabbed Signature: ___________________________________________________________________________________ Date: ___________________
+
+  %p Signet Building Manager: (PRINT NAME)  __________________________________________________________ Date: ___________________   
+  %p.tabbed Signature: ___________________________________________________________________________________ Date: ___________________
+
+  %p UF Student Affairs IT: (PRINT NAME)  ______________________________________________________________ Date: ___________________   
+  %p.tabbed Signature: ___________________________________________________________________________________ Date: ___________________
+
+  %p Infinity Hall Area Clerk/DA: (PRINT NAME)  _________________________________________________________ Date: ___________________   
+  %p.tabbed Signature: ___________________________________________________________________________________ Date: ___________________
+
+  %p Card Holder: (PRINT NAME)  _____________________________________________________________________ Date: ___________________   
+  %p.tabbed Signature: ___________________________________________________________________________________ Date: ___________________
+
+
+
+

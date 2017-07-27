@@ -1,5 +1,7 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_account, only: [:show, :edit, :update, :destroy, :access_form]
+
+  layout "invoice", only: [:access_form]
 
   # GET /accounts
   # GET /accounts.json
@@ -96,6 +98,9 @@ class AccountsController < ApplicationController
       format.html { redirect_to accounts_url(filter: "all") }
       format.json { head :no_content }
     end
+  end
+
+  def access_form
   end
 
   private

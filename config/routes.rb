@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get :batch_new
       post :batch_create
     end
+    member do
+      get :access_form
+    end
     resources :charges, only: [:index, :create, :update, :destroy] do
       collection do
         get :invoice

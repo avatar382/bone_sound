@@ -5,3 +5,27 @@
 thead {
   font-weight: 700;
 }
+
+.access_checkbox {
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+}
+
+.access_form {
+  font-size: 13pt;
+}
+
+.heading {
+  text-decoration: underline;
+  font-size: 14pt;
+}
+
+.circled {
+  border: 1px solid black;
+}
+
+.tabbed {
+  margin-left: 20px;
+}
