@@ -18,7 +18,16 @@ class AccountsController < ApplicationController
       @accounts = Account.all
     end
 
+    @accounts_csv = @accounts.filter(params[:q])
     @accounts = @accounts.filter(params[:q]).page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"active_laser_members_#{Time.now.strftime("%m%d%Y")}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
   end
 
   # GET /accounts/1

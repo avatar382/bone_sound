@@ -7,6 +7,8 @@
     %a.btn.btn-primary(href="#{new_account_path}")
       Create New Account
 
+    = link_to "Download CSV", accounts_path(format: :csv, filter: params[:filter]), class: "btn btn-primary"
+
     .pull-right
       %form(action = "#{accounts_path}")
         %input{type: "hidden", name: "filter", value: "#{params[:filter]}"}

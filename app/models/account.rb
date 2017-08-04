@@ -75,8 +75,7 @@ class Account < ApplicationRecord
 
   scope :uncharged_laser, -> { where(expires_at: nil, account_type: LASER_MEMBER_TYPE) }
 
-  scope :active_laser, -> { where("account_type = ? && expires_at > ?", 
-    LASER_MEMBER_TYPE,
+  scope :active_laser, -> { where("expires_at > ?", 
     Time.now)}
 
   scope :expired_laser, -> { where("account_type = ? && expires_at < ?", 

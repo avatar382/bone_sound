@@ -1,0 +1,12 @@
+<%- headers = ['First Name', 'Last Name', 'Display Name', 'Email', 'Gatorlink', 'UFID', 'College'] -%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%- @accounts_csv.each do |account| -%>
+
+<%= CSV.generate_line([account.first_name, 
+                       account.last_name,
+                       account.display_name,
+                       account.email,
+                       account.gatorlink_id,
+                       account.ufid,
+                       account.uf_college], force_quotes: true).html_safe -%>
+<%- end -%>
