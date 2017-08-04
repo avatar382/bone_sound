@@ -1,4 +1,4 @@
-<%- headers = ['First Name', 'Last Name', 'Display Name', 'Email', 'Gatorlink', 'UFID', 'College'] -%>
+<%- headers = ['First Name', 'Last Name', 'Display Name', 'Email', 'Gatorlink', 'UFID', 'College', 'Expiration Date'] -%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
 <%- @accounts_csv.each do |account| -%>
 
@@ -8,5 +8,6 @@
                        account.email,
                        account.gatorlink_id,
                        account.ufid,
-                       account.uf_college], force_quotes: true).html_safe -%>
+                       account.uf_college,
+                       account.display_expiration_date], force_quotes: true).html_safe -%>
 <%- end -%>
