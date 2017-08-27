@@ -92,6 +92,7 @@ if ($handle) {
     }
 
     fclose($handle);
+    unlink("data.csv");
 } else {
   echo "Error opening file.";
 } 
