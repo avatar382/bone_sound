@@ -71,7 +71,7 @@ class Account < ApplicationRecord
 
   scope :recent_laser, -> { where("account_type = ? && created_at > ?", 
     LASER_MEMBER_TYPE,
-    7.days.ago)}
+    2.days.ago)}
 
   scope :uncharged_laser, -> { where(expires_at: nil, account_type: LASER_MEMBER_TYPE) }
 
