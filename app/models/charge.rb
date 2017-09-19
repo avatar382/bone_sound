@@ -171,7 +171,7 @@ class Charge < ApplicationRecord
 
   # applies credit towards new payments, if credit exists
   def deduct_from_credit
-    if self.account.has_credit?
+    if self.account.has_credit? && self.payment_method != Charge::COMPED_PAYMENT
       credit_amount_string = ActionController::Base.helpers.number_to_currency(self.account.credit)
       charge_amount_string = ActionController::Base.helpers.number_to_currency(self.amount)
 
@@ -192,7 +192,7 @@ class Charge < ApplicationRecord
         unpaid_amount = self.amount - self.account.credit
 
         self.account.update_attribute(:credit, 0)
-        
+
         Charge.create(amount: paid_amount, 
                       payment_method: Charge::COMPED_PAYMENT,
                       paid_at: Time.now,
