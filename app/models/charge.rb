@@ -192,6 +192,7 @@ class Charge < ApplicationRecord
         unpaid_amount = self.amount - self.account.credit
 
         self.account.update_attribute(:credit, 0)
+        
         Charge.create(amount: paid_amount, 
                       payment_method: Charge::COMPED_PAYMENT,
                       paid_at: Time.now,

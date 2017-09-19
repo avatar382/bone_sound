@@ -83,6 +83,8 @@ class Account < ApplicationRecord
     LASER_MEMBER_TYPE,
     Time.now)}
 
+  scope :lab_credit, -> { where("credit > 0")}
+
   scope :filter, ->(q) { where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR gatorlink_id LIKE ? OR business_name LIKE ? OR ufid LIKE ?", 
                         "%#{q}%", 
                         "%#{q}%", 

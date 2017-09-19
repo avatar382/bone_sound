@@ -14,6 +14,8 @@ class AccountsController < ApplicationController
       @accounts = Account.active_laser
     elsif params[:filter] == "expired_laser"
       @accounts = Account.expired_laser
+    elsif params[:filter] == "lab_credit"
+      @accounts = Account.lab_credit
     else
       @accounts = Account.all
     end
@@ -39,6 +41,8 @@ class AccountsController < ApplicationController
       @accounts = Account.active_laser
     elsif params[:filter] == "expired_laser"
       @accounts = Account.expired_laser
+    elsif params[:filter] == "lab_credit"
+      @accounts = Account.lab_credit
     else
       @accounts = Account.all
     end
