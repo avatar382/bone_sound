@@ -18,6 +18,7 @@
 #  deleted_at    :datetime
 #  ufid          :string(255)
 #  uf_college    :string(255)
+#  credit        :float(24)
 #
 
 Fabricator(:account) do

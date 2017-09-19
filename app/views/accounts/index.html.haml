@@ -9,6 +9,8 @@
 
     = link_to "Download CSV", accounts_path(format: :csv, filter: params[:filter]), class: "btn btn-primary"
 
+    = link_to "Email Addresses", email_addresses_accounts_path(filter: params[:filter]), class: "btn btn-primary", target: "_blank"
+
     .pull-right
       %form(action = "#{accounts_path}")
         %input{type: "hidden", name: "filter", value: "#{params[:filter]}"}

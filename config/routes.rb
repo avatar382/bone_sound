@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get :batch_new
       post :batch_create
+      get :email_addresses
     end
     member do
       get :access_form

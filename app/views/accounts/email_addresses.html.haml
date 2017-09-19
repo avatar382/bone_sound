@@ -1,0 +1,18 @@
+%br 
+
+.row
+  .col-sm-12
+    %h2 Account Email Addresses
+
+    %p
+      Copy and paste into your favorite email client ;)
+
+    %hr
+
+    %p
+      - @accounts.each do |account|
+        = account.email + ";"
+
+
+
+

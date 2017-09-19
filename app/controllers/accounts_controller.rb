@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update, :destroy, :access_form]
 
-  layout "access_form", only: [:access_form]
+  layout "access_form", only: [:access_form, :email_addresses]
 
   # GET /accounts
   # GET /accounts.json
@@ -27,6 +27,24 @@ class AccountsController < ApplicationController
         headers['Content-Disposition'] = "attachment; filename=\"active_laser_members_#{Time.now.strftime("%m%d%Y")}.csv\""
         headers['Content-Type'] ||= 'text/csv'
       end
+    end
+  end
+
+  def email_addresses
+    if params[:filter] == "recent_laser"
+      @accounts = Account.recent_laser.active_laser
+    elsif params[:filter] == "uncharged_laser"
+      @accounts = Account.uncharged_laser
+    elsif params[:filter] == "active_laser"
+      @accounts = Account.active_laser
+    elsif params[:filter] == "expired_laser"
+      @accounts = Account.expired_laser
+    else
+      @accounts = Account.all
+    end
+
+    respond_to do |format|
+      format.html
     end
   end
 
@@ -120,6 +138,6 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.fetch(:account, {}).permit(:email, :first_name, :last_name, :business_name, :phone, :gatorlink_id, :ufid, :chartfield, :affiliation, :account_type, :expires_at, :uf_college)
+      params.fetch(:account, {}).permit(:email, :first_name, :last_name, :business_name, :phone, :gatorlink_id, :ufid, :chartfield, :affiliation, :account_type, :expires_at, :uf_college, :credit)
     end
 end

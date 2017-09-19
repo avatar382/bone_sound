@@ -28,6 +28,14 @@
             %strong Chartfield:
             = @account.chartfield
 
+    - if @account.has_credit?
+      .panel.panel-default#account_info_panel
+        .panel-body
+          %h4 
+            Lab Credit
+          %h5
+            = number_to_currency(@account.credit)
+
   .col-sm-4
     %h3
       Service charge

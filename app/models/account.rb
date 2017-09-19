@@ -18,6 +18,7 @@
 #  deleted_at    :datetime
 #  ufid          :string(255)
 #  uf_college    :string(255)
+#  credit        :float(24)
 #
 
 class Account < ApplicationRecord
@@ -137,6 +138,10 @@ class Account < ApplicationRecord
   def uf_affiliated?
     affiliation.present?
   end
+
+  def has_credit?
+    credit && credit > 0
+  end  
 
   protected
 

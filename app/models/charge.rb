@@ -43,6 +43,7 @@ class Charge < ApplicationRecord
   before_create :set_comped_charges_to_paid
   before_validation :fill_details_via_membership_id
   after_create  :add_time_to_account_if_membership_charge
+  after_create  :deduct_from_credit
 
   belongs_to :account
   belongs_to :chargefile, optional: true
@@ -164,6 +165,43 @@ class Charge < ApplicationRecord
         self.account.update_attribute(:expires_at, Time.now + m.duration.days)
       else
         self.account.update_attribute(:expires_at, self.account.expires_at + m.duration.days)
+      end
+    end
+  end
+
+  # applies credit towards new payments, if credit exists
+  def deduct_from_credit
+    if self.account.has_credit?
+      credit_amount_string = ActionController::Base.helpers.number_to_currency(self.account.credit)
+      charge_amount_string = ActionController::Base.helpers.number_to_currency(self.amount)
+
+      # credit > charge
+      # subtract charge amount from credit amount, pay charge completely
+      if self.account.credit >= self.amount
+        self.update_attribute(:payment_method, Charge::COMPED_PAYMENT)
+        self.update_attribute(:paid_at, Time.now)
+        self.update_attribute(:description, self.description + " (#{charge_amount_string} paid by lab credit)")
+        self.account.update_attribute(:credit, self.account.credit - self.amount)
+
+
+      # charge > credit: 
+      # split charge into two charges -- covered by credit and not covered
+      # pay charge covered by credit
+      else
+        paid_amount   = self.account.credit 
+        unpaid_amount = self.amount - self.account.credit
+
+        self.account.update_attribute(:credit, 0)
+        Charge.create(amount: paid_amount, 
+                      payment_method: Charge::COMPED_PAYMENT,
+                      paid_at: Time.now,
+                      charge_type: self.charge_type,
+                      account: self.account,
+                      description: "Parital lab credit payment (original charge #{charge_amount_string}, #{credit_amount_string} paid by lab credit)" 
+                      )
+
+        self.update_attribute(:amount, unpaid_amount)
+        self.update_attribute(:description, self.description + " (original charge #{charge_amount_string}, #{credit_amount_string} paid by lab credit)")
       end
     end
   end
