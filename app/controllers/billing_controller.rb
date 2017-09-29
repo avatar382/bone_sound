@@ -18,4 +18,14 @@ class BillingController < ApplicationController
       end
     end
   end
+
+  def report
+    @print_charge = Charge.all.print
+    @cnc_charge = Charge.all.cnc
+    @waterjet_charge  = Charge.all.waterjet
+    @membership_charge = Charge.all.membership
+    @laser_charge = Charge.all.laser
+    @design_charge = Charge.all.design
+    @materials_charge = Charge.all.materials
+  end
 end

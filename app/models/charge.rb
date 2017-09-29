@@ -69,6 +69,14 @@ class Charge < ApplicationRecord
   scope :chartfield, -> { where("payment_method = ?", CHARTFIELD_PAYMENT) } 
   scope :comped,     -> { where("payment_method = ?", COMPED_PAYMENT) } 
 
+  scope :print,      -> { where("charge_type = ?", PRINT_CHARGE) } 
+  scope :cnc,        -> { where("charge_type = ?", CNC_CHARGE) } 
+  scope :waterjet,   -> { where("charge_type = ?", WATERJET_CHARGE) } 
+  scope :membership, -> { where("charge_type = ?", MEMBERSHIP_CHARGE) } 
+  scope :laser,      -> { where("charge_type = ?", LASER_CHARGE) } 
+  scope :design,     -> { where("charge_type = ?", DESIGN_CHARGE) } 
+  scope :materials,  -> { where("charge_type = ?", MATERIALS_CHARGE) } 
+
   def display_charge_type
     if charge_type == PRINT_CHARGE
       "3D Print"

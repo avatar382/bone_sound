@@ -1,0 +1,132 @@
+= render "billing_subnav"
+
+.row
+  .col-sm-12
+    %h2 Fab Lab: To Date Charge Summary
+    %hr
+
+    %h4 3D Print Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @print_charge.count
+          %td
+            = number_to_currency(@print_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+
+    %h4 CNC Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @cnc_charge.count
+          %td
+            = number_to_currency(@cnc_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+    %h4 Waterjet Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @waterjet_charge.count
+          %td
+            = number_to_currency(@waterjet_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+
+    %h4 Laser Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @laser_charge.count
+          %td
+            = number_to_currency(@laser_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+
+    %h4 Materials Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @materials_charge.count
+          %td
+            = number_to_currency(@materials_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+
+    %h4 Design Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @design_charge.count
+          %td
+            = number_to_currency(@design_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+    %h4 Membership Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody.charges
+        %tr
+          %td
+            = @membership_charge.count
+          %td
+            = number_to_currency(@membership_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+%br
+
