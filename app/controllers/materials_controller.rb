@@ -5,7 +5,13 @@ class MaterialsController < ApplicationController
   # GET /materials
   # GET /materials.json
   def index
-    @materials = Material.all.filter(params[:q]).page(params[:page])
+    @materials = Material.all
+
+    if params[:lowstock].present?
+      @materials = @materials.low_stock
+    end
+
+    @materials = @materials.filter(params[:q]).page(params[:page])
   end
 
   # GET /materials/new

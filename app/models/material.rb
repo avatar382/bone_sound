@@ -25,6 +25,7 @@ class Material < ApplicationRecord
                         "%#{q}%", 
                         "%#{q}%") }
 
-  scope :sku, ->(sku) { where("sku = ?", sku) } 
+  scope :sku,       ->(sku) { where("sku = ?", sku) } 
+  scope :low_stock, ->      { where("count < minimum_count") } 
 
 end

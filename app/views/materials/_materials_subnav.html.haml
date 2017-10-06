@@ -1,0 +1,4 @@
+%ul.nav.nav-tabs
+  = active_link_to "All Materials", materials_path, active: :exact, wrap_tag: :li
+
+  = active_link_to "Low Stock Materials", materials_path(lowstock: true), active: :exact, wrap_tag: :li

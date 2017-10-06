@@ -1,5 +1,6 @@
+= render "materials_subnav"
 
-%hr 
+%br
 
 .row
   .col-sm-12
@@ -23,7 +24,9 @@
           %td
             SKU
           %td
-            Count
+            In Stock
+          %td
+            Minimum Stock
           %td
             Description
           %td
@@ -40,6 +43,9 @@
 
             %td 
               = material.count
+
+            %td 
+              = material.minimum_count
 
             %td 
               = material.description
