@@ -56,10 +56,6 @@ $users = wire('users')->find('roles=laser-user');
 echo("Adding laser users from CSV file.");
 echo("<br/>\n");
 
-foreach ($users as $user) {
-  $user->delete();
-}
-
 // CSV FORMATTING
 // 0: First Name
 // 1: Last Name
