@@ -17,6 +17,8 @@
 #  membership_id  :integer
 #  chargefile_id  :integer
 #  refunded_at    :datetime
+#  material_sku   :string(255)
+#  material_count :integer
 #
 
 require 'test_helper'
@@ -87,6 +89,58 @@ class ChargeTest < ActiveSupport::TestCase
 
     charge.account = no_ufid_account
     assert_not charge.valid?
+   end
+
+   test "should create a materials charge" do
+    material = Fabricate(:material, sku: "FOO")
+    materials_charge = Fabricate(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO", material_count: 1)
+
+    assert materials_charge.valid?
+   end
+
+   test "should require material_sku" do
+    material = Fabricate(:material, sku: "FOO")
+    materials_charge = Fabricate.build(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account,material_count: 1)
+
+    assert_not materials_charge.valid?
+   end
+
+
+   test "should require material_sku to point to a valid material" do
+    material = Fabricate(:material, sku: "FOO")
+    materials_charge = Fabricate.build(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "BAR", material_count: 1)
+
+    assert_not materials_charge.valid?
+   end
+
+   test "should require material_count" do
+    material = Fabricate(:material, sku: "FOO")
+    materials_charge = Fabricate.build(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO")
+
+    assert_not materials_charge.valid?
+   end
+
+   test "should require material_count to be a positive number" do
+    material = Fabricate(:material, sku: "FOO")
+    materials_charge = Fabricate.build(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO", material_count: "hello")
+    materials_charge_2 = Fabricate.build(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO", material_count: "0")
+
+    assert_not materials_charge.valid?
+    assert_not materials_charge_2.valid?
+   end
+
+   test "materials charges should deduct inventory counts" do
+    material = Fabricate(:material, sku: "FOO", count: 10)
+
+    materials_charge = Fabricate(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO", material_count: 1)
+
+    material.reload
+    assert material.count == 9
+
+    large_materials_charge = Fabricate(:charge, charge_type: Charge::MATERIALS_CHARGE, account: @account, material_sku: "FOO", material_count: 5)
+
+    material.reload
+    assert material.count == 4
    end
 
    ### CALLBACKS  ###

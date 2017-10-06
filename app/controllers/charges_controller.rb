@@ -15,6 +15,8 @@ class ChargesController < ApplicationController
   def create
     @charge = Charge.new(charge_params)
     @charge.account = @account
+    @charge.material_sku   = params[:sku] if params[:sku].present?
+    @charge.material_count = params[:qty] if params[:qty].present?
 
     respond_to do |format|
       if @charge.save

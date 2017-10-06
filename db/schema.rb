@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919140930) do
+ActiveRecord::Schema.define(version: 20171006205507) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "email"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20170919140930) do
     t.integer "membership_id"
     t.integer "chargefile_id"
     t.datetime "refunded_at"
+    t.string "material_sku"
+    t.integer "material_count"
     t.index ["account_id"], name: "index_charges_on_account_id"
     t.index ["charge_type"], name: "index_charges_on_charge_type"
     t.index ["chargefile_id"], name: "index_charges_on_chargefile_id"
@@ -90,6 +92,8 @@ ActiveRecord::Schema.define(version: 20170919140930) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "count"
+    t.integer "minimum_count"
   end
 
   create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

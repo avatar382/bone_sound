@@ -17,6 +17,8 @@
 #  membership_id  :integer
 #  chargefile_id  :integer
 #  refunded_at    :datetime
+#  material_sku   :string(255)
+#  material_count :integer
 #
 
 Fabricator(:charge) do

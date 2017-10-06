@@ -17,6 +17,8 @@
 #  membership_id  :integer
 #  chargefile_id  :integer
 #  refunded_at    :datetime
+#  material_sku   :string(255)
+#  material_count :integer
 #
 
 class Charge < ApplicationRecord
@@ -44,6 +46,7 @@ class Charge < ApplicationRecord
   before_validation :fill_details_via_membership_id
   after_create  :add_time_to_account_if_membership_charge
   after_create  :deduct_from_credit
+  after_create  :deduct_inventory_counts
 
   belongs_to :account
   belongs_to :chargefile, optional: true
@@ -58,6 +61,7 @@ class Charge < ApplicationRecord
   validate  :charges_on_external_accounts_must_be_check
   validate  :chartfield_payments_require_chartfield_on_account
   validate  :ufid_payments_require_ufid_on_account
+  validate  :materials_charges_require_sku_and_count
   # validates :semester_code, presence: true
 
   default_scope { order(created_at: :desc) }
@@ -211,6 +215,37 @@ class Charge < ApplicationRecord
 
         self.update_attribute(:amount, unpaid_amount)
         self.update_attribute(:description, self.description + " (original charge #{charge_amount_string}, #{credit_amount_string} paid by lab credit)")
+      end
+    end
+  end
+
+  def materials_charges_require_sku_and_count
+    if self.charge_type == Charge::MATERIALS_CHARGE
+      errors.add(:base, "Materials charges require an SKU") unless self.material_sku.present?
+      errors.add(:base, "Materials charges require a quantity") unless self.material_count.present?
+
+      unless (self.material_count.class == Fixnum || 
+             self.material_count =~ /^[1234567890]+$/ ) &&
+              self.material_count > 0
+        errors.add(:base, "Materials quantity must be a positive number") 
+      end
+
+      errors.add(:base, "Material SKU #{self.material_sku} does not exist.") unless Material.sku(self.material_sku).count > 0
+    end
+  end
+
+  # if this charge is associated with a materials purchase, 
+  # decrement the count for that material
+  # if this is a materials charge, then count and quantity are guaranteed to be 
+  # present
+  def deduct_inventory_counts
+    if self.charge_type == Charge::MATERIALS_CHARGE
+      material = Material.sku(self.material_sku).first
+
+      if material
+        old_count = material.count.nil? ? 0 : material.count
+
+        material.update_attribute(:count, old_count -= self.material_count)
       end
     end
   end

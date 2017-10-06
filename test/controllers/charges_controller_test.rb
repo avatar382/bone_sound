@@ -20,6 +20,16 @@ class ChargesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to account_url(account)
   end
 
+  test "should set material_count and material_sku if present in params" do
+    account = Fabricate(:account)
+
+    post account_charges_url(account), params: {sku: "FOO", qty: "4", charge: Fabricate.attributes_for(:charge, account: account) }
+
+    assert assigns(:charge).material_sku == "FOO"
+    assert assigns(:charge).material_count == 4
+  end
+
+
   test "should update charge" do
     assert @charge.paid_at.blank?
     put account_charge_url(@charge.account, @charge)

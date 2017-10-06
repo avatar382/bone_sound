@@ -7,6 +7,14 @@
           = form.text_field(:sku, {class: "form-control", placeholder: "SKU"})
 
         .form-group
+          %label{:for => "material_count"} Units in Stock
+          = form.text_field(:count, {class: "form-control", placeholder: "Quantity in Stock"})
+
+        .form-group
+          %label{:for => "material_minimum_count"} Minimum Stock Amount
+          = form.text_field(:minimum_count, {class: "form-control", placeholder: "Minimum Stock Allowed Before Reordering"})
+
+        .form-group
           %label{:for => "material_description"} Description
           = form.text_field(:description, {class: "form-control", placeholder: "Description"})
 

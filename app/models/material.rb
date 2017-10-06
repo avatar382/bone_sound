@@ -2,12 +2,14 @@
 #
 # Table name: materials
 #
-#  id          :integer          not null, primary key
-#  sku         :string(255)
-#  price       :decimal(8, 2)
-#  description :string(255)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id            :integer          not null, primary key
+#  sku           :string(255)
+#  price         :decimal(8, 2)
+#  description   :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  count         :integer
+#  minimum_count :integer
 #
 
 class Material < ApplicationRecord
@@ -22,5 +24,7 @@ class Material < ApplicationRecord
                         "%#{q}%", 
                         "%#{q}%", 
                         "%#{q}%") }
+
+  scope :sku, ->(sku) { where("sku = ?", sku) } 
 
 end

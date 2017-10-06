@@ -80,6 +80,6 @@ class MaterialsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def material_params
-      params.fetch(:material, {}).permit(:sku, :description, :price)
+      params.fetch(:material, {}).permit(:sku, :description, :price, :count, :minimum_count)
     end
 end
