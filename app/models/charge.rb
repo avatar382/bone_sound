@@ -220,7 +220,7 @@ class Charge < ApplicationRecord
   end
 
   def materials_charges_require_sku_and_count
-    if self.charge_type == Charge::MATERIALS_CHARGE
+    if self.charge_type == Charge::MATERIALS_CHARGE && self.created_at > "Oct 7 2017".to_date
       errors.add(:base, "Materials charges require an SKU") unless self.material_sku.present?
       errors.add(:base, "Materials charges require a quantity") unless self.material_count.present?
 

@@ -10,7 +10,7 @@ class ChargefilesController < ApplicationController
         flash[:notice] = "Charge File successfully created"
         format.html { redirect_to download_chargefile_path(@chargefile)}
       else
-        flash[:error] = "Unable to create charge file: #{@charge.errors.full_messages.to_sentence}"
+        flash[:error] = "Unable to create charge file: #{@chargefile.errors.full_messages.to_sentence}"
         format.html { redirect_to billing_path(type: "ufid") }
       end
     end    
