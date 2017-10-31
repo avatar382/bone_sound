@@ -36,6 +36,9 @@
           %h5
             = number_to_currency(@account.credit)
 
+    - if (@account.account_type == Account::LASER_MEMBER_TYPE || @account.account_type == Account::STAFF_TYPE) && @account.expires_at.present? && @account.expires_at > Time.now
+      = link_to "Access Form", access_form_account_path(@account), class: "btn btn-success", target: "_blank"
+
   .col-sm-4
     %h3
       Service charge
