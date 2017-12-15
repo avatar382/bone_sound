@@ -72,6 +72,7 @@ class Charge < ApplicationRecord
   scope :check,      -> { where("payment_method = ?", CHECK_PAYMENT) } 
   scope :chartfield, -> { where("payment_method = ?", CHARTFIELD_PAYMENT) } 
   scope :comped,     -> { where("payment_method = ?", COMPED_PAYMENT) } 
+  scope :not_comped, -> { where("payment_method != ?", COMPED_PAYMENT) } 
 
   scope :print,      -> { where("charge_type = ?", PRINT_CHARGE) } 
   scope :cnc,        -> { where("charge_type = ?", CNC_CHARGE) } 
