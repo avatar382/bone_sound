@@ -44,16 +44,21 @@
           %label{:for => "account_email"} Email address*
           = form.email_field(:email, {class: "form-control", placeholder: "Email", required: true})
 
-      = check_box_tag("agreement", 1, false, required: true)
-      I agree to abide by 
-      %a(href="https://fablab.arts.ufl.edu/help/fab-labs-rules-of-membership-and-use/" target="_blank")
-        Fab Lab's Rules of Membership and Use 
+      - if params[:action] == "new"
+        = check_box_tag("agreement", 1, false, required: true)
+        I agree to abide by 
+        %a(href="https://fablab.arts.ufl.edu/help/fab-labs-rules-of-membership-and-use/" target="_blank")
+          Fab Lab's Rules of Membership and Use 
 
-      %br
-      %br
+        %br
+        %br
 
-      = form.submit(class: "btn btn-success")
-      = form.submit("Create and Go To Account", class: "btn btn-success")
+      - if params[:action] == "new"
+        = form.submit(class: "btn btn-success")
+        = form.submit("Create and Go To Account", class: "btn btn-success")
+      - else
+        = form.submit(class: "btn btn-success")
+        
 
     .col-sm-6#js-subform
       #js-uf-section

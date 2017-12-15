@@ -20,30 +20,42 @@ class BillingController < ApplicationController
   end
 
   def report
-    @print_charge = Charge.all.not_comped.print
-    @cnc_charge = Charge.all.not_comped.cnc
-    @waterjet_charge  = Charge.all.not_comped.waterjet
-    @membership_charge = Charge.all.not_comped.membership
-    @laser_charge = Charge.all.not_comped.laser
-    @design_charge = Charge.all.not_comped.design
-    @materials_charge = Charge.all.not_comped.materials
+    if params[:date]
+      date = params[:date]
+    else
+      date = "2017-05-01"
+    end
+
+    @print_charge = Charge.all.created_before(date).not_comped.print
+    @cnc_charge = Charge.all.created_before(date).not_comped.cnc
+    @waterjet_charge  = Charge.all.created_before(date).not_comped.waterjet
+    @membership_charge = Charge.all.created_before(date).not_comped.membership
+    @laser_charge = Charge.all.created_before(date).not_comped.laser
+    @design_charge = Charge.all.created_before(date).not_comped.design
+    @materials_charge = Charge.created_before(date).all.not_comped.materials
   end
 
   def detail_report
+    if params[:date]
+      date = params[:date]
+    else
+      date = "2017-05-01"
+    end
+  
     if params[:type] == "3dp"
-      @charges = Charge.all.not_comped.print
+      @charges = Charge.all.created_before(date).not_comped.print
     elsif params[:type] == "cnc"
-      @charges = Charge.all.not_comped.cnc
+      @charges = Charge.all.created_before(date).not_comped.cnc
     elsif params[:type] == "waterjet"
-      @charges = Charge.all.not_comped.waterjet
+      @charges = Charge.all.created_before(date).not_comped.waterjet
     elsif params[:type] == "membership"
-      @charges = Charge.all.not_comped.membership
+      @charges = Charge.all.created_before(date).not_comped.membership
     elsif params[:type] == "laser"
-      @charges = Charge.all.not_comped.laser
+      @charges = Charge.all.created_before(date).not_comped.laser
     elsif params[:type] == "design"
-      @charges = Charge.all.not_comped.design
+      @charges = Charge.all.created_before(date).not_comped.design
     elsif params[:type] == "materials"
-      @charges = Charge.all.not_comped.materials
+      @charges = Charge.all.created_before(date).not_comped.materials
     end
 
     respond_to do |format|

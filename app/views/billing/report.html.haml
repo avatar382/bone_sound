@@ -1,3 +1,8 @@
+- if params[:date]
+  - date = params[:date]
+- else
+  - date = "2017-05-01"
+
 = render "billing_subnav"
 
 .row
@@ -5,7 +10,17 @@
     %h2 Fab Lab: To Date Charge Summary
     %hr
 
-    %h4 3D Print Charges
+    %form
+      .form-group
+        %label{:for => "date"} Start Date
+        .input-group.date#datetimepicker
+          = text_field_tag("date", date, {class: "form-control", placeholder: "Expiration Date"})
+          %span.input-group-addon
+            %span.glyphicon.glyphicon-calendar
+
+      = submit_tag("Update", class: "btn btn-primary")
+
+
     %table.table.table-striped
       %thead
         %tr
@@ -21,7 +36,7 @@
       %tbody
         %tr
           %td 
-            = link_to "3D Prints", billing_detail_report_path(type: "3dp")
+            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, commit: "Update")
           %td
             = @print_charge.count
           %td
@@ -29,7 +44,7 @@
 
         %tr
           %td
-            = link_to "CNC", billing_detail_report_path(type: "cnc")
+            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, commit: "Update")
           %td
             = @cnc_charge.count
           %td
@@ -37,7 +52,7 @@
 
         %tr
           %td
-            = link_to "Waterjet", billing_detail_report_path(type: "waterjet")
+            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, commit: "Update")
           %td
             = @waterjet_charge.count
           %td
@@ -45,7 +60,7 @@
 
         %tr
           %td
-            = link_to "Laser", billing_detail_report_path(type: "laser")
+            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, commit: "Update")
           %td
             = @laser_charge.count
           %td
@@ -53,7 +68,7 @@
 
         %tr
           %td
-            = link_to "Materials", billing_detail_report_path(type: "materials")
+            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, commit: "Update")
           %td
             = @materials_charge.count
           %td
@@ -61,7 +76,7 @@
 
         %tr
           %td
-            = link_to "Design", billing_detail_report_path(type: "design")
+            = link_to "Design", billing_detail_report_path(type: "design", date: date, commit: "Update")
           %td
             = @design_charge.count
           %td
@@ -69,7 +84,7 @@
 
         %tr
           %td
-            = link_to "Membership", billing_detail_report_path(type: "membership")
+            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, commit: "Update")
           %td
             = @membership_charge.count
           %td
