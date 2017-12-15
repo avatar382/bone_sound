@@ -1,0 +1,14 @@
+<%- headers = ['Date', 'Name', 'Gatorlink ID', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] -%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%- @charges.each do |charge| -%>
+<%- next if charge.account.nil? -%>
+
+<%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
+                       charge.account.display_name,
+                       charge.account.gatorlink_id,
+                       charge.display_payment_method,
+                       charge.display_charge_type,
+                       charge.description,
+                       number_to_currency(charge.amount),
+                       charge.paid?], force_quotes: true).html_safe -%>
+<%- end -%>

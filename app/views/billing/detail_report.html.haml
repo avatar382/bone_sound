@@ -1,0 +1,88 @@
+= render "billing_subnav"
+%br
+= render "billing_detail_subnav"
+
+%br
+
+= link_to "Download CSV", billing_detail_report_path(type: params[:type], format: :csv), class: "btn btn-primary"
+
+%hr 
+
+%table.table.table-striped
+  %thead
+    %tr
+      %td
+        Date
+
+      %td
+        Name
+
+      %td
+        Gatorlink ID
+
+      %td
+        Method of Payment
+
+      %td
+        Charge Type
+
+      %td
+        Description
+
+      %td
+        Amount
+
+      %td
+        Paid
+
+
+  %tbody.charges
+    - @charges.each do |charge|
+      - if charge.account.nil?
+        %tr
+          %td(colspan=7)
+            = charge.id
+            is not associated with an account!
+
+        - next
+
+      - row_class = charge.paid_at.blank? ? "unpaid" : ""
+
+      %tr{class: row_class}
+        %td
+          = charge.created_at.strftime("%m/%d/%Y")
+
+        %td
+          = link_to charge.account.display_name, account_charges_path(charge.account)
+
+        %td
+          = charge.account.gatorlink_id rescue nil
+
+        %td
+          = charge.display_payment_method
+
+        %td
+          = charge.display_charge_type
+
+        %td
+          = charge.description
+
+        %td
+          = number_to_currency(charge.amount)
+
+        %td
+          - if charge.paid?
+            Yes
+          - else
+            %strong
+              No
+
+    %tr
+      %td(colspan=5)
+        &nbsp;
+      %td
+        %strong
+          Total
+      %td
+        %strong
+          = number_to_currency(@charges.inject(0) {|sum, charge| sum + charge.amount} )

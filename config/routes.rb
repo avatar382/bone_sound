@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   get '/billing', to: 'billing#index'
   get '/billing/report', to: 'billing#report'
+  get '/billing/detail_report', to: 'billing#detail_report'
+
   resources :chargefiles, only: [:index, :show, :create] do
     member do
       get :download

@@ -10,119 +10,66 @@
       %thead
         %tr
           %td
+            Charge Type
+
+          %td
             Number of charges
 
           %td
             Total
 
-      %tbody.charges
+      %tbody
         %tr
+          %td 
+            = link_to "3D Prints", billing_detail_report_path(type: "3dp")
           %td
             = @print_charge.count
           %td
             = number_to_currency(@print_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-
-    %h4 CNC Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "CNC", billing_detail_report_path(type: "cnc")
           %td
             = @cnc_charge.count
           %td
             = number_to_currency(@cnc_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-    %h4 Waterjet Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "Waterjet", billing_detail_report_path(type: "waterjet")
           %td
             = @waterjet_charge.count
           %td
             = number_to_currency(@waterjet_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-
-    %h4 Laser Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "Laser", billing_detail_report_path(type: "laser")
           %td
             = @laser_charge.count
           %td
             = number_to_currency(@laser_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-
-    %h4 Materials Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "Materials", billing_detail_report_path(type: "materials")
           %td
             = @materials_charge.count
           %td
             = number_to_currency(@materials_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-
-    %h4 Design Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "Design", billing_detail_report_path(type: "design")
           %td
             = @design_charge.count
           %td
             = number_to_currency(@design_charge.inject(0) {|sum, charge| sum + charge.amount} )
 
-    %h4 Membership Charges
-    %table.table.table-striped
-      %thead
         %tr
           %td
-            Number of charges
-
-          %td
-            Total
-
-      %tbody.charges
-        %tr
+            = link_to "Membership", billing_detail_report_path(type: "membership")
           %td
             = @membership_charge.count
           %td
