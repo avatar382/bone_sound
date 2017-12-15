@@ -3,7 +3,7 @@
     .form_group
       %label{:for => "charge_charge_type"} 
         Service Type*
-      = select(:charge, :charge_type, [["3D Print", Charge::PRINT_CHARGE], ["CNC Cut", Charge::CNC_CHARGE], ["Waterjet Cut", Charge::WATERJET_CHARGE], ["Laser Cut", Charge::LASER_CHARGE], ["Design Work", Charge::DESIGN_CHARGE] ], {}, class: "form-control")
+      = select(:charge, :charge_type, [["3D Print", Charge::PRINT_CHARGE], ["CNC Cut", Charge::CNC_CHARGE], ["Waterjet Cut", Charge::WATERJET_CHARGE], ["Laser Cut", Charge::LASER_CHARGE], ["Design Work", Charge::DESIGN_CHARGE] ], {}, class: "form-control", required: true)
 
     %br
 
@@ -12,19 +12,19 @@
         Payment Method*
       %br
 
-      = f.radio_button(:payment_method, Charge::UFID_PAYMENT)
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, required: true)
       UFID 
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT)
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT, required: true)
       Check
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT)
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT, required: true)
       Chartfield
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT)
+      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT, required: true)
       Not Charged
       &nbsp;
 
@@ -36,7 +36,7 @@
       .input-group
         %span.input-group-addon
           $
-        = f.text_field(:amount, {class: "form-control", placeholder: "Amount"})
+        = f.text_field(:amount, {class: "form-control", placeholder: "Amount", required: true})
 
     .form-group
       %label{:for => "charge_description"} Description

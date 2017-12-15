@@ -57,6 +57,15 @@
           = select("account", "uf_college", options_for_select(college_list))
 
   = form.hidden_field(:account_type, value: Account::LASER_MEMBER_TYPE)
+  = check_box_tag("agreement", 1, false, required: true)
+
+  I agree to abide by 
+  %a(href="https://fablab.arts.ufl.edu/help/fab-labs-rules-of-membership-and-use/" target="_blank")
+    Fab Lab's Rules of Membership and Use 
+
+  %br
+  %br
+  
   = form.submit("Create New Laser Account & Agree to Charge", class: "btn btn-success", data: {confirm: "Do you agree to being charged for a new laser account?"})
 
 :javascript

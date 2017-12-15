@@ -78,8 +78,15 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
+
+        if params[:commit] == "Create and Go To Account"
+          url = account_path(@account)
+        else
+          url =  new_account_path
+        end
+
         flash[:notice] = "Account was successfully created"
-        format.html { redirect_to @account }
+        format.html { redirect_to url }
         format.json { render :show, status: :created, location: @account }
       else
         flash[:error] = "Unable to save account: #{@account.errors.full_messages.to_sentence}"

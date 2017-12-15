@@ -4,7 +4,7 @@
       %label{:for => "sku"} 
         SKU*
 
-      = text_field_tag("sku", nil, {class: "form-control js-material-control", placeholder: "SKU", id: "js-material-sku"})
+      = text_field_tag("sku", nil, {class: "form-control js-material-control", placeholder: "SKU", id: "js-material-sku", required: true})
 
       %p#item-not-found Item Not Found
 
@@ -13,7 +13,7 @@
       %label{:for => "qty"} 
         Quantity*
         
-      = text_field_tag("qty", 1, {class: "form-control js-material-control", placeholder: "Quantity", id: "js-material-qty"})
+      = text_field_tag("qty", 1, {class: "form-control js-material-control", placeholder: "Quantity", id: "js-material-qty", required: true})
 
     %br
 
@@ -22,19 +22,19 @@
         Payment Method*
       %br
 
-      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true)
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true, required: true)
       UFID 
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT)
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT, required: true)
       Check
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT)
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT, required: true)
       Chartfield
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT)
+      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT, required: true)
       Not Charged
       &nbsp;
 

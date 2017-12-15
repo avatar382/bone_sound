@@ -72,7 +72,7 @@
                   = link_to "Mark Paid", account_charge_path(@account, charge), method: :put, class: "btn btn-primary", data: {confirm: "Are you sure? This will mark this charge as paid."}
 
               %td
-                - if charge.paid_at.blank?
+                - if charge.paid_at.blank? || charge.payment_method == Charge::COMPED_PAYMENT
                   = link_to "Delete", account_charge_path(@account, charge), method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure? This will delete this charge permanently!"}
 
       = paginate @charges
