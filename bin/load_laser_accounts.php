@@ -51,11 +51,6 @@ function createUser($pieces) {
   }
 }
 
-$users = wire('users')->find('roles=laser-user');
-
-echo("Adding laser users from CSV file.");
-echo("<br/>\n");
-
 // CSV FORMATTING
 // 0: First Name
 // 1: Last Name
@@ -66,14 +61,19 @@ echo("<br/>\n");
 // 6: College
 // 7: Expiration
 
-$handle = fopen("data.csv", "r");
+$handle = fopen($_FILES["datafile"]["tmp_name"], "r");
 if ($handle) {
+    $users = wire('users')->find('roles=laser-user');
+    
+    echo("Adding laser users from CSV file.");
+    echo("<br/>\n");
+
     while (($line = fgets($handle)) !== false) {
       $pieces = str_getcsv($line, ",", '"');
       $pieces[5] = str_replace('"', "", $pieces[5]);
       $pieces[7] = str_replace('"', "", $pieces[7]);
 
-      if($pieces[5] != "" && $pieces[5] != "UFID") {
+      if($pieces[5] != "" && $pieces[5] != "UFID" && preg_match('/^[\d]{8}$/', $pieces[5]) == true) {
         $status = createUser($pieces);
 
         if($status) {
@@ -88,9 +88,22 @@ if ($handle) {
     }
 
     fclose($handle);
-    unlink("data.csv");
-} else {
-  echo "Error opening file.";
+    unlink($_FILES["datafile"]["tmp_name"]);
 } 
+?> 
 
-
+<!DOCTYPE html>
+<html>
+  <body>
+    <form method="post" enctype="multipart/form-data">
+      <br />
+      <h1>Select CSV File with laser user data to Upload</h1>
+      <input type="file" name="datafile" id="datafile">
+      <br />
+      <br />
+      <input type="submit" value="Upload And Process" name="submit">
+      <br />
+    </form>
+  
+  </body>
+</html>
