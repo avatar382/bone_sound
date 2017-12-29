@@ -1,14 +1,14 @@
 %ul.nav.nav-tabs
-  = active_link_to "3D Prints", billing_detail_report_path(type: "3dp", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "3D Prints", billing_detail_report_path(type: "3dp", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "CNC", billing_detail_report_path(type: "cnc", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "CNC", billing_detail_report_path(type: "cnc", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Laser", billing_detail_report_path(type: "laser", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "Laser", billing_detail_report_path(type: "laser", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Materials", billing_detail_report_path(type: "materials", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "Materials", billing_detail_report_path(type: "materials", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Design", billing_detail_report_path(type: "design", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "Design", billing_detail_report_path(type: "design", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li
 
-  = active_link_to "Membership", billing_detail_report_path(type: "membership", date: params[:date], commit: "Update"), active: :exact, wrap_tag: :li
+  = active_link_to "Membership", billing_detail_report_path(type: "membership", date: params[:date], end_date: params[:end_date], commit: "Update"), active: :exact, wrap_tag: :li

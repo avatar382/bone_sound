@@ -21,6 +21,8 @@
 
 var ui_activate_datepicker = function () {
   $('#datetimepicker').datetimepicker({format: "YYYY-MM-DD"});
+  $('#datetimepicker1').datetimepicker({format: "YYYY-MM-DD"});
+  $('#datetimepicker2').datetimepicker({format: "YYYY-MM-DD"});
 };
 
 // MATERIALS CHARGE HANDLER

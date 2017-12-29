@@ -82,7 +82,8 @@ class Charge < ApplicationRecord
   scope :design,     -> { where("charge_type = ?", DESIGN_CHARGE) } 
   scope :materials,  -> { where("charge_type = ?", MATERIALS_CHARGE) } 
 
-  scope :created_before, ->(date) { where("created_at > ?", date) } 
+  scope :created_after, ->(date) { where("created_at > ?", date) } 
+  scope :created_before,  ->(date) { where("created_at < ?", date) } 
 
   def display_charge_type
     if charge_type == PRINT_CHARGE

@@ -3,6 +3,12 @@
 - else
   - date = "2017-05-01"
 
+- if params[:end_date]
+  - end_date = params[:end_date]
+- else
+  - end_date = (Time.now + 1.day).strftime("%Y-%m-%d")
+
+
 = render "billing_subnav"
 %br
 = render "billing_detail_subnav"
@@ -13,8 +19,15 @@
   = hidden_field_tag "type", params[:type]
   .form-group
     %label{:for => "date"} Start Date
-    .input-group.date#datetimepicker
+    .input-group.date#datetimepicker1
       = text_field_tag("date", date, {class: "form-control", placeholder: "Expiration Date"})
+      %span.input-group-addon
+        %span.glyphicon.glyphicon-calendar
+
+  .form-group
+    %label{:for => "end_date"} End Date
+    .input-group.date#datetimepicker2
+      = text_field_tag("end_date", end_date, {class: "form-control", placeholder: "End Date"})
       %span.input-group-addon
         %span.glyphicon.glyphicon-calendar
 
@@ -22,7 +35,7 @@
 
 %br
 
-= link_to "Download CSV", billing_detail_report_path(type: params[:type], date: params[:date], format: :csv), class: "btn btn-primary"
+= link_to "Download CSV", billing_detail_report_path(type: params[:type], date: params[:date], end_date: params[:end_date], format: :csv), class: "btn btn-primary"
 
 %hr 
 
