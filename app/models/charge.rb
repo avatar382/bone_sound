@@ -105,6 +105,27 @@ class Charge < ApplicationRecord
     end
   end
 
+  def charge_string
+    if charge_type == PRINT_CHARGE
+      "321000000002"
+    elsif charge_type == CNC_CHARGE
+      "321000000006"
+    elsif charge_type == WATERJET_CHARGE
+      "321000000005"
+    elsif charge_type == MEMBERSHIP_CHARGE
+      "321000000001"
+    elsif charge_type == LASER_CHARGE
+      "321000000003"
+    elsif charge_type == DESIGN_CHARGE
+      "321000000007"
+    elsif charge_type == MATERIALS_CHARGE
+      "321000000004"
+    else
+      "321000000004"
+    end
+  end
+
+
   def display_payment_method
     if payment_method == UFID_PAYMENT
       "UFID"

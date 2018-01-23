@@ -32,7 +32,9 @@
 
       = submit_tag("Update", class: "btn btn-primary")
 
+    %hr
 
+    %h4 All Charges
     %table.table.table-striped
       %thead
         %tr
@@ -101,6 +103,225 @@
             = @membership_charge.count
           %td
             = number_to_currency(@membership_charge.inject(0) {|sum, charge| sum + charge.amount} )
+
+    %hr
+
+    %h4 Student (UFID) Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Charge Type
+
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody
+        %tr
+          %td 
+            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @print_charge_ufid.count
+          %td
+            = number_to_currency(@print_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @cnc_charge_ufid.count
+          %td
+            = number_to_currency(@cnc_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @waterjet_charge_ufid.count
+          %td
+            = number_to_currency(@waterjet_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @laser_charge_ufid.count
+          %td
+            = number_to_currency(@laser_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @materials_charge_ufid.count
+          %td
+            = number_to_currency(@materials_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @design_charge_ufid.count
+          %td
+            = number_to_currency(@design_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @membership_charge_ufid.count
+          %td
+            = number_to_currency(@membership_charge_ufid.inject(0) {|sum, charge| sum + charge.amount} )
+
+    %hr 
+
+    %h4 Chartfield Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Charge Type
+
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody
+        %tr
+          %td 
+            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @print_charge_chartfield.count
+          %td
+            = number_to_currency(@print_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @cnc_charge_chartfield.count
+          %td
+            = number_to_currency(@cnc_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @waterjet_charge_chartfield.count
+          %td
+            = number_to_currency(@waterjet_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @laser_charge_chartfield.count
+          %td
+            = number_to_currency(@laser_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @materials_charge_chartfield.count
+          %td
+            = number_to_currency(@materials_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @design_charge_chartfield.count
+          %td
+            = number_to_currency(@design_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @membership_charge_chartfield.count
+          %td
+            = number_to_currency(@membership_charge_chartfield.inject(0) {|sum, charge| sum + charge.amount} )
+
+    %hr 
+
+    %h4 Check Charges
+    %table.table.table-striped
+      %thead
+        %tr
+          %td
+            Charge Type
+
+          %td
+            Number of charges
+
+          %td
+            Total
+
+      %tbody
+        %tr
+          %td 
+            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @print_charge_check.count
+          %td
+            = number_to_currency(@print_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @cnc_charge_check.count
+          %td
+            = number_to_currency(@cnc_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @waterjet_charge_check.count
+          %td
+            = number_to_currency(@waterjet_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @laser_charge_check.count
+          %td
+            = number_to_currency(@laser_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @materials_charge_check.count
+          %td
+            = number_to_currency(@materials_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @design_charge_check.count
+          %td
+            = number_to_currency(@design_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+        %tr
+          %td
+            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+          %td
+            = @membership_charge_check.count
+          %td
+            = number_to_currency(@membership_charge_check.inject(0) {|sum, charge| sum + charge.amount} )
+
+%br
+
 
 %br
 

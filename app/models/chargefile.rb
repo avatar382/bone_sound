@@ -27,7 +27,7 @@ class Chargefile < ApplicationRecord
 
     self.charges.each do |charge|
       amount_string = sprintf("%07.2f", charge.amount.to_f)
-      type_string   = charge.charge_type == Charge::MEMBERSHIP_CHARGE ? "321000000001" : "321000000004"
+      type_string   = charge.charge_string
       id_string     = month_date + "1" + sprintf("%03.0f", count) 
 
       # create the billing line

@@ -29,6 +29,34 @@ class BillingController < ApplicationController
     @laser_charge = Charge.all.created_after(date).created_before(end_date).not_comped.laser
     @design_charge = Charge.all.created_after(date).created_before(end_date).not_comped.design
     @materials_charge = Charge.created_after(date).created_before(end_date).all.not_comped.materials
+
+
+    @print_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.print.ufid
+    @cnc_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.ufid
+    @waterjet_charge_ufid  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.ufid
+    @membership_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.membership.ufid
+    @laser_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.laser.ufid
+    @design_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.design.ufid
+    @materials_charge_ufid = Charge.created_after(date).created_before(end_date).all.not_comped.materials.ufid
+
+
+    @print_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.print.chartfield
+    @cnc_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.chartfield
+    @waterjet_charge_chartfield  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.chartfield
+    @membership_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.membership.chartfield
+    @laser_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.laser.chartfield
+    @design_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.design.chartfield
+    @materials_charge_chartfield = Charge.created_after(date).created_before(end_date).all.not_comped.materials.chartfield
+
+
+    @print_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.print.check
+    @cnc_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.check
+    @waterjet_charge_check  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.check
+    @membership_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.membership.check
+    @laser_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.laser.check
+    @design_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.design.check
+    @materials_charge_check = Charge.created_after(date).created_before(end_date).all.not_comped.materials.check
+
   end
 
   def detail_report
