@@ -22,60 +22,86 @@ class BillingController < ApplicationController
   def report
     date, end_date = get_date_params
 
-    @print_charge = Charge.all.created_after(date).created_before(end_date).not_comped.print
-    @cnc_charge = Charge.all.created_after(date).created_before(end_date).not_comped.cnc
-    @waterjet_charge  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet
-    @membership_charge = Charge.all.created_after(date).created_before(end_date).not_comped.membership
-    @laser_charge = Charge.all.created_after(date).created_before(end_date).not_comped.laser
-    @design_charge = Charge.all.created_after(date).created_before(end_date).not_comped.design
-    @materials_charge = Charge.created_after(date).created_before(end_date).all.not_comped.materials
+    case params['affil']
+    when 'dcp'
+      charges = Charge.dcp
+    when 'arts'
+      charges = Charge.arts
+    when 'uf'
+      charges = Charge.uf
+    when 'external'
+      charges = Charge.external
+    else
+      charges = Charge.all
+    end
+
+    @print_charge = charges.created_after(date).created_before(end_date).not_comped.print
+    @cnc_charge = charges.created_after(date).created_before(end_date).not_comped.cnc
+    @waterjet_charge  = charges.created_after(date).created_before(end_date).not_comped.waterjet
+    @membership_charge = charges.created_after(date).created_before(end_date).not_comped.membership
+    @laser_charge = charges.created_after(date).created_before(end_date).not_comped.laser
+    @design_charge = charges.created_after(date).created_before(end_date).not_comped.design
+    @materials_charge = charges.created_after(date).created_before(end_date).all.not_comped.materials
 
 
-    @print_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.print.ufid
-    @cnc_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.ufid
-    @waterjet_charge_ufid  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.ufid
-    @membership_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.membership.ufid
-    @laser_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.laser.ufid
-    @design_charge_ufid = Charge.all.created_after(date).created_before(end_date).not_comped.design.ufid
-    @materials_charge_ufid = Charge.created_after(date).created_before(end_date).all.not_comped.materials.ufid
+    @print_charge_ufid = charges.created_after(date).created_before(end_date).not_comped.print.ufid
+    @cnc_charge_ufid = charges.created_after(date).created_before(end_date).not_comped.cnc.ufid
+    @waterjet_charge_ufid  = charges.created_after(date).created_before(end_date).not_comped.waterjet.ufid
+    @membership_charge_ufid = charges.created_after(date).created_before(end_date).not_comped.membership.ufid
+    @laser_charge_ufid = charges.created_after(date).created_before(end_date).not_comped.laser.ufid
+    @design_charge_ufid = charges.created_after(date).created_before(end_date).not_comped.design.ufid
+    @materials_charge_ufid = charges.created_after(date).created_before(end_date).all.not_comped.materials.ufid
 
 
-    @print_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.print.chartfield
-    @cnc_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.chartfield
-    @waterjet_charge_chartfield  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.chartfield
-    @membership_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.membership.chartfield
-    @laser_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.laser.chartfield
-    @design_charge_chartfield = Charge.all.created_after(date).created_before(end_date).not_comped.design.chartfield
-    @materials_charge_chartfield = Charge.created_after(date).created_before(end_date).all.not_comped.materials.chartfield
+    @print_charge_chartfield = charges.created_after(date).created_before(end_date).not_comped.print.chartfield
+    @cnc_charge_chartfield = charges.created_after(date).created_before(end_date).not_comped.cnc.chartfield
+    @waterjet_charge_chartfield  = charges.created_after(date).created_before(end_date).not_comped.waterjet.chartfield
+    @membership_charge_chartfield = charges.created_after(date).created_before(end_date).not_comped.membership.chartfield
+    @laser_charge_chartfield = charges.created_after(date).created_before(end_date).not_comped.laser.chartfield
+    @design_charge_chartfield = charges.created_after(date).created_before(end_date).not_comped.design.chartfield
+    @materials_charge_chartfield = charges.created_after(date).created_before(end_date).all.not_comped.materials.chartfield
 
 
-    @print_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.print.check
-    @cnc_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.cnc.check
-    @waterjet_charge_check  = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet.check
-    @membership_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.membership.check
-    @laser_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.laser.check
-    @design_charge_check = Charge.all.created_after(date).created_before(end_date).not_comped.design.check
-    @materials_charge_check = Charge.created_after(date).created_before(end_date).all.not_comped.materials.check
+    @print_charge_check = charges.created_after(date).created_before(end_date).not_comped.print.check
+    @cnc_charge_check = charges.created_after(date).created_before(end_date).not_comped.cnc.check
+    @waterjet_charge_check  = charges.created_after(date).created_before(end_date).not_comped.waterjet.check
+    @membership_charge_check = charges.created_after(date).created_before(end_date).not_comped.membership.check
+    @laser_charge_check = charges.created_after(date).created_before(end_date).not_comped.laser.check
+    @design_charge_check = charges.created_after(date).created_before(end_date).not_comped.design.check
+    @materials_charge_check = charges.created_after(date).created_before(end_date).all.not_comped.materials.check
 
   end
 
   def detail_report
     date, end_date = get_date_params
 
+    case params['affil']
+    when 'dcp'
+      charges = Charge.dcp
+    when 'arts'
+      charges = Charge.arts
+    when 'uf'
+      charges = Charge.uf
+    when 'external'
+      charges = Charge.external
+    else
+      charges = Charge.all
+    end
+
     if params[:type] == "3dp"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.print
+      @charges = charges.created_after(date).created_before(end_date).not_comped.print
     elsif params[:type] == "cnc"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.cnc
+      @charges = charges.created_after(date).created_before(end_date).not_comped.cnc
     elsif params[:type] == "waterjet"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.waterjet
+      @charges = charges.created_after(date).created_before(end_date).not_comped.waterjet
     elsif params[:type] == "membership"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.membership
+      @charges = charges.created_after(date).created_before(end_date).not_comped.membership
     elsif params[:type] == "laser"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.laser
+      @charges = charges.created_after(date).created_before(end_date).not_comped.laser
     elsif params[:type] == "design"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.design
+      @charges = charges.created_after(date).created_before(end_date).not_comped.design
     elsif params[:type] == "materials"
-      @charges = Charge.all.created_after(date).created_before(end_date).not_comped.materials
+      @charges = charges.created_after(date).created_before(end_date).not_comped.materials
     end
 
     respond_to do |format|

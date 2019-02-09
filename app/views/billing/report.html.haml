@@ -8,6 +8,12 @@
 - else
   - end_date = (Time.now + 1.day).strftime("%Y-%m-%d")
 
+- if params[:affil]
+  - affil = params[:affil]
+- else
+  - affil = "any"
+
+
 = render "billing_subnav"
 
 .row
@@ -30,6 +36,21 @@
           %span.input-group-addon
             %span.glyphicon.glyphicon-calendar
 
+      .form-group
+        %label{:for => "affil"} Affiliation
+        .input-group
+          %select{:name => 'affil', :id => 'affil'}
+            %option{:value => 'any'}
+              Any
+            %option{:value => 'dcp', :selected => params['affil'] == 'dcp'}
+              DCP
+            %option{:value => 'arts', :selected => params['affil'] == 'arts'}
+              Arts
+            %option{:value => 'uf', :selected => params['affil'] == 'uf'}
+              Other UF 
+            %option{:value => 'external', :selected => params['affil'] == 'external'}
+              External
+
       = submit_tag("Update", class: "btn btn-primary")
 
     %hr
@@ -50,7 +71,7 @@
       %tbody
         %tr
           %td 
-            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+            = link_to "3D Prints", billing_detail_report_path(affil: affil, type: "3dp", date: date, end_date: end_date, commit: "Update")
           %td
             = @print_charge.count
           %td
@@ -58,7 +79,7 @@
 
         %tr
           %td
-            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+            = link_to "CNC", billing_detail_report_path(affil: affil, type: "cnc", date: date, end_date: end_date, commit: "Update")
           %td
             = @cnc_charge.count
           %td
@@ -66,7 +87,7 @@
 
         %tr
           %td
-            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+            = link_to "Waterjet", billing_detail_report_path(affil: affil, type: "waterjet", date: date, end_date: end_date, commit: "Update")
           %td
             = @waterjet_charge.count
           %td
@@ -74,7 +95,7 @@
 
         %tr
           %td
-            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+            = link_to "Laser", billing_detail_report_path(affil: affil, type: "laser", date: date, end_date: end_date, commit: "Update")
           %td
             = @laser_charge.count
           %td
@@ -82,7 +103,7 @@
 
         %tr
           %td
-            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+            = link_to "Materials", billing_detail_report_path(affil: affil, type: "materials", date: date, end_date: end_date, commit: "Update")
           %td
             = @materials_charge.count
           %td
@@ -90,7 +111,7 @@
 
         %tr
           %td
-            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+            = link_to "Design", billing_detail_report_path(affil: affil, type: "design", date: date, end_date: end_date, commit: "Update")
           %td
             = @design_charge.count
           %td
@@ -98,7 +119,7 @@
 
         %tr
           %td
-            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+            = link_to "Membership", billing_detail_report_path(affil: affil, type: "membership", date: date, end_date: end_date, commit: "Update")
           %td
             = @membership_charge.count
           %td
@@ -122,7 +143,7 @@
       %tbody
         %tr
           %td 
-            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+            = link_to "3D Prints", billing_detail_report_path(affil: affil, type: "3dp", date: date, end_date: end_date, commit: "Update")
           %td
             = @print_charge_ufid.count
           %td
@@ -130,7 +151,7 @@
 
         %tr
           %td
-            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+            = link_to "CNC", billing_detail_report_path(affil: affil, type: "cnc", date: date, end_date: end_date, commit: "Update")
           %td
             = @cnc_charge_ufid.count
           %td
@@ -138,7 +159,7 @@
 
         %tr
           %td
-            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+            = link_to "Waterjet", billing_detail_report_path(affil: affil, type: "waterjet", date: date, end_date: end_date, commit: "Update")
           %td
             = @waterjet_charge_ufid.count
           %td
@@ -146,7 +167,7 @@
 
         %tr
           %td
-            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+            = link_to "Laser", billing_detail_report_path(affil: affil, type: "laser", date: date, end_date: end_date, commit: "Update")
           %td
             = @laser_charge_ufid.count
           %td
@@ -154,7 +175,7 @@
 
         %tr
           %td
-            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+            = link_to "Materials", billing_detail_report_path(affil: affil, type: "materials", date: date, end_date: end_date, commit: "Update")
           %td
             = @materials_charge_ufid.count
           %td
@@ -162,7 +183,7 @@
 
         %tr
           %td
-            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+            = link_to "Design", billing_detail_report_path(affil: affil, type: "design", date: date, end_date: end_date, commit: "Update")
           %td
             = @design_charge_ufid.count
           %td
@@ -170,7 +191,7 @@
 
         %tr
           %td
-            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+            = link_to "Membership", billing_detail_report_path(affil: affil, type: "membership", date: date, end_date: end_date, commit: "Update")
           %td
             = @membership_charge_ufid.count
           %td
@@ -194,7 +215,7 @@
       %tbody
         %tr
           %td 
-            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+            = link_to "3D Prints", billing_detail_report_path(affil: affil, type: "3dp", date: date, end_date: end_date, commit: "Update")
           %td
             = @print_charge_chartfield.count
           %td
@@ -202,7 +223,7 @@
 
         %tr
           %td
-            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+            = link_to "CNC", billing_detail_report_path(affil: affil, type: "cnc", date: date, end_date: end_date, commit: "Update")
           %td
             = @cnc_charge_chartfield.count
           %td
@@ -210,7 +231,7 @@
 
         %tr
           %td
-            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+            = link_to "Waterjet", billing_detail_report_path(affil: affil, type: "waterjet", date: date, end_date: end_date, commit: "Update")
           %td
             = @waterjet_charge_chartfield.count
           %td
@@ -218,7 +239,7 @@
 
         %tr
           %td
-            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+            = link_to "Laser", billing_detail_report_path(affil: affil, type: "laser", date: date, end_date: end_date, commit: "Update")
           %td
             = @laser_charge_chartfield.count
           %td
@@ -226,7 +247,7 @@
 
         %tr
           %td
-            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+            = link_to "Materials", billing_detail_report_path(affil: affil, type: "materials", date: date, end_date: end_date, commit: "Update")
           %td
             = @materials_charge_chartfield.count
           %td
@@ -234,7 +255,7 @@
 
         %tr
           %td
-            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+            = link_to "Design", billing_detail_report_path(affil: affil, type: "design", date: date, end_date: end_date, commit: "Update")
           %td
             = @design_charge_chartfield.count
           %td
@@ -242,7 +263,7 @@
 
         %tr
           %td
-            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+            = link_to "Membership", billing_detail_report_path(affil: affil, type: "membership", date: date, end_date: end_date, commit: "Update")
           %td
             = @membership_charge_chartfield.count
           %td
@@ -266,7 +287,7 @@
       %tbody
         %tr
           %td 
-            = link_to "3D Prints", billing_detail_report_path(type: "3dp", date: date, end_date: end_date, commit: "Update")
+            = link_to "3D Prints", billing_detail_report_path(affil: affil, type: "3dp", date: date, end_date: end_date, commit: "Update")
           %td
             = @print_charge_check.count
           %td
@@ -274,7 +295,7 @@
 
         %tr
           %td
-            = link_to "CNC", billing_detail_report_path(type: "cnc", date: date, end_date: end_date, commit: "Update")
+            = link_to "CNC", billing_detail_report_path(affil: affil, type: "cnc", date: date, end_date: end_date, commit: "Update")
           %td
             = @cnc_charge_check.count
           %td
@@ -282,7 +303,7 @@
 
         %tr
           %td
-            = link_to "Waterjet", billing_detail_report_path(type: "waterjet", date: date, end_date: end_date, commit: "Update")
+            = link_to "Waterjet", billing_detail_report_path(affil: affil, type: "waterjet", date: date, end_date: end_date, commit: "Update")
           %td
             = @waterjet_charge_check.count
           %td
@@ -290,7 +311,7 @@
 
         %tr
           %td
-            = link_to "Laser", billing_detail_report_path(type: "laser", date: date, end_date: end_date, commit: "Update")
+            = link_to "Laser", billing_detail_report_path(affil: affil, type: "laser", date: date, end_date: end_date, commit: "Update")
           %td
             = @laser_charge_check.count
           %td
@@ -298,7 +319,7 @@
 
         %tr
           %td
-            = link_to "Materials", billing_detail_report_path(type: "materials", date: date, end_date: end_date, commit: "Update")
+            = link_to "Materials", billing_detail_report_path(affil: affil, type: "materials", date: date, end_date: end_date, commit: "Update")
           %td
             = @materials_charge_check.count
           %td
@@ -306,7 +327,7 @@
 
         %tr
           %td
-            = link_to "Design", billing_detail_report_path(type: "design", date: date, end_date: end_date, commit: "Update")
+            = link_to "Design", billing_detail_report_path(affil: affil, type: "design", date: date, end_date: end_date, commit: "Update")
           %td
             = @design_charge_check.count
           %td
@@ -314,7 +335,7 @@
 
         %tr
           %td
-            = link_to "Membership", billing_detail_report_path(type: "membership", date: date, end_date: end_date, commit: "Update")
+            = link_to "Membership", billing_detail_report_path(affil: affil, type: "membership", date: date, end_date: end_date, commit: "Update")
           %td
             = @membership_charge_check.count
           %td

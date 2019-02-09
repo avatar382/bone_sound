@@ -8,6 +8,11 @@
 - else
   - end_date = (Time.now + 1.day).strftime("%Y-%m-%d")
 
+- if params[:affil]
+  - affil = params[:affil]
+- else
+  - affil = "any"
+
 
 = render "billing_subnav"
 %br
@@ -31,11 +36,26 @@
       %span.input-group-addon
         %span.glyphicon.glyphicon-calendar
 
+  .form-group
+    %label{:for => "affil"} Affiliation
+    .input-group
+      %select{:name => 'affil', :id => 'affil'}
+        %option{:value => 'any'}
+          Any
+        %option{:value => 'dcp', :selected => params['affil'] == 'dcp'}
+          DCP
+        %option{:value => 'arts', :selected => params['affil'] == 'arts'}
+          Arts
+        %option{:value => 'uf', :selected => params['affil'] == 'uf'}
+          Other UF 
+        %option{:value => 'external', :selected => params['affil'] == 'external'}
+          External
+
   = submit_tag("Update", class: "btn btn-primary")
 
 %br
 
-= link_to "Download CSV", billing_detail_report_path(type: params[:type], date: params[:date], end_date: params[:end_date], format: :csv), class: "btn btn-primary"
+= link_to "Download CSV", billing_detail_report_path(affil: affil, type: params[:type], date: params[:date], end_date: params[:end_date], format: :csv), class: "btn btn-primary"
 
 %hr 
 

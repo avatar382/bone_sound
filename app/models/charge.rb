@@ -74,6 +74,11 @@ class Charge < ApplicationRecord
   scope :comped,     -> { where("payment_method = ?", COMPED_PAYMENT) } 
   scope :not_comped, -> { where("payment_method != ?", COMPED_PAYMENT) } 
 
+  scope :dcp,        -> { joins(:account).where('accounts.affiliation = ?', Account::ARCH_AFFILIATION) }
+  scope :arts,       -> { joins(:account).where('accounts.affiliation = ?', Account::ARTS_AFFILIATION) }
+  scope :uf,         -> { joins(:account).where('accounts.affiliation = ?', Account::UF_AFFILIATION) }
+  scope :external,   -> { joins(:account).where('accounts.affiliation IS NULL') }
+
   scope :print,      -> { where("charge_type = ?", PRINT_CHARGE) } 
   scope :cnc,        -> { where("charge_type = ?", CNC_CHARGE) } 
   scope :waterjet,   -> { where("charge_type = ?", WATERJET_CHARGE) } 
@@ -82,8 +87,8 @@ class Charge < ApplicationRecord
   scope :design,     -> { where("charge_type = ?", DESIGN_CHARGE) } 
   scope :materials,  -> { where("charge_type = ?", MATERIALS_CHARGE) } 
 
-  scope :created_after, ->(date) { where("created_at > ?", date) } 
-  scope :created_before,  ->(date) { where("created_at < ?", date) } 
+  scope :created_after, ->(date) { where("charges.created_at > ?", date) } 
+  scope :created_before,  ->(date) { where("charges.created_at < ?", date) } 
 
   def display_charge_type
     if charge_type == PRINT_CHARGE
