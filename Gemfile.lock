@@ -80,7 +80,7 @@ GEM
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
-    haml (5.0.1)
+    haml (5.0.4)
       temple (>= 0.8.0)
       tilt
     haml-rails (1.0.0)
@@ -199,7 +199,7 @@ GEM
     temple (0.8.0)
     thor (0.19.4)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.9)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
@@ -228,7 +228,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   fabrication
   faker
-  haml
+  haml (= 5.0.4)
   haml-rails
   jbuilder (~> 2.5)
   kaminari
@@ -248,4 +248,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.15.1
+   1.16.1
