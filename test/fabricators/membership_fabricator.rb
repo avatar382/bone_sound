@@ -17,5 +17,5 @@ Fabricator(:membership) do
   price { 120 }
   duration { 120 }
   is_renewal { false }
-  affiliation { Account::A2_AFFILIATION }
+  affiliation { Account::ARCH_AFFILIATION }
 end

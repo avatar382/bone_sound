@@ -163,7 +163,7 @@ class AccountTest < ActiveSupport::TestCase
               email: "email@thing.com",
               gatorlink_id: rand(1000000),
               ufid: rand(89999999)+10000000,
-              affiliation: Account::A2_AFFILIATION,
+              affiliation: Account::ARCH_AFFILIATION,
               account_type: Account::LASER_MEMBER_TYPE}
 
     account = Account.new(params)

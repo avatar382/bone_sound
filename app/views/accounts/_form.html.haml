@@ -86,10 +86,10 @@
             %label{:for => "account_affiliation_#{Account::UF_AFFILIATION}"} Affiliation
             %br
             Architecture 
-            = form.radio_button(:affiliation, Account::A2_AFFILIATION, {id: "js-arch-button", class: "form-control", checked: true})
+            = form.radio_button(:affiliation, Account::ARCH_AFFILIATION, {id: "js-arch-button", class: "form-control", checked: true})
 
             Arts
-            = form.radio_button(:affiliation, Account::A2_AFFILIATION, {id: "js-arts-button", class: "form-control"})
+            = form.radio_button(:affiliation, Account::ARTS_AFFILIATION, {id: "js-arts-button", class: "form-control"})
 
             Other UF
             = form.radio_button(:affiliation, Account::UF_AFFILIATION, {id: "js-other-button",  class: "form-control"})

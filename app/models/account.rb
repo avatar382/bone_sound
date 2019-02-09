@@ -26,7 +26,12 @@ class Account < ApplicationRecord
   audited
 
   UF_AFFILIATION = 1
-  A2_AFFILIATION = 2
+  ARCH_AFFILIATION = 2
+
+  # The constant A2_AFFILICATION is depreciated. Used to mean Arts + Arch, now a synonym for Arch. Kept here to avoid bugs where A2_AFFILIATION is undefined, especially in old migrations.
+
+  A2_AFFILIATION = 2 
+  ARTS_AFFILIATION = 3
 
   LASER_MEMBER_TYPE = 1
   INTERNAL_CLIENT_TYPE = 2
@@ -104,8 +109,10 @@ class Account < ApplicationRecord
   def display_affiliation
     if affiliation == UF_AFFILIATION
       "University of Florida"
-    elsif affiliation == A2_AFFILIATION
-      "Arts & Architecture"
+    elsif affiliation == ARCH_AFFILIATION
+      "DCP"
+    elsif affiliation == ARTS_AFFILIATION
+      "Arts"
     else
       ""
     end
@@ -180,7 +187,7 @@ class Account < ApplicationRecord
   end
 
   def has_gatorlink_id_with_affiliation
-    if (affiliation == UF_AFFILIATION || affiliation == A2_AFFILIATION) && gatorlink_id.blank? && account_type != EXTERNAL_CLIENT_TYPE
+    if (affiliation == UF_AFFILIATION || affiliation == ARCH_AFFILIATION || affiliation == ARTS_AFFILIATION) && gatorlink_id.blank? && account_type != EXTERNAL_CLIENT_TYPE
       errors.add(:gatorlink_id, " required")
     end
   end

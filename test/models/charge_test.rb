@@ -171,7 +171,7 @@ class ChargeTest < ActiveSupport::TestCase
     membership = Membership.create(name: "4 month Renewal A^2 Membership",
                                    price: 120.00,
                                    duration: 120,
-                                   affiliation: Account::A2_AFFILIATION,
+                                   affiliation: Account::ARCH_AFFILIATION,
                                    is_renewal: true)
 
     charge_via_membership = Charge.new(membership_id: membership.id, 
@@ -190,7 +190,7 @@ class ChargeTest < ActiveSupport::TestCase
     membership = Membership.create(name: "4 month Renewal A^2 Membership",
                                    price: 120.00,
                                    duration: 120,
-                                   affiliation: Account::A2_AFFILIATION,
+                                   affiliation: Account::ARCH_AFFILIATION,
                                    is_renewal: true)
 
     charge_via_membership = Charge.new(membership_id: membership.id, 
@@ -208,7 +208,7 @@ class ChargeTest < ActiveSupport::TestCase
     membership = Membership.create(name: "4 month Renewal A^2 Membership",
                                    price: 120.00,
                                    duration: 120,
-                                   affiliation: Account::A2_AFFILIATION,
+                                   affiliation: Account::ARCH_AFFILIATION,
                                    is_renewal: true)
 
     charge_via_membership = Charge.new(membership_id: membership.id, 
