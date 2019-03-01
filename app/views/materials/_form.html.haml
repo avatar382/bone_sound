@@ -4,7 +4,10 @@
       .well
         .form-group
           %label{:for => "material_sku"} SKU
-          = form.text_field(:sku, {class: "form-control", placeholder: "SKU"})
+          - if @material.persisted?
+            = form.text_field(:sku, {class: "form-control", placeholder: "SKU", readonly: true})
+          - else
+            = form.text_field(:sku, {class: "form-control", placeholder: "SKU"})
 
         .form-group
           %label{:for => "material_count"} Units in Stock
