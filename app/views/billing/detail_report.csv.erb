@@ -1,8 +1,68 @@
 <%- headers = ['Date', 'Name', 'Gatorlink ID', 'UF College', 'Affiliation', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] -%>
+<%- uf_charges = @charges.select {|c| c.account.affiliation == Account::UF_AFFILIATION} -%>
+<%- arch_charges = @charges.select {|c| c.account.affiliation == Account::ARCH_AFFILIATION} -%>
+<%- arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} -%>
+<%- external_charges = @charges.select {|c| c.account.affiliation == nil} -%>
+
+<%- uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
+<%- arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
+<%- arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
+<%- external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
+
+<%# UF CHARGES #%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
-<% STDERR.puts "***************************"%>
-<% STDERR.puts "length: " + @charges.length.to_s %>
-<%- @charges.each do |charge| -%>
+<%- uf_charges.each do |charge| -%>
+<%- next if charge.account.nil? -%>
+
+<%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
+                       charge.account.display_name,
+                       charge.account.gatorlink_id,
+                       charge.account.uf_college,
+                       charge.account.affiliation,
+                       charge.display_payment_method,
+                       charge.display_charge_type,
+                       charge.description,
+                       number_to_currency(charge.amount),
+                       charge.paid?], force_quotes: true).html_safe -%>
+<%- end -%>
+
+<%# ARCH CHARGES #%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%- arch_charges.each do |charge| -%>
+<%- next if charge.account.nil? -%>
+
+<%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
+                       charge.account.display_name,
+                       charge.account.gatorlink_id,
+                       charge.account.uf_college,
+                       charge.account.affiliation,
+                       charge.display_payment_method,
+                       charge.display_charge_type,
+                       charge.description,
+                       number_to_currency(charge.amount),
+                       charge.paid?], force_quotes: true).html_safe -%>
+<%- end -%>
+
+<%# ARTS CHARGES #%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%- arts_charges.each do |charge| -%>
+<%- next if charge.account.nil? -%>
+
+<%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
+                       charge.account.display_name,
+                       charge.account.gatorlink_id,
+                       charge.account.uf_college,
+                       charge.account.affiliation,
+                       charge.display_payment_method,
+                       charge.display_charge_type,
+                       charge.description,
+                       number_to_currency(charge.amount),
+                       charge.paid?], force_quotes: true).html_safe -%>
+<%- end -%>
+
+<%# EXTERNAL CHARGES #%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%- external_charges.each do |charge| -%>
 <%- next if charge.account.nil? -%>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
