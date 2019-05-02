@@ -6,9 +6,9 @@
 
 <%# Count number of records in each "college" in UF charge hash #%>
 <%- colleges = {} -%>
-<%- college_hash = uf_charges.each do |c| -%>
+<%- uf_charges.each do |c| -%>
 	<%- col = c.account.uf_college -%>
-	<%- if college_hash[col] -%>
+	<%- if colleges[col] -%>
 		colleges[col] += 1 -%>
 	<%- else -%>
 		colleges[col] = 1 -%>
