@@ -104,6 +104,8 @@ class BillingController < ApplicationController
       @charges = charges.created_after(date).created_before(end_date).not_comped.materials
     end
 
+    generate_detail_report_data
+
     respond_to do |format|
       format.html
       format.csv do
@@ -129,6 +131,42 @@ class BillingController < ApplicationController
       end
 
       [date, end_date]
+    end
+
+    def generate_detail_report_data
+      @headers = ['Date', 'Name', 'Gatorlink ID', 'UF College', 'Affiliation', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] 
+
+      @uf_charges = @charges.select {|c| c.account.affiliation == Account::UF_AFFILIATION} 
+      @arch_charges = @charges.select {|c| c.account.affiliation == Account::ARCH_AFFILIATION} 
+      @arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} 
+      @external_charges = @charges.select {|c| c.account.affiliation == nil} 
+
+      # sort our hashes by account
+      @uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } 
+
+      get_unique_count_data
+    end
+
+    def get_unique_count_data
+      # Count number of unique charges for each "college" in UF charge hash #
+      @uf_sec_summary = {} 
+      accounts = {} 
+
+      @uf_charges.each do |c| 
+        next if accounts[c.account_id] 
+
+        col = c.account.uf_college 
+        if @uf_sec_summary[col] 
+          @uf_sec_summary[col] += 1 
+        else 
+          @uf_sec_summary[col] = 1 
+        end 
+
+        accounts[c.account_id] = true 
+      end 
     end
 
 
