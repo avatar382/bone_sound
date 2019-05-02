@@ -40,7 +40,7 @@
 
 <%# UF college summary #%>
 <%- colleges.each_pair do |college_name, count| -%>
-<%= CSV.generate_line([college_name, count]) -%>
+<%= CSV.generate_line(["", college_name, count], force_quotes: true).html_safe -%>
 <%- end -%>
 
 
