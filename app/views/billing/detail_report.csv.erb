@@ -9,9 +9,9 @@
 <%- uf_charges.each do |c| -%>
 	<%- col = c.account.uf_college -%>
 	<%- if colleges[col] -%>
-		colleges[col] += 1 -%>
+		<%- colleges[col] += 1 -%>
 	<%- else -%>
-		colleges[col] = 1 -%>
+		<%- colleges[col] = 1 -%>
 	<%- end -%>
 <%- end -%>
 
