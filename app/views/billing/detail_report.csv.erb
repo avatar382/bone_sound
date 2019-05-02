@@ -1,8 +1,6 @@
 <%# UF CHARGES #%>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @uf_charges.each do |charge| %>
-<% next if charge.account.nil? %>
-
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
                        charge.account.gatorlink_id,
@@ -23,8 +21,6 @@
 <%# ARCH CHARGES #%>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arch_charges.each do |charge| %>
-<% next if charge.account.nil? %>
-
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
                        charge.account.gatorlink_id,
@@ -40,8 +36,6 @@
 <%# ARTS CHARGES #%>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arts_charges.each do |charge| %>
-<% next if charge.account.nil? %>
-
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
                        charge.account.gatorlink_id,
@@ -57,8 +51,6 @@
 <%# EXTERNAL CHARGES #%>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @external_charges.each do |charge| %>
-<% next if charge.account.nil? %>
-
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
                        charge.account.gatorlink_id,
