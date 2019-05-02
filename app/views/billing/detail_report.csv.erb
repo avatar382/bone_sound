@@ -1,35 +1,35 @@
-<%- headers = ['Date', 'Name', 'Gatorlink ID', 'UF College', 'Affiliation', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] -%>
-<%- uf_charges = @charges.select {|c| c.account.affiliation == Account::UF_AFFILIATION} -%>
-<%- arch_charges = @charges.select {|c| c.account.affiliation == Account::ARCH_AFFILIATION} -%>
-<%- arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} -%>
-<%- external_charges = @charges.select {|c| c.account.affiliation == nil} -%>
+<% headers = ['Date', 'Name', 'Gatorlink ID', 'UF College', 'Affiliation', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] %>
+<% uf_charges = @charges.select {|c| c.account.affiliation == Account::UF_AFFILIATION} %>
+<% arch_charges = @charges.select {|c| c.account.affiliation == Account::ARCH_AFFILIATION} %>
+<% arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} %>
+<% external_charges = @charges.select {|c| c.account.affiliation == nil} %>
 
 <%# Count number of unique charges for each "college" in UF charge hash #%>
-<%- colleges = {} -%>
-<%- accounts = {} -%>
-<%- uf_charges.each do |c| -%>
-	<%- next if accounts[c.account_id] == true -%>
+<% colleges = {} %>
+<% accounts = {} %>
+<% uf_charges.each do |c| %>
+	<% next if accounts[c.account_id] %>
 
-	<%- col = c.account.uf_college -%>
-	<%- if colleges[col] -%>
-		<%- colleges[col] += 1 -%>
-	<%- else -%>
-		<%- colleges[col] = 1 -%>
-	<%- end -%>
+	<% col = c.account.uf_college %>
+	<% if colleges[col] %>
+		<% colleges[col] += 1 %>
+	<% else %>
+		<% colleges[col] = 1 %>
+	<% end %>
 
-	<%- accounts[c.account_id] = true -%>
-<%- end -%>
+	<% accounts[c.account_id] = true %>
+<% end %>
 
 <%# sort our hashes by account #%>
-<%- uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
-<%- arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
-<%- arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
-<%- external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
+<% uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } %>
+<% arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } %>
+<% arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } %>
+<% external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } %>
 
 <%# UF CHARGES #%>
-<%= CSV.generate_line(headers, force_quotes: true).html_safe -%>
-<%- uf_charges.each do |charge| -%>
-<%- next if charge.account.nil? -%>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<% uf_charges.each do |charge| %>
+<% next if charge.account.nil? %>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
@@ -40,19 +40,19 @@
                        charge.display_charge_type,
                        charge.description,
                        number_to_currency(charge.amount),
-                       charge.paid?], force_quotes: true).html_safe -%>
-<%- end -%>
+                       charge.paid?], force_quotes: true).html_safe %>
+<% end %>
 
 <%# UF college summary #%>
-<%- colleges.each_pair do |college_name, count| -%>
-<%= CSV.generate_line(["", college_name, count], force_quotes: true).html_safe -%>
-<%- end -%>
+<% colleges.each_pair do |college_name, count| %>
+<%= CSV.generate_line(["", college_name, count], force_quotes: true).html_safe %>
+<% end %>
 
 
 <%# ARCH CHARGES #%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
-<%- arch_charges.each do |charge| -%>
-<%- next if charge.account.nil? -%>
+<% arch_charges.each do |charge| %>
+<% next if charge.account.nil? %>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
@@ -63,13 +63,13 @@
                        charge.display_charge_type,
                        charge.description,
                        number_to_currency(charge.amount),
-                       charge.paid?], force_quotes: true).html_safe -%>
-<%- end -%>
+                       charge.paid?], force_quotes: true).html_safe %>
+<% end %>
 
 <%# ARTS CHARGES #%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
-<%- arts_charges.each do |charge| -%>
-<%- next if charge.account.nil? -%>
+<% arts_charges.each do |charge| %>
+<% next if charge.account.nil? %>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
@@ -80,13 +80,13 @@
                        charge.display_charge_type,
                        charge.description,
                        number_to_currency(charge.amount),
-                       charge.paid?], force_quotes: true).html_safe -%>
-<%- end -%>
+                       charge.paid?], force_quotes: true).html_safe %>
+<% end %>
 
 <%# EXTERNAL CHARGES #%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
-<%- external_charges.each do |charge| -%>
-<%- next if charge.account.nil? -%>
+<% external_charges.each do |charge| %>
+<% next if charge.account.nil? %>
 
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
                        charge.account.display_name,
@@ -97,5 +97,5 @@
                        charge.display_charge_type,
                        charge.description,
                        number_to_currency(charge.amount),
-                       charge.paid?], force_quotes: true).html_safe -%>
-<%- end -%>
+                       charge.paid?], force_quotes: true).html_safe %>
+<% end %>
