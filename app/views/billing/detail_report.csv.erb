@@ -22,7 +22,7 @@
 <%- external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
 
 <%# UF CHARGES #%>
-<%= CSV.generate_line(headers, force_quotes: true).html_safe %>
+<%= CSV.generate_line(headers, force_quotes: true).html_safe -%>
 <%- uf_charges.each do |charge| -%>
 <%- next if charge.account.nil? -%>
 
@@ -40,7 +40,7 @@
 
 <%# UF college summary #%>
 <%- colleges.each_pair do |college_name, count| -%>
-<%= CSV.generate_line([college_name, count]) =%>
+<%= CSV.generate_line([college_name, count]) -%>
 <%- end -%>
 
 
