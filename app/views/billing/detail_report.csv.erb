@@ -4,6 +4,18 @@
 <%- arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} -%>
 <%- external_charges = @charges.select {|c| c.account.affiliation == nil} -%>
 
+<%# Count number of records in each "college" in UF charge hash #%>
+<%- colleges = {} -%>
+<%- college_hash = uf_charges.each do |c| -%>
+	<%- col = c.account.uf_college -%>
+	<%- if college_hash[col] -%>
+		colleges[col] += 1 -%>
+	<%- else -%>
+		colleges[col] = 1 -%>
+	<%- end -%>
+<%- end -%>
+
+<%# sort our hashes by account #%>
 <%- uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
 <%- arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
 <%- arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } -%>
@@ -25,6 +37,12 @@
                        number_to_currency(charge.amount),
                        charge.paid?], force_quotes: true).html_safe -%>
 <%- end -%>
+
+<%# UF college summary #%>
+<%- colleges.each_with_value do |college_name, count| -%>
+<%= CSV.generate_line([college_name, count]) =%>
+<%- end -%>
+
 
 <%# ARCH CHARGES #%>
 <%= CSV.generate_line(headers, force_quotes: true).html_safe %>
