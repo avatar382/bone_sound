@@ -1,26 +1,5 @@
-<%# UF CHARGES #%>
-<%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
-<% @uf_charges.each do |charge| %>
-  <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
-                         charge.account.display_name,
-                         charge.account.gatorlink_id,
-                         charge.account.uf_college,
-                         charge.account.affiliation,
-                         charge.display_payment_method,
-                         charge.display_charge_type,
-                         charge.description,
-                         number_to_currency(charge.amount),
-                         charge.paid?], force_quotes: true).html_safe %>
-<% end %>
-
-<%# UF college summary #%>
-<%= CSV.generate_line(["UF Affiliation Unique Users Summary"], force_quotes: true).html_safe %>
-<%= CSV.generate_line(["College Name", "Count"], force_quotes: true).html_safe %>
-<% @uf_sec_summary.each_pair do |college_name, count| %>
-  <%= CSV.generate_line([college_name, count], force_quotes: true).html_safe %>
-<% end %>
-
 <%# ARCH CHARGES #%>
+<%= CSV.generate_line("DCP Affiliation Charges", force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arch_charges.each do |charge| %>
   <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
@@ -43,6 +22,7 @@
 <% end %>
 
 <%# ARTS CHARGES #%>
+<%= CSV.generate_line("Arts Affiliation Charges", force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arts_charges.each do |charge| %>
   <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
@@ -64,7 +44,31 @@
   <%= CSV.generate_line([college_name, count], force_quotes: true).html_safe %>
 <% end %>
 
+<%# Other UF CHARGES #%>
+<%= CSV.generate_line("Other UF Affiliation Charges", force_quotes: true).html_safe %>
+<%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
+<% @uf_charges.each do |charge| %>
+  <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
+                         charge.account.display_name,
+                         charge.account.gatorlink_id,
+                         charge.account.uf_college,
+                         charge.account.affiliation,
+                         charge.display_payment_method,
+                         charge.display_charge_type,
+                         charge.description,
+                         number_to_currency(charge.amount),
+                         charge.paid?], force_quotes: true).html_safe %>
+<% end %>
+
+<%# UF college summary #%>
+<%= CSV.generate_line(["UF Affiliation Unique Users Summary"], force_quotes: true).html_safe %>
+<%= CSV.generate_line(["College Name", "Count"], force_quotes: true).html_safe %>
+<% @uf_sec_summary.each_pair do |college_name, count| %>
+  <%= CSV.generate_line([college_name, count], force_quotes: true).html_safe %>
+<% end %>
+
 <%# EXTERNAL CHARGES #%>
+<%= CSV.generate_line("External Charges", force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @external_charges.each do |charge| %>
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
