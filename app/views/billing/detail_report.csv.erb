@@ -4,15 +4,20 @@
 <%- arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} -%>
 <%- external_charges = @charges.select {|c| c.account.affiliation == nil} -%>
 
-<%# Count number of records in each "college" in UF charge hash #%>
+<%# Count number of unique charges for each "college" in UF charge hash #%>
 <%- colleges = {} -%>
+<%- accounts = {} -%>
 <%- uf_charges.each do |c| -%>
+	<%- next if accounts[c.account_id] == true -%>
+
 	<%- col = c.account.uf_college -%>
 	<%- if colleges[col] -%>
 		<%- colleges[col] += 1 -%>
 	<%- else -%>
 		<%- colleges[col] = 1 -%>
 	<%- end -%>
+
+	<%- accounts[c.account_id] = true -%>
 <%- end -%>
 
 <%# sort our hashes by account #%>
