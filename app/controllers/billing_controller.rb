@@ -147,10 +147,12 @@ class BillingController < ApplicationController
       @arts_charges = @arts_charges.sort {|a, b| b.account_id <=> a.account_id } 
       @external_charges = @external_charges.sort {|a, b| b.account_id <=> a.account_id } 
 
-      get_unique_count_data
+      get_unique_count_data_uf
+      get_unique_count_data_dcp
+      get_unique_count_data_arts
     end
 
-    def get_unique_count_data
+    def get_unique_count_data_uf
       # Count number of unique charges for each "college" in UF charge hash #
       @uf_sec_summary = {} 
       accounts = {} 
@@ -163,6 +165,44 @@ class BillingController < ApplicationController
           @uf_sec_summary[col] += 1 
         else 
           @uf_sec_summary[col] = 1 
+        end 
+
+        accounts[c.account_id] = true 
+      end 
+    end
+
+    def get_unique_count_data_dcp
+      # Count number of unique charges for each "college" in UF charge hash #
+      @dcp_sec_summary = {} 
+      accounts = {} 
+
+      @arch_charges.each do |c| 
+        next if accounts[c.account_id] 
+
+        col = c.account.uf_college 
+        if @dcp_sec_summary[col] 
+          @dcp_sec_summary[col] += 1 
+        else 
+          @dcp_sec_summary[col] = 1 
+        end 
+
+        accounts[c.account_id] = true 
+      end 
+    end
+
+    def get_unique_count_data_arts
+      # Count number of unique charges for each "college" in UF charge hash #
+      @arts_sec_summary = {} 
+      accounts = {} 
+
+      @arts_charges.each do |c| 
+        next if accounts[c.account_id] 
+
+        col = c.account.uf_college 
+        if @arts_sec_summary[col] 
+          @arts_sec_summary[col] += 1 
+        else 
+          @arts_sec_summary[col] = 1 
         end 
 
         accounts[c.account_id] = true 
