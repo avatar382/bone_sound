@@ -1,5 +1,5 @@
 <%# ARCH CHARGES #%>
-<%= CSV.generate_line("DCP Affiliation Charges", force_quotes: true).html_safe %>
+<%= CSV.generate_line(["DCP Affiliation Charges"], force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arch_charges.each do |charge| %>
   <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
@@ -22,7 +22,7 @@
 <% end %>
 
 <%# ARTS CHARGES #%>
-<%= CSV.generate_line("Arts Affiliation Charges", force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Arts Affiliation Charges"], force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @arts_charges.each do |charge| %>
   <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
@@ -45,7 +45,7 @@
 <% end %>
 
 <%# Other UF CHARGES #%>
-<%= CSV.generate_line("Other UF Affiliation Charges", force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Other UF Affiliation Charges"], force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @uf_charges.each do |charge| %>
   <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
@@ -68,7 +68,7 @@
 <% end %>
 
 <%# EXTERNAL CHARGES #%>
-<%= CSV.generate_line("External Charges", force_quotes: true).html_safe %>
+<%= CSV.generate_line(["External Charges"], force_quotes: true).html_safe %>
 <%= CSV.generate_line(@headers, force_quotes: true).html_safe %>
 <% @external_charges.each do |charge| %>
 <%= CSV.generate_line([charge.created_at.strftime("%m/%d/%Y"), 
