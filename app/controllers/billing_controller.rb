@@ -142,10 +142,10 @@ class BillingController < ApplicationController
       @external_charges = @charges.select {|c| c.account.affiliation == nil} 
 
       # sort our hashes by account
-      @uf_charges = uf_charges.sort {|a, b| b.account_id <=> a.account_id } 
-      @arch_charges = arch_charges.sort {|a, b| b.account_id <=> a.account_id } 
-      @arts_charges = arts_charges.sort {|a, b| b.account_id <=> a.account_id } 
-      @external_charges = external_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @uf_charges = @uf_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @arch_charges = @arch_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @arts_charges = @arts_charges.sort {|a, b| b.account_id <=> a.account_id } 
+      @external_charges = @external_charges.sort {|a, b| b.account_id <=> a.account_id } 
 
       get_unique_count_data
     end
