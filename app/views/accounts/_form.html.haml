@@ -94,9 +94,15 @@
             Other UF
             = form.radio_button(:affiliation, Account::UF_AFFILIATION, {id: "js-other-button",  class: "form-control"})
 
-          .form-group#js-other-college-select
+          - if @account.affiliation == Account::UF_AFFILIATION
+            - select_display = "block"
+          - else
+            - select_display = "none"
+          - end
+
+          .form-group#js-other-college-select{style: "display: #{select_display}"}
             %label{:for => "account_uf_college"} Select Other College Affiliation
-            = select("account", "uf_college", options_for_select(college_list))       
+            = select("account", "uf_college", options_for_select(college_list, @account.uf_college))       
 
         - if @account.persisted? && @account.account_type == Account::LASER_MEMBER_TYPE
           %h3 
