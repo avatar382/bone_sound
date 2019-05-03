@@ -1,4 +1,4 @@
-class ConvertArtsAccountsToArtsAffiliation < ActiveRecord::Migration[5.1]
+class FixCollegeAffiliations < ActiveRecord::Migration[5.1]
   def change
     Account.all.each do |a|
     	if a.affiliation == Account::ARCH_AFFILIATION && 
