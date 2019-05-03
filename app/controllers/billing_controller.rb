@@ -120,6 +120,7 @@ class BillingController < ApplicationController
     date, end_date = get_date_params
     charges = Charge.all.created_after(date).created_before(end_date)
     accounts = charges.map {|c| c.account }
+    accounts = accounts.reject {|a| a.nil? } # some charges may not be associated with an account anymore
     accounts = accounts.uniq
 
     @colleges = {}
