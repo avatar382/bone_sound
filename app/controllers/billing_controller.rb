@@ -115,6 +115,14 @@ class BillingController < ApplicationController
     end
   end
 
+  def usage_report
+    @colleges = {
+      "DCP" => "3",
+      "Arts" => "4",
+      "Engineering" => "6",
+    }
+  end
+
   private
 
     def get_date_params
