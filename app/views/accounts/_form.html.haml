@@ -94,7 +94,7 @@
             Other UF
             = form.radio_button(:affiliation, Account::UF_AFFILIATION, {id: "js-other-button",  class: "form-control"})
 
-          .form-group
+          .form-group#js-other-college-select
             %label{:for => "account_uf_college"} Select Other College Affiliation
             = select("account", "uf_college", options_for_select(college_list))       
 

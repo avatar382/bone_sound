@@ -115,19 +115,21 @@ var accounts_select_dcp_college = function() {
   $('#account_uf_college option:nth-child(1)').attr("selected", "selected"); 
   $('#account_uf_college option:nth-child(2)').removeAttr("selected"); 
   $('#account_uf_college option:nth-child(3)').removeAttr("selected"); 
-
+  $('#js-other-college-select').hide(); 
 };
 
 var accounts_select_arts_college = function() {
   $('#account_uf_college option:nth-child(1)').removeAttr("selected"); 
   $('#account_uf_college option:nth-child(2)').attr("selected", "selected"); 
   $('#account_uf_college option:nth-child(3)').removeAttr("selected"); 
+  $('#js-other-college-select').hide(); 
 };
 
 var accounts_select_other_college = function() {
   $('#account_uf_college option:nth-child(1)').removeAttr("selected"); 
   $('#account_uf_college option:nth-child(2)').removeAttr("selected"); 
   $('#account_uf_college option:nth-child(3)').attr("selected", "selected"); 
+  $('#js-other-college-select').show(); 
 };
 
 // ACCOUNT FORM
