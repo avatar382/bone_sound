@@ -115,12 +115,25 @@ class BillingController < ApplicationController
     end
   end
 
+  # given the date range, return the number of unique accounts sorted by college
   def usage_report
-    @colleges = {
-      "DCP" => "3",
-      "Arts" => "4",
-      "Engineering" => "6",
-    }
+    date, end_date = get_date_params
+    charges = Charge.all.created_after(date).created_before(end_date)
+    accounts = charges.map {|c| c.account }
+    accounts = accounts.uniq
+
+    @colleges = {}
+
+    accounts.each do |a|
+      col = a.uf_college
+      col = col.blank? ? "Undefined" : col 
+
+      if @colleges[col]
+        @colleges[col] += 1
+      else
+        @colleges[col] = 1
+      end
+    end
   end
 
   private
