@@ -127,7 +127,7 @@ class BillingController < ApplicationController
 
     accounts.each do |a|
       col = a.uf_college
-      col = col.blank? ? "Undefined" : col 
+      col = col.blank? ? "External" : col 
 
       if @colleges[col]
         @colleges[col] += 1
