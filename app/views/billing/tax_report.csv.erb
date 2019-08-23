@@ -1,0 +1,5 @@
+<%= CSV.generate_line(["Tax Report"], force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Taxable Charge Count", @charges_count], force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Total Revenue", @subtotal_sum], force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Tax Collected", @tax_sum], force_quotes: true).html_safe %>
+<%= CSV.generate_line(["Total Collected", @total_sum], force_quotes: true).html_safe %>

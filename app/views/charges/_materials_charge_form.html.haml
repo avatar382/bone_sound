@@ -22,23 +22,27 @@
         Payment Method*
       %br
 
-      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true, required: true)
+      = f.radio_button(:payment_method, Charge::UFID_PAYMENT, checked: true, required: true, id: "js-materials-payment-ufid", class: "js-material-control")
       UFID 
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT, required: true)
+      = f.radio_button(:payment_method, Charge::CHECK_PAYMENT, required: true, id: "js-materials-payment-check", class: "js-material-control")
       Check
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT, required: true)
+      = f.radio_button(:payment_method, Charge::CHARTFIELD_PAYMENT, required: true, id: "js-materials-payment-chartfield", class: "js-material-control")
       Chartfield
       &nbsp;
 
-      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT, required: true)
+      = f.radio_button(:payment_method, Charge::COMPED_PAYMENT, required: true, id: "js-materials-payment-comped", class: "js-material-control")
       Not Charged
       &nbsp;
 
     %br
+
+    .form-group
+      %label{:for => "charge_is_taxable"} Taxable?
+      = f.check_box(:is_taxable, {class: "form-control js-material-control", checked: true, id: "materials_taxable"})
 
     = hidden_field_tag("account_id", @account.id)
     = hidden_field_tag("charge[charge_type]", Charge::MATERIALS_CHARGE)
@@ -55,7 +59,11 @@
       %p#js-unit-label 
 
     .form_group
-      %label Total
+      %label Total Tax
+      %p#js-tax-label 
+
+    .form_group
+      %label Grand Total
       %p#js-total-label
 
     = f.submit 'Add Charge', class: "btn btn-success"

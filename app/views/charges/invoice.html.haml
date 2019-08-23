@@ -56,10 +56,16 @@
                   Description
 
                 %td
-                  Total Due
+                  Subtotal
 
                 %td
-                  Total Paid
+                  Tax
+
+                %td
+                  Total
+
+                %td
+                  Paid
 
             %tbody.charges
               - @charges.each do |charge|
@@ -74,6 +80,12 @@
                     = charge.description
 
                   %td
+                    = number_to_currency(charge.subtotal)
+
+                  %td
+                    = number_to_currency(charge.tax_charge)
+
+                  %td
                     = number_to_currency(charge.amount)
 
                   %td
@@ -83,11 +95,11 @@
                       = number_to_currency(0)
 
               %tr
-                %td(colspan=2)
+                %td(colspan=4)
                   &nbsp;
                 %td
                   %strong
-                    Subtotal
+                    Grand Totals
 
                 %td
                   %strong
@@ -98,11 +110,11 @@
 
 
               %tr
-                %td(colspan=2)
+                %td(colspan=4)
                   &nbsp;
                 %td
                   %strong
-                    Total Due
+                    Balance
 
 
                 %td

@@ -70,7 +70,7 @@ class ChargesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def charge_params
-      params.fetch(:charge, {}).permit(:account_id, :charge_type, :description, :amount, :payment_method, :membership_id)
+      params.fetch(:charge, {}).permit(:account_id, :charge_type, :description, :amount, :payment_method, :membership_id, :is_taxable)
     end
 
 end

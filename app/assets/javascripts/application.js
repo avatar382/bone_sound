@@ -30,6 +30,7 @@ var ui_activate_datepicker = function () {
 var charges_clear_materials_form = function() {
   $('#js-description-label').html("");
   $('#js-unit-label').html("");
+  $('#js-tax-label').html("");
   $('#js-total-label').html("");
   $('#js-description-hidden').val("");
   $('#js-amount-hidden').val("");
@@ -37,18 +38,28 @@ var charges_clear_materials_form = function() {
 };
 
 var charges_fill_form_with_material_data = function(obj) {
-  var qty   = $('#js-material-qty').val();
-  var sum   = parseFloat(Math.round((obj["price"] * qty) * 100) / 100).toFixed(2);
-  var price = parseFloat(Math.round(obj["price"] * 100) / 100).toFixed(2);
+  var qty      = $('#js-material-qty').val();
+  var subtotal = parseFloat(Math.round((obj["price"] * qty) * 100) / 100);
+  var price    = parseFloat(Math.round(obj["price"] * 100) / 100).toFixed(2);
+  var tax      = parseFloat(subtotal * 0.07)
+  var tax_str  = tax.toFixed(2)
+  var sum      = (subtotal + tax).toFixed(2);
+
+  if($('#materials_taxable').prop("checked") == false) {
+    var tax      = 0.00
+    var tax_str  = tax.toFixed(2)
+    var sum      = (subtotal + tax).toFixed(2);
+  }
 
   // set label values
   $('#js-description-label').html(obj["description"]);
   $('#js-unit-label').html("$" + price);
   $('#js-total-label').html("$" + sum);
+  $('#js-tax-label').html("$" + tax_str);
 
   // set hidden field values
   $('#js-description-hidden').val(qty + "x:" + " " + obj["description"]);
-  $('#js-amount-hidden').val(sum);
+  $('#js-amount-hidden').val(subtotal);
 
   // hide not found
   $('#item-not-found').hide();
@@ -60,6 +71,8 @@ var charges_fill_form_with_material_data = function(obj) {
   $('#js-unit-label').fadeIn(500);
   $('#js-total-label').fadeOut(500);
   $('#js-total-label').fadeIn(500);
+  $('#js-tax-label').fadeOut(500);
+  $('#js-tax-label').fadeIn(500);
 };
 
 var charges_get_material_via_sku = function(sku) {
@@ -90,6 +103,11 @@ var charges_bind_to_controls = function() {
   });
 
   $('.js-material-control').focusout(function() {
+    var sku = $("#js-material-sku").val();
+    charges_get_material_via_sku(sku);
+  });
+
+  $('.js-material-control').click(function() {
     var sku = $("#js-material-sku").val();
     charges_get_material_via_sku(sku);
   });
@@ -257,6 +275,59 @@ var charges_enable_invoice_form = function() {
 
 }
 
+var bind_behaviors_to_nontaxable_methods = function() {
+  $("#js-service-payment-chartfield").click(function() {
+    $("#service_taxable").prop("checked", false);
+  });
+
+  $("#js-membership-payment-chartfield").click(function() {
+    $("#membership_taxable").prop("checked", false);
+  });
+
+  $("#js-materials-payment-chartfield").click(function() {
+    $("#materials_taxable").prop("checked", false);
+  });
+
+  $("#js-service-payment-comped").click(function() {
+    $("#service_taxable").prop("checked", false);
+  });
+
+  $("#js-membership-payment-comped").click(function() {
+    $("#membership_taxable").prop("checked", false);
+  });
+
+  $("#js-materials-payment-comped").click(function() {
+    $("#materials_taxable").prop("checked", false);
+  });
+}
+
+var bind_behaviors_to_taxable_methods = function() {
+  $("#js-service-payment-ufid").click(function() {
+    $("#service_taxable").prop("checked", true);
+  });
+
+  $("#js-membership-payment-ufid").click(function() {
+    $("#membership_taxable").prop("checked", true);
+  });
+
+  $("#js-materials-payment-ufid").click(function() {
+    $("#materials_taxable").prop("checked", true);
+  });
+
+
+  $("#js-service-payment-check").click(function() {
+    $("#service_taxable").prop("checked", true);
+  });
+
+  $("#js-membership-payment-check").click(function() {
+    $("#membership_taxable").prop("checked", true);
+  });
+
+  $("#js-materials-payment-check").click(function() {
+    $("#materials_taxable").prop("checked", true);
+  });
+}
+
 $(document).ready(function() {
   // activate datepicker elements
   ui_activate_datepicker();
@@ -293,6 +364,8 @@ $(document).ready(function() {
     charges_enable_invoice_form();
   });
 
+  bind_behaviors_to_nontaxable_methods();
+  bind_behaviors_to_taxable_methods();
 
 
 })

@@ -137,6 +137,18 @@ class BillingController < ApplicationController
     end
   end
 
+  # return sum of all subtotals and tax collected for taxable charges
+  def tax_report
+    date, end_date = get_date_params
+    @charges = Charge.taxable.created_after(date).created_before(end_date)
+
+    @charges_count = @charges.length
+    @subtotal_sum  = @charges.inject(0) {|sum, charge| sum + charge.subtotal} 
+    @tax_sum       = @charges.inject(0) {|sum, charge| sum + charge.tax_charge} 
+    @total_sum     = @charges.inject(0) {|sum, charge| sum + charge.amount} 
+
+  end
+
   private
 
     def get_date_params

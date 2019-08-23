@@ -40,6 +40,9 @@ class Charge < ApplicationRecord
   CHARTFIELD_PAYMENT = 3
   COMPED_PAYMENT     = 4
 
+  # TAX RATE
+  TAX_RATE = 0.07
+
   before_create :set_added_by
   before_create :set_semester_code
   before_create :set_comped_charges_to_paid
@@ -47,6 +50,7 @@ class Charge < ApplicationRecord
   after_create  :add_time_to_account_if_membership_charge
   after_create  :deduct_from_credit
   after_create  :deduct_inventory_counts
+  before_save   :calculate_tax
 
   belongs_to :account
   belongs_to :chargefile, optional: true
@@ -55,6 +59,8 @@ class Charge < ApplicationRecord
   # belongs_to :account, foreign_key: :added_by
 
   validates :amount, presence: true
+  validates :subtotal, numericality: true, allow_blank: true
+  validates :tax_charge, numericality: true, allow_blank: true
   validates :amount, numericality: true
   validates :charge_type, presence: true
   validates :payment_method, presence: true
@@ -62,6 +68,7 @@ class Charge < ApplicationRecord
   validate  :chartfield_payments_require_chartfield_on_account
   validate  :ufid_payments_require_ufid_on_account
   validate  :materials_charges_require_sku_and_count
+  validate  :untaxable_methods_cannot_be_taxable
   # validates :semester_code, presence: true
 
   default_scope { order(created_at: :desc) }
@@ -89,6 +96,8 @@ class Charge < ApplicationRecord
 
   scope :created_after, ->(date) { where("charges.created_at > ?", date) } 
   scope :created_before,  ->(date) { where("charges.created_at < ?", date) } 
+
+  scope :taxable,  -> { where("is_taxable = ?", true) } 
 
   def display_charge_type
     if charge_type == PRINT_CHARGE
@@ -264,6 +273,13 @@ class Charge < ApplicationRecord
     end
   end
 
+  def untaxable_methods_cannot_be_taxable
+    if (self.payment_method == Charge::CHARTFIELD_PAYMENT || 
+       self.payment_method == Charge::COMPED_PAYMENT) && self.is_taxable == true
+      errors.add(:base, "Chartfield and Comped charges cannot be taxable.")
+    end
+  end
+
   # if this charge is associated with a materials purchase, 
   # decrement the count for that material
   # if this is a materials charge, then count and quantity are guaranteed to be 
@@ -293,6 +309,19 @@ class Charge < ApplicationRecord
   def set_comped_charges_to_paid
     if self.payment_method == Charge::COMPED_PAYMENT
       self.paid_at = Time.now
+    end
+  end
+
+  def calculate_tax
+    if self.tax_charge.nil?
+      if is_taxable
+        self.subtotal = self.amount
+        self.tax_charge = self.amount * TAX_RATE
+        self.amount = self.subtotal + self.tax_charge
+      else
+        self.subtotal = self.amount
+        self.tax_charge = 0.0
+      end
     end
   end
 end
