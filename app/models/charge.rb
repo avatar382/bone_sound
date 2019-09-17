@@ -300,7 +300,8 @@ class Charge < ApplicationRecord
     if self.membership_id.present?
        membership = Membership.find(self.membership_id)
 
-      self.amount = membership.price 
+      # if tax_charge is not nil, then we already have a price set here.
+      self.amount = membership.price unless !self.tax_charge.nil?
       self.description = membership.name
       self.charge_type = Charge::MEMBERSHIP_CHARGE
     end
