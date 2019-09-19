@@ -48,6 +48,7 @@ class Charge < ApplicationRecord
   before_create :set_comped_charges_to_paid
   before_validation :fill_details_via_membership_id
   after_create  :add_time_to_account_if_membership_charge
+  after_create  :set_laser_member_if_membership_charge
   after_create  :deduct_from_credit
   after_create  :deduct_inventory_counts
   before_save   :calculate_tax
@@ -216,6 +217,14 @@ class Charge < ApplicationRecord
         self.account.update_attribute(:expires_at, Time.now + m.duration.days)
       else
         self.account.update_attribute(:expires_at, self.account.expires_at + m.duration.days)
+      end
+    end
+  end
+
+  def set_laser_member_if_membership_charge
+    if self.charge_type == Charge::MEMBERSHIP_CHARGE
+      unless self.account.account_type == Account::LASER_MEMBER_TYPE
+        self.account.update_attribute(:account_type, Account::LASER_MEMBER_TYPE) 
       end
     end
   end
