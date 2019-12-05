@@ -134,7 +134,7 @@ GEM
     paranoia (2.3.1)
       activerecord (>= 4.0, < 5.2)
     public_suffix (2.0.5)
-    puma (3.9.1)
+    puma (3.12.2)
     rack (2.0.3)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -236,7 +236,7 @@ DEPENDENCIES
   momentjs-rails
   mysql2
   paranoia (~> 2.2)
-  puma (~> 3.7)
+  puma (~> 3.12)
   rails (~> 5.1.1)
   rails-controller-testing
   sass-rails (~> 5.0)
