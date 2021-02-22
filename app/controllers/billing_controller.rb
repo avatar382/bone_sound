@@ -170,10 +170,10 @@ class BillingController < ApplicationController
     def generate_detail_report_data
       @headers = ['Date', 'Name', 'Gatorlink ID', 'UF College', 'Affiliation', 'Method of Payment', 'Charge Type', 'Description', 'Amount', 'Paid'] 
 
-      @uf_charges = @charges.select {|c| c.account.affiliation == Account::UF_AFFILIATION} 
-      @arch_charges = @charges.select {|c| c.account.affiliation == Account::ARCH_AFFILIATION} 
-      @arts_charges = @charges.select {|c| c.account.affiliation == Account::ARTS_AFFILIATION} 
-      @external_charges = @charges.select {|c| c.account.affiliation == nil} 
+      @uf_charges = @charges.select {|c| !c.account.nil? && c.account.affiliation == Account::UF_AFFILIATION} 
+      @arch_charges = @charges.select {|c| !c.account.nil? && c.account.affiliation == Account::ARCH_AFFILIATION} 
+      @arts_charges = @charges.select {|c| !c.account.nil? && c.account.affiliation == Account::ARTS_AFFILIATION} 
+      @external_charges = @charges.select {|c| !c.account.nil? && c.account.affiliation == nil} 
 
       # sort our hashes by account
       @uf_charges = @uf_charges.sort {|a, b| b.account_id <=> a.account_id } 
